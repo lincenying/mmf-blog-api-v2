@@ -12,17 +12,12 @@ var strlen = require('../utils').strlen
 const general = require('./general')
 
 const list = general.list
-const item = general.item
 const modify = general.modify
 const deletes = general.deletes
 const recover = general.recover
 
 exports.getList = (req, res) => {
     list(req, res, User)
-}
-
-exports.getItem = (req, res) => {
-    item(req, res, User)
 }
 
 /**
