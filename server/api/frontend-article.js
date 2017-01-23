@@ -53,6 +53,10 @@ exports.getList = (req, res) => {
             total = result[1],
             totalPage = Math.ceil(total / limit),
             user_id = req.cookies.userid
+        data = data.map(item => {
+            item.content = item.content.substring(0, 500) + '...'
+            return item
+        })
         var json = {
             code: 200,
             data: {
