@@ -39,18 +39,18 @@ exports.getList = (req, res) => {
         var reg = new RegExp(key, 'i')
         data.title = {$regex : reg}
     }
-    var sort = '-_id'
+    var sort = '-update_date'
     if (by) {
         sort = '-' + by
     }
 
+    var filds = 'title content category category_name visit like comment_count creat_date update_date is_delete timestamp'
+
     Promise.all([
-        Article.find(data).sort(sort).skip(skip).limit(limit).exec(),
+        Article.find(data, filds).sort(sort).skip(skip).limit(limit).exec(),
         Article.countAsync(data)
-    ]).then(result => {
+    ]).then(([data, total]) => {
         var arr = [],
-            data = result[0],
-            total = result[1],
             totalPage = Math.ceil(total / limit),
             user_id = req.cookies.userid
         data = data.map(item => {
@@ -147,7 +147,8 @@ exports.getItem = (req, res) => {
 exports.getTrending = (req, res) => {
     var limit = 5
     var data = { is_delete: 0 }
-    Article.find(data).sort('-visit').limit(limit).exec().then(result => {
+    var filds = 'title visit like comment_count'
+    Article.find(data, filds).sort('-visit').limit(limit).exec().then(result => {
         var json = {
             code: 200,
             data: {

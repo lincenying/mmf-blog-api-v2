@@ -115,7 +115,8 @@ exports.insert = (req, res) => {
                     username,
                     password: md5(md5Pre + password),
                     email,
-                    creat_date: moment().format('YYYY-MM-DD HH:MM:SS'),
+                    creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                     is_delete: 0,
                     timestamp: moment().format('X')
                 }).then(() => {
@@ -180,7 +181,7 @@ exports.modify = (req, res) => {
         username = req.body.username
 
     modify(res, User, _id, {
-        email, password, username
+        email, password, username, update_date: moment().format('YYYY-MM-DD HH:mm:ss')
     })
 }
 
