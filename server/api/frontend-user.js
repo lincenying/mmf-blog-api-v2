@@ -71,6 +71,25 @@ exports.login = (req, res) => {
     })
 }
 
+
+/**
+ * 用户退出
+ * @method logout
+ * @param  {[type]}   req [description]
+ * @param  {[type]}   res [description]
+ * @return {[type]}       [description]
+ */
+exports.logout = (req, res) => {
+    res.cookie('user', '', { maxAge: -1 })
+    res.cookie('userid', '', { maxAge: -1 })
+    res.cookie('username', '', { maxAge: -1 })
+    res.json({
+        code: 200,
+        message: '退出成功',
+        data: ''
+    })
+}
+
 /**
  * 用户注册
  * @method insert
