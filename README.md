@@ -1,12 +1,16 @@
 # mmf-blog-api-v2
 
 安装nodejs, MongoDB, 并启动
-```
-// 安装依赖
-npm install        or       yarn
+```bash
+# 安装依赖
+yarn # 推荐
 
-// 启动 api 服务器
+# 或者
+npm install
+
+# 启动 api 服务器
 npm run server
+```
 
 添加管理员
 http://localhost:4000/api/backend
