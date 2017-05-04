@@ -1,18 +1,18 @@
 # mmf-blog-api-v2
 
-安装nodejs, MongoDB, 并启动
+install nodejs, MongoDB, And start the
 ```bash
-# 安装依赖
-yarn # 推荐
+# Install dependencies
+yarn
 
-# 或者
+# or
 npm install
 
-# 启动 api 服务器
+# Start the API server
 npm run server
 ```
 
-添加管理员
+Add admin
 http://localhost:4000/api/backend
 
-管理员添加成功后, 会自动生成 admin.lock 文件锁定, 如果需要继续添加, 请把该文件删除
+After the success of the administrator to add, will automatically generate the admin. Lock file locking, if you need to continue to add, please just delete the file
