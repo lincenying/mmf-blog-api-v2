@@ -61,13 +61,12 @@ exports.login = (req, res) => {
         username,
         password: md5(md5Pre + password),
         is_delete: 0
-    })
-    .then(result => {
+    }).then(result => {
         if (result) {
             var id = result._id
             var remember_me = 2592000000
             username = encodeURI(username)
-            var token = jwt.sign({id, username }, secret, {expiresIn: 60*60*24*30 })
+            var token = jwt.sign({ id, username }, secret, { expiresIn: 60*60*24*30 })
             res.cookie('b_user', token, { maxAge: remember_me })
             res.cookie('b_userid', id, { maxAge: remember_me })
             res.cookie('b_username', username, { maxAge: remember_me })
