@@ -46,11 +46,4 @@ app.use(function(err, req, res) {
     res.send(err.message)
 })
 
-var port = 4000
-app.listen(port, function(err) {
-    if (err) {
-        console.log(err)
-        return
-    }
-    console.log('Listening at http://localhost:' + port + '\n')
-})
+module.exports = app
