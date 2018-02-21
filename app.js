@@ -11,7 +11,6 @@ require('./server/models/admin')
 require('./server/models/article')
 require('./server/models/category')
 require('./server/models/comment')
-require('./server/models/like')
 require('./server/models/user')
 
 // 引入 api 路由
