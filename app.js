@@ -33,6 +33,13 @@ app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/api', routes)
 
+app.get('*', (req, res) => {
+    res.json({
+        code: -200,
+        message: '没有找到该页面'
+    })
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found')
