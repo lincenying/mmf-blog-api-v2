@@ -8,12 +8,13 @@
     "server": "nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "highlight.js": "^9.12.0",
-    "jsonwebtoken": "^8.1.0",
-    "marked": "^0.3.15",
+    "jsonwebtoken": "^8.2.0",
+    "marked": "^0.3.19",
     "md5": "^2.2.1",
-    "moment": "^2.19.2",
-    "mongoose": "^5.0.6"
+    "moment": "^2.22.0",
+    "mongoose": "^5.0.12"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
@@ -22,14 +23,14 @@
     "connect-multiparty": "^2.1.0",
     "cookie-parser": "^1.3.5",
     "debug": "^3.1.0",
-    "ejs": "^2.5.7",
-    "eslint-config-lcy-vue": "^2.1.1",
-    "express": "^4.16.2",
+    "ejs": "^2.5.8",
+    "eslint-config-lcy-vue": "^2.1.3",
+    "express": "^4.16.3",
     "function-bind": "^1.1.1",
     "morgan": "^1.9.0",
-    "nodemon": "^1.15.1",
-    "ora": "^1.3.0",
-    "serve-favicon": "^2.4.5"
+    "nodemon": "^1.17.3",
+    "ora": "^2.0.0",
+    "serve-favicon": "^2.5.0"
   },
   "engines": {
     "node": ">= 8.0.0",
