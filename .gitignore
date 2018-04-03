@@ -4,3 +4,4 @@ npm-debug.log
 .vscode/
 admin.lock
 server/config/secret.js
+server/config/mpapp.js
