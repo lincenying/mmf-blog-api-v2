@@ -41,33 +41,35 @@ exports.login = (req, res) => {
         username,
         password: md5(md5Pre + password),
         is_delete: 0
-    }).then(result => {
-        if (result) {
-            username = encodeURI(username)
-            const id = result._id
-            const remember_me = 2592000000
-            const token = jwt.sign({ id, username }, secret, { expiresIn: 60*60*24*30 })
-            res.cookie('user', token, { maxAge: remember_me })
-            res.cookie('userid', id, { maxAge: remember_me })
-            res.cookie('username', username, { maxAge: remember_me })
-            json = {
-                code: 200,
-                message: '登录成功',
-                data: token
-            }
-        } else {
-            json = {
-                code: -200,
-                message: '用户名或者密码错误'
-            }
-        }
-        res.json(json)
-    }).catch(err => {
-        res.json({
-            code: -200,
-            message: err.toString()
-        })
     })
+        .then(result => {
+            if (result) {
+                username = encodeURI(username)
+                const id = result._id
+                const remember_me = 2592000000
+                const token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
+                res.cookie('user', token, { maxAge: remember_me })
+                res.cookie('userid', id, { maxAge: remember_me })
+                res.cookie('username', username, { maxAge: remember_me })
+                json = {
+                    code: 200,
+                    message: '登录成功',
+                    data: token
+                }
+            } else {
+                json = {
+                    code: -200,
+                    message: '用户名或者密码错误'
+                }
+            }
+            res.json(json)
+        })
+        .catch(err => {
+            res.json({
+                code: -200,
+                message: err.toString()
+            })
+        })
 }
 
 /**
@@ -84,13 +86,13 @@ exports.jscode2session = async (req, res) => {
             appid: mpappApiId,
             secret: mpappSecret,
             js_code,
-            grant_type: 'authorization_code',
-        },
+            grant_type: 'authorization_code'
+        }
     })
     res.json({
         code: 200,
         message: '登录成功',
-        data: xhr.data,
+        data: xhr.data
     })
 }
 /**
@@ -115,61 +117,64 @@ exports.wxLogin = (req, res) => {
             username: nickName,
             wx_signature: wxSignature,
             is_delete: 0
-        }).then(result => {
-            if (result) {
-                id = result._id
-                username = encodeURI(nickName)
-                token = jwt.sign({ id, username }, secret, { expiresIn: 60*60*24*30 })
-                json = {
-                    code: 200,
-                    message: '登录成功',
-                    data: {
-                        user: token,
-                        userid: id,
-                        username,
-                    }
-                }
-                res.json(json)
-            } else {
-                User.createAsync({
-                    username: nickName,
-                    password: '',
-                    email: '',
-                    creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    is_delete: 0,
-                    timestamp: moment().format('X'),
-                    wx_avatar: avatar,
-                    wx_signature: wxSignature,
-                }).then(_result => {
-                    id = _result._id
+        })
+            .then(result => {
+                if (result) {
+                    id = result._id
                     username = encodeURI(nickName)
-                    token = jwt.sign({ id, username }, secret, { expiresIn: 60*60*24*30 })
-                    res.json({
+                    token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
+                    json = {
                         code: 200,
-                        message: '注册成功!',
+                        message: '登录成功',
                         data: {
                             user: token,
                             userid: id,
-                            username,
+                            username
                         }
+                    }
+                    res.json(json)
+                } else {
+                    User.createAsync({
+                        username: nickName,
+                        password: '',
+                        email: '',
+                        creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        is_delete: 0,
+                        timestamp: moment().format('X'),
+                        wx_avatar: avatar,
+                        wx_signature: wxSignature
                     })
-                }).catch(err => {
-                    res.json({
-                        code: -200,
-                        message: err.toString()
-                    })
-                })
-            }
-        }).catch(err => {
-            res.json({
-                code: -200,
-                message: err.toString()
+                        .then(_result => {
+                            id = _result._id
+                            username = encodeURI(nickName)
+                            token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
+                            res.json({
+                                code: 200,
+                                message: '注册成功!',
+                                data: {
+                                    user: token,
+                                    userid: id,
+                                    username
+                                }
+                            })
+                        })
+                        .catch(err => {
+                            res.json({
+                                code: -200,
+                                message: err.toString()
+                            })
+                        })
+                }
             })
-        })
+            .catch(err => {
+                res.json({
+                    code: -200,
+                    message: err.toString()
+                })
+            })
     }
 }
-
 
 /**
  * 用户退出
@@ -215,40 +220,44 @@ exports.insert = (req, res) => {
             message: '密码长度至少 8 位'
         })
     } else {
-        User.findOneAsync({ username }).then(result => {
-            if (result) {
-                res.json({
-                    code: -200,
-                    message: '该用户名已经存在!'
-                })
-            } else {
-                return User.createAsync({
-                    username,
-                    password: md5(md5Pre + password),
-                    email,
-                    creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    is_delete: 0,
-                    timestamp: moment().format('X')
-                }).then(() => {
-                    res.json({
-                        code: 200,
-                        message: '注册成功!',
-                        data: 'success'
-                    })
-                }).catch(err => {
+        User.findOneAsync({ username })
+            .then(result => {
+                if (result) {
                     res.json({
                         code: -200,
-                        message: err.toString()
+                        message: '该用户名已经存在!'
                     })
-                })
-            }
-        }).catch(err => {
-            res.json({
-                code: -200,
-                message: err.toString()
+                } else {
+                    return User.createAsync({
+                        username,
+                        password: md5(md5Pre + password),
+                        email,
+                        creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        is_delete: 0,
+                        timestamp: moment().format('X')
+                    })
+                        .then(() => {
+                            res.json({
+                                code: 200,
+                                message: '注册成功!',
+                                data: 'success'
+                            })
+                        })
+                        .catch(err => {
+                            res.json({
+                                code: -200,
+                                message: err.toString()
+                            })
+                        })
+                }
             })
-        })
+            .catch(err => {
+                res.json({
+                    code: -200,
+                    message: err.toString()
+                })
+            })
     }
 }
 
@@ -258,25 +267,27 @@ exports.getItem = (req, res) => {
     User.findOneAsync({
         _id: userid,
         is_delete: 0
-    }).then(result => {
-        if (result) {
-            json = {
-                code: 200,
-                data: result
-            }
-        } else {
-            json = {
-                code: -200,
-                message: '请先登录, 或者数据错误'
-            }
-        }
-        res.json(json)
-    }).catch(err => {
-        res.json({
-            code: -200,
-            message: err.toString()
-        })
     })
+        .then(result => {
+            if (result) {
+                json = {
+                    code: 200,
+                    data: result
+                }
+            } else {
+                json = {
+                    code: -200,
+                    message: '请先登录, 或者数据错误'
+                }
+            }
+            res.json(json)
+        })
+        .catch(err => {
+            res.json({
+                code: -200,
+                message: err.toString()
+            })
+        })
 }
 
 /**
@@ -289,12 +300,13 @@ exports.getItem = (req, res) => {
 exports.modify = (req, res) => {
     const { id, email, password, username } = req.body
     const data = {
-        email, username, update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        email,
+        username,
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
     }
     if (password) data.password = md5(md5Pre + password)
     modify(res, User, id, data)
 }
-
 
 /**
  * 账号编辑
@@ -308,18 +320,20 @@ exports.account = (req, res) => {
     const user_id = req.cookies.userid || req.headers.userid
     const username = req.body.username || req.headers.username
     if (user_id === id) {
-        User.updateAsync({ _id: id }, { '$set': { email, username } }).then(() => {
-            res.json({
-                code: 200,
-                message: '更新成功',
-                data: 'success'
+        User.updateAsync({ _id: id }, { $set: { email, username } })
+            .then(() => {
+                res.json({
+                    code: 200,
+                    message: '更新成功',
+                    data: 'success'
+                })
             })
-        }).catch(err => {
-            res.json({
-                code: -200,
-                message: err.toString()
+            .catch(err => {
+                res.json({
+                    code: -200,
+                    message: err.toString()
+                })
             })
-        })
     } else {
         res.json({
             code: -200,
@@ -345,18 +359,20 @@ exports.password = (req, res) => {
             is_delete: 0
         }).then(result => {
             if (result) {
-                User.updateAsync({ _id: id }, { '$set': { password: md5(md5Pre + password) } }).then(() => {
-                    res.json({
-                        code: 200,
-                        message: '更新成功',
-                        data: 'success'
+                User.updateAsync({ _id: id }, { $set: { password: md5(md5Pre + password) } })
+                    .then(() => {
+                        res.json({
+                            code: 200,
+                            message: '更新成功',
+                            data: 'success'
+                        })
                     })
-                }).catch(err => {
-                    res.json({
-                        code: -200,
-                        message: err.toString()
+                    .catch(err => {
+                        res.json({
+                            code: -200,
+                            message: err.toString()
+                        })
                     })
-                })
             } else {
                 res.json({
                     code: -200,

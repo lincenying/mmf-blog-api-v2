@@ -13,20 +13,24 @@ const { item, modify, deletes, recover } = general
  * @return {[type]}     [description]
  */
 exports.getList = (req, res) => {
-    Category.find().sort('-cate_order').exec().then(result => {
-        const json = {
-            code: 200,
-            data: {
-                list: result
+    Category.find()
+        .sort('-cate_order')
+        .exec()
+        .then(result => {
+            const json = {
+                code: 200,
+                data: {
+                    list: result
+                }
             }
-        }
-        res.json(json)
-    }).catch(err => {
-        res.json({
-            code: -200,
-            message: err.toString()
+            res.json(json)
         })
-    })
+        .catch(err => {
+            res.json({
+                code: -200,
+                message: err.toString()
+            })
+        })
 }
 
 exports.getItem = (req, res) => {
@@ -69,6 +73,8 @@ exports.recover = (req, res) => {
 exports.modify = (req, res) => {
     const { id, cate_name, cate_order } = req.body
     modify(res, Category, id, {
-        cate_name, cate_order, update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        cate_name,
+        cate_order,
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
     })
 }

@@ -5,16 +5,17 @@
   "author": "lincenying &lt;lincenying@qq.com&gt;",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon ./bin/www"
+    "server": "nodemon ./bin/www",
+    "lint": "eslint --ext .js server/ --fix"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "highlight.js": "^9.12.0",
-    "jsonwebtoken": "^8.2.0",
+    "jsonwebtoken": "^8.2.1",
     "marked": "^0.3.19",
     "md5": "^2.2.1",
-    "moment": "^2.22.0",
-    "mongoose": "^5.0.12"
+    "moment": "^2.22.1",
+    "mongoose": "^5.0.16"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
@@ -23,8 +24,8 @@
     "connect-multiparty": "^2.1.0",
     "cookie-parser": "^1.3.5",
     "debug": "^3.1.0",
-    "ejs": "^2.5.8",
-    "eslint-config-lcy-vue": "^2.1.3",
+    "ejs": "^2.5.9",
+    "eslint-config-lcy-vue": "^2.1.5",
     "express": "^4.16.3",
     "function-bind": "^1.1.1",
     "morgan": "^1.9.0",
