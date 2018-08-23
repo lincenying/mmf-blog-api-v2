@@ -6,35 +6,50 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon ./bin/www",
-    "lint": "eslint --ext .js server/ --fix"
+    "lint": "eslint --ext .js server/ --fix",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "highlight.js": "^9.12.0",
-    "jsonwebtoken": "^8.2.1",
-    "marked": "^0.4.0",
+    "jsonwebtoken": "^8.3.0",
+    "marked": "^0.5.0",
     "md5": "^2.2.1",
-    "moment": "^2.22.1",
-    "mongoose": "^5.1.2"
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.9"
   },
   "devDependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
-    "compression": "^1.7.2",
-    "connect-multiparty": "^2.1.0",
+    "compression": "^1.7.3",
+    "connect-multiparty": "^2.1.1",
     "cookie-parser": "^1.3.5",
     "debug": "^3.1.0",
     "ejs": "^2.6.1",
-    "eslint-config-lcy-vue": "^2.1.5",
+    "eslint-config-lcy-vue": "^3.0.2",
     "express": "^4.16.3",
     "function-bind": "^1.1.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2",
     "morgan": "^1.9.0",
-    "nodemon": "^1.17.5",
-    "ora": "^2.1.0",
+    "nodemon": "^1.18.3",
+    "ora": "^3.0.0",
     "serve-favicon": "^2.5.0"
   },
   "engines": {
     "node": ">= 8.0.0",
     "npm": ">= 5.0.0"
+  },
+  "browserslist": [
+    "> 0.1%",
+    "last 3 versions",
+    "not ie <= 8",
+    "iOS > 8"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
