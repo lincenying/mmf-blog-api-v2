@@ -118,6 +118,7 @@ router.get('/frontend/unlike', isUser, frontendLike.unlike)
 // 重置喜欢
 router.get('/frontend/reset/like', isUser, frontendLike.resetLike)
 // ------ 识花 ------
+router.options('/frontend/shihua/upload', cors)
 router.post('/frontend/shihua/upload', cors, frontendShihua.upload)
 router.get('/frontend/shihua/get', cors, frontendShihua.shihua)
 
