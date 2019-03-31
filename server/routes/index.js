@@ -3,6 +3,8 @@ const router = express.Router()
 const multipart = require('connect-multiparty')
 const multipartMiddleware = multipart()
 
+const cors = require('./cors')
+
 const backendArticle = require('../api/backend-article')
 const backendCategory = require('../api/backend-category')
 const backendUser = require('../api/backend-user')
@@ -116,8 +118,8 @@ router.get('/frontend/unlike', isUser, frontendLike.unlike)
 // 重置喜欢
 router.get('/frontend/reset/like', isUser, frontendLike.resetLike)
 // ------ 识花 ------
-router.post('/frontend/shihua/upload', frontendShihua.upload)
-router.get('/frontend/shihua/get', frontendShihua.shihua)
+router.post('/frontend/shihua/upload', cors, frontendShihua.upload)
+router.get('/frontend/shihua/get', cors, frontendShihua.shihua)
 
 router.get('*', (req, res) => {
     res.json({
