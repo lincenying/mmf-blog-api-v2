@@ -17,7 +17,20 @@ exports.get = async (req, res) => {
     }
     try {
         const body = await rp(options)
-        res.json(body)
+        res.json({
+            ...body,
+            data: {
+                cards: body.data.cards.map(item => {
+                    return {
+                        itemid: item.itemid,
+                        mblog: {
+                            pics: item.mblog.pics,
+                            text: item.mblog.text.replace(/"\/\//g, '"https://')
+                        }
+                    }
+                })
+            }
+        })
     } catch (error) {
         res.json({ ok: 2, msg: error.toString() })
     }
