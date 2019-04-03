@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon ./bin/www",
-    "lint": "eslint --ext .js server/ --fix",
-    "precommit": "lint-staged"
+    "lint": "eslint --ext .js server/ --fix"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -54,5 +53,10 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
