@@ -79,10 +79,10 @@ exports.card = async (req, res) => {
                     let video = ''
                     let video_img = ''
                     if (item.data.page_info && item.data.page_info.urls) {
-                        video = item.data.page_info.urls.hevc_mp4_hd || item.data.page_info.urls.mp4_hd_mp4 || item.data.page_info.urls.mp4_ld_mp4
+                        video = item.data.page_info.urls
                         video_img = item.data.page_info.page_pic.url
                     } else if (item.data.page_info && item.data.page_info.media_info) {
-                        video = item.data.page_info.media_info.stream_url
+                        video = item.data.page_info.media_info
                         video_img = item.data.page_info.page_pic.url
                     }
                     return {
