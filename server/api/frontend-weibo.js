@@ -150,3 +150,42 @@ exports.video = async (req, res) => {
         res.json({ ok: 2, msg: error.toString() })
     }
 }
+
+exports.detail = async (req, res) => {
+    const id = req.query.id
+    if (!id) {
+        res.json({ ok: 2, msg: '参数错误' })
+        return
+    }
+    try {
+        const options = {
+            method: 'GET',
+            uri: 'https://m.weibo.cn/detail/' + id,
+            headers: {
+                Referer: 'referer: https://m.weibo.cn/',
+                'User-Agent':
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+                cookie:
+                    'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
+                'upgrade-insecure-requests': 1
+            }
+        }
+        const body = await rp(options)
+        const jsData = body.split('$render_data = [{')[1].split('}][0]')[0]
+        const json = JSON.parse('[{' + jsData + '}]')
+        const data = json[0].status
+        const $return = {
+            ok: 1,
+            data: {
+                itemid: id,
+                text: data.text.replace(/"\/\//g, '"https://'),
+                pics: data.pics.map(item => {
+                    return item.large.url
+                })
+            }
+        }
+        res.json($return)
+    } catch (error) {
+        res.json({ ok: 2, msg: error.toString() })
+    }
+}
