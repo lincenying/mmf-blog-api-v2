@@ -126,6 +126,7 @@ router.get('/frontend/shihua/get', cors, frontendShihua.shihua)
 // ------ 微博 ------
 router.get('/frontend/weibo/get', cors, frontendWeiBo.get)
 router.get('/frontend/weibo/card', cors, frontendWeiBo.card)
+router.get('/frontend/weibo/video', cors, frontendWeiBo.video)
 
 router.get('*', (req, res) => {
     res.json({
