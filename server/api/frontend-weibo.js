@@ -19,29 +19,25 @@ exports.get = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
-            data: {
-                cards: body.data.cards.map(item => {
-                    let video = ''
-                    let video_img = ''
-                    if (item.mblog.page_info && item.mblog.page_info.media_info) {
-                        video =
-                            item.mblog.page_info.media_info.mp4_720p_mp4 ||
-                            item.mblog.page_info.media_info.mp4_hd_url ||
-                            item.mblog.page_info.media_info.mp4_sd_url ||
-                            item.mblog.page_info.media_info.stream_url
-                        video_img = item.mblog.page_info.page_pic.url
-                    }
-                    return {
-                        itemid: item.itemid,
-                        mblog: {
-                            pics: item.mblog.pics,
-                            text: item.mblog.text.replace(/"\/\//g, '"https://'),
-                            video,
-                            video_img
-                        }
-                    }
-                })
-            }
+            data: body.data.cards.map(item => {
+                let video = ''
+                let video_img = ''
+                if (item.mblog.page_info && item.mblog.page_info.media_info) {
+                    video =
+                        item.mblog.page_info.media_info.mp4_720p_mp4 ||
+                        item.mblog.page_info.media_info.mp4_hd_url ||
+                        item.mblog.page_info.media_info.mp4_sd_url ||
+                        item.mblog.page_info.media_info.stream_url
+                    video_img = item.mblog.page_info.page_pic.url
+                }
+                return {
+                    itemid: item.itemid,
+                    pics: item.mblog.pics,
+                    text: item.mblog.text.replace(/"\/\//g, '"https://'),
+                    video,
+                    video_img
+                }
+            })
         })
     } catch (error) {
         res.json({ ok: 2, msg: error.toString() })
