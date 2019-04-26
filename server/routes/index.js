@@ -128,6 +128,7 @@ router.get('/frontend/weibo/get', cors, frontendWeiBo.get)
 router.get('/frontend/weibo/card', cors, frontendWeiBo.card)
 router.get('/frontend/weibo/video', cors, frontendWeiBo.video)
 router.get('/frontend/weibo/detail', cors, frontendWeiBo.detail)
+router.get('/frontend/weibo/check', cors, frontendWeiBo.checkUpdate)
 
 router.get('*', (req, res) => {
     res.json({

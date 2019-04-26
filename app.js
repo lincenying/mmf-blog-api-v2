@@ -1,10 +1,10 @@
-var express = require('express')
-var compression = require('compression')
-var path = require('path')
-var favicon = require('serve-favicon')
-var logger = require('morgan')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
+const express = require('express')
+const compression = require('compression')
+const path = require('path')
+const favicon = require('serve-favicon')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 
 // 引入 mongoose 相关模型
 require('./server/models/admin')
@@ -14,9 +14,16 @@ require('./server/models/comment')
 require('./server/models/user')
 
 // 引入 api 路由
-var routes = require('./server/routes/index')
+const routes = require('./server/routes/index')
 
-var app = express()
+const app = express()
+
+const resolve = file => path.resolve(__dirname, file)
+const isProd = process.env.NODE_ENV === 'production'
+const serve = (path, cache) =>
+    express.static(resolve(path), {
+        maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
+    })
 
 // view engine setup
 app.set('views', path.join(__dirname, 'dist'))
@@ -31,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'dist')))
 
+app.use('/static', serve('./dist/static', true))
 app.use('/api', routes)
 
 app.get('*', (req, res) => {
@@ -42,7 +50,7 @@ app.get('*', (req, res) => {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found')
+    const err = new Error('Not Found')
     err.status = 404
     next(err)
 })

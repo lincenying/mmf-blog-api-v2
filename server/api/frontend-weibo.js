@@ -1,3 +1,4 @@
+const fs = require('fs')
 const rp = require('request-promise')
 
 exports.get = async (req, res) => {
@@ -195,4 +196,10 @@ exports.detail = async (req, res) => {
     } catch (error) {
         res.json({ code: 300, ok: 2, msg: error.toString() })
     }
+}
+
+exports.checkUpdate = (req, res) => {
+    const jsonTxt = fs.readFileSync('./service/config/app.json', 'utf-8')
+    const json = JSON.parse(jsonTxt)
+    res.json({ code: 200, data: json })
 }
