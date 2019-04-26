@@ -19,7 +19,7 @@ exports.get = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
-            total: body.cardlistInfo.total,
+            total: body.data.cardlistInfo.total,
             data: body.data.cards.map(item => {
                 let video = ''
                 let video_img = ''
