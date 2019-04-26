@@ -19,6 +19,7 @@ exports.get = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
+            total: body.cardlistInfo.total,
             data: body.data.cards.map(item => {
                 let video = ''
                 let video_img = ''
@@ -69,6 +70,7 @@ exports.card = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
+            total: body.data.total,
             data: {
                 ...body.data,
                 content: body.data.content.map(item => {
@@ -143,7 +145,8 @@ exports.video = async (req, res) => {
         const $return = {
             ...body,
             since_id: body.data.pageInfo.since_id,
-            data: $list
+            data: $list,
+            total: body.data.pageInfo.total
         }
         res.json($return)
     } catch (error) {
