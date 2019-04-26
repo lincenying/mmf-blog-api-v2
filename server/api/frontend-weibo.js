@@ -19,6 +19,7 @@ exports.get = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
+            code: 200,
             total: body.data.cardlistInfo.total,
             data: body.data.cards.map(item => {
                 let video = ''
@@ -41,7 +42,7 @@ exports.get = async (req, res) => {
             })
         })
     } catch (error) {
-        res.json({ ok: 2, msg: error.toString() })
+        res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
 
@@ -70,6 +71,7 @@ exports.card = async (req, res) => {
         const body = await rp(options)
         res.json({
             ...body,
+            code: 200,
             total: body.data.total,
             data: {
                 ...body.data,
@@ -94,7 +96,7 @@ exports.card = async (req, res) => {
             }
         })
     } catch (error) {
-        res.json({ ok: 2, msg: error.toString() })
+        res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
 
@@ -144,20 +146,21 @@ exports.video = async (req, res) => {
         })
         const $return = {
             ...body,
+            code: 200,
             since_id: body.data.pageInfo.since_id,
             data: $list,
             total: body.data.pageInfo.total
         }
         res.json($return)
     } catch (error) {
-        res.json({ ok: 2, msg: error.toString() })
+        res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
 
 exports.detail = async (req, res) => {
     const id = req.query.id
     if (!id) {
-        res.json({ ok: 2, msg: '参数错误' })
+        res.json({ code: 301, ok: 2, msg: '参数错误' })
         return
     }
     try {
@@ -178,6 +181,7 @@ exports.detail = async (req, res) => {
         const json = JSON.parse('[{' + jsData + '}]')
         const data = json[0].status
         const $return = {
+            code: 200,
             ok: 1,
             data: {
                 itemid: id,
@@ -189,6 +193,6 @@ exports.detail = async (req, res) => {
         }
         res.json($return)
     } catch (error) {
-        res.json({ ok: 2, msg: error.toString() })
+        res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
