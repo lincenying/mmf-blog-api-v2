@@ -46,17 +46,19 @@ exports.shihua = async (req, res) => {
                         break
                     }
                 }
-                await Shihua.createAsync({
-                    user_id: userid,
-                    img_id,
-                    name,
-                    img,
-                    result: JSON.stringify(shihuaResult),
-                    creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                    is_delete: 0,
-                    timestamp: moment().format('X')
-                })
+                if (img && name) {
+                    await Shihua.createAsync({
+                        user_id: userid,
+                        img_id,
+                        name,
+                        img,
+                        result: JSON.stringify(shihuaResult.result),
+                        creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        is_delete: 0,
+                        timestamp: moment().format('X')
+                    })
+                    fs.unlinkSync('./uploads/' + img_id)
+                }
             }
             return shihuaResult
         } catch (error) {
@@ -126,7 +128,7 @@ exports.getHistory = (req, res) => {
         user_id: userid
     }
     const skip = (page - 1) * limit
-    const sort = '-update_date'
+    const sort = '-creat_date'
 
     Promise.all([
         Shihua.find(data)
@@ -152,6 +154,32 @@ exports.getHistory = (req, res) => {
             })
             json.data.list = data
             res.json(json)
+        })
+        .catch(err => {
+            res.json({
+                code: -200,
+                message: err.toString()
+            })
+        })
+}
+
+/**
+ * 删除识花历史列表
+ * @method delHistory
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+exports.delHistory = (req, res) => {
+    const userid = req.cookies.userid || req.headers.userid
+    const { img_id } = req.query
+
+    Shihua.remove({ img_id, user_id: userid })
+        .then(() => {
+            res.json({
+                code: 200,
+                message: '删除成功'
+            })
         })
         .catch(err => {
             res.json({
