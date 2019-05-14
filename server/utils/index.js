@@ -41,10 +41,10 @@ exports.checkJWT = (token, userid, username, type) => {
 
 exports.creatSecret = () => {
     if (!fsExistsSync('./server/config/secret.js')) {
-        const secretServer = Math.random() * 1000000
-        const secretClient = Math.random() * 1000000
-        const secret = `exports.secretServer = '${secretServer}'
-exports.secretClient = '${secretClient}'`
+        const secretServer1 = Math.random() * 1000000
+        const secretClient1 = Math.random() * 1000000
+        const secret = `exports.secretServer = '${secretServer1}'
+exports.secretClient = '${secretClient1}'`
         fs.writeFileSync('./server/config/secret.js', secret)
     }
 }
