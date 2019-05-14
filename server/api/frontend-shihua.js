@@ -51,7 +51,7 @@ exports.shihua = async (req, res) => {
                     img_id,
                     name,
                     img,
-                    data: JSON.stringify(shihuaResult),
+                    result: JSON.stringify(shihuaResult),
                     creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                     update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                     is_delete: 0,
@@ -66,7 +66,6 @@ exports.shihua = async (req, res) => {
 
     if (isLogin) {
         Shihua.findOneAsync({ img_id, user_id: userid }).then(result => {
-            console.log(result)
             if (result) {
                 res.json({
                     code: 200,
