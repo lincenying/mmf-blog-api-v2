@@ -4,7 +4,7 @@ const moment = require('moment')
 const AipImageClassifyClient = require('baidu-aip-sdk').imageClassify
 const upload = multer({ dest: 'uploads/' }).single('file')
 const config = require('../config/shihua')
-const checkJWT = require('../utils/check-jwt')
+const checkJWT = require('../utils/check-jwt').checkJWT
 
 const mongoose = require('../mongoose')
 const Shihua = mongoose.model('Shihua')

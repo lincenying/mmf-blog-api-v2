@@ -1,4 +1,4 @@
-const checkJWT = require('../utils/check-jwt')
+const checkJWT = require('../utils/check-jwt').checkJWT
 
 module.exports = async (req, res, next) => {
     const { b_user, b_userid, b_username } = req.cookies
