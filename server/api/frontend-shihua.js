@@ -66,6 +66,7 @@ exports.shihua = async (req, res) => {
 
     if (isLogin) {
         Shihua.findOneAsync({ img_id, user_id: userid }).then(result => {
+            console.log(result)
             if (result) {
                 res.json({
                     code: 200,
