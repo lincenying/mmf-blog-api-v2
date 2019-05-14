@@ -1,8 +1,4 @@
 const fs = require('fs')
-const jwt = require('jsonwebtoken')
-const config = require('../config')
-const secretClient = config.secretClient
-const secretServer = config.secretServer
 
 const fsExistsSync = path => {
     try {
@@ -26,26 +22,13 @@ exports.strlen = str => {
     return realLength
 }
 
-exports.checkJWT = (token, userid, username, type) => {
-    return new Promise(resolve => {
-        const secret = type === 'user' ? secretClient : secretServer
-        jwt.verify(token, secret, function(err, decoded) {
-            if (!err && decoded.id === userid && (decoded.username === username || decoded.username === encodeURI(username))) {
-                resolve(decoded)
-            } else {
-                resolve(false)
-            }
-        })
-    })
-}
-
 exports.creatSecret = () => {
     if (!fsExistsSync('./server/config/secret.js')) {
         const secretServer1 = Math.random() * 1000000
         const secretClient1 = Math.random() * 1000000
-        const secret = `exports.secretServer = '${secretServer1}'
+        const secret1 = `exports.secretServer = '${secretServer1}'
 exports.secretClient = '${secretClient1}'`
-        fs.writeFileSync('./server/config/secret.js', secret)
+        fs.writeFileSync('./server/config/secret.js', secret1)
     }
 }
 
