@@ -176,7 +176,7 @@ exports.delHistory = (req, res) => {
     const userid = req.cookies.userid || req.headers.userid
     const { img_id } = req.query
 
-    Shihua.remove({ img_id, user_id: userid })
+    Shihua.deleteOne({ img_id, user_id: userid })
         .then(() => {
             res.json({
                 code: 200,
