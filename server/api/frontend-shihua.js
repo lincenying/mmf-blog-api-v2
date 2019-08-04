@@ -72,6 +72,7 @@ exports.shihua = async (req, res) => {
                 res.json({
                     code: 200,
                     from: 'db',
+                    userid,
                     result: JSON.parse(result.result)
                 })
             } else {
@@ -80,6 +81,7 @@ exports.shihua = async (req, res) => {
                         res.json({
                             code: 200,
                             from: 'api',
+                            userid,
                             ...data
                         })
                     } else {
