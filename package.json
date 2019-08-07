@@ -28,7 +28,7 @@
     "cookie-parser": "^1.4.4",
     "debug": "^4.1.1",
     "ejs": "^2.6.2",
-    "eslint-config-lcy-vue": "^3.0.7",
+    "eslint-config-lcy-js": "^3.0.8",
     "express": "^4.17.1",
     "function-bind": "^1.1.1",
     "husky": "^3.0.2",
