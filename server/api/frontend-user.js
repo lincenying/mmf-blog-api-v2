@@ -326,10 +326,10 @@ exports.modify = (req, res) => {
 exports.account = (req, res) => {
     const { id, email } = req.body
     const user_id = req.cookies.userid || req.headers.userid
-    const username = req.body.username || req.headers.username
     if (user_id === id) {
-        User.updateOneAsync({ _id: id }, { $set: { email, username } })
+        User.updateOneAsync({ _id: id }, { $set: { email } })
             .then(() => {
+                res.cookie('useremail', email, { maxAge: 2592000000 })
                 res.json({
                     code: 200,
                     message: '更新成功',
