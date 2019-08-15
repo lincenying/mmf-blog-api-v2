@@ -25,7 +25,7 @@ yarn
 npm install
 
 # Start the API server
-npm run server
+npm run serve
 ```
 
 Add admin

@@ -5,7 +5,7 @@
   "author": "lincenying &lt;lincenying@qq.com&gt;",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon ./bin/www",
+    "serve": "nodemon ./bin/www",
     "lint": "eslint --ext .js server/ --fix"
   },
   "dependencies": {
