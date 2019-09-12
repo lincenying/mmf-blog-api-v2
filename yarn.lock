@@ -384,10 +384,10 @@ babel-eslint@^10.0.2:
     eslint-scope "3.7.1"
     eslint-visitor-keys "^1.0.0"
 
-baidu-aip-sdk@^2.3.9:
-  version "2.3.9"
-  resolved "http://registry.npm.taobao.org/baidu-aip-sdk/download/baidu-aip-sdk-2.3.9.tgz#f02e2a091e5a8549932038c37f6084faf9b1dfab"
-  integrity sha1-8C4qCR5ahUmTIDjDf2CE+vmx36s=
+baidu-aip-sdk@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.npm.taobao.org/baidu-aip-sdk/download/baidu-aip-sdk-2.4.4.tgz#e762815021a69f3282d1f95175f88c30580d1708"
+  integrity sha1-52KBUCGmnzKC0flRdfiMMFgNFwg=
   dependencies:
     debug "^2.6.0"
     iconv-lite "^0.4.15"
@@ -1138,10 +1138,10 @@ ee-first@1.1.1:
   resolved "http://registry.npm.taobao.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-ejs@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.npm.taobao.org/ejs/download/ejs-2.6.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fejs%2Fdownload%2Fejs-2.6.2.tgz#3a32c63d1cd16d11266cd4703b14fec4e74ab4f6"
-  integrity sha1-OjLGPRzRbREmbNRwOxT+xOdKtPY=
+ejs@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.npm.taobao.org/ejs/download/ejs-2.7.1.tgz?cache=0&sync_timestamp=1567453332151&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fejs%2Fdownload%2Fejs-2.7.1.tgz#5b5ab57f718b79d4aca9254457afecd36fa80228"
+  integrity sha1-W1q1f3GLedSsqSVEV6/s02+oAig=
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -1930,10 +1930,10 @@ he@1.1.1:
   resolved "http://registry.npm.taobao.org/he/download/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
   integrity sha1-k0EP0hsAlzUVH4howvJx80J+I/0=
 
-highlight.js@^9.15.9:
-  version "9.15.9"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.15.9.tgz#865257da1dbb4a58c4552d46c4b3854f77f0e6d5"
-  integrity sha1-hlJX2h27SljEVS1GxLOFT3fw5tU=
+highlight.js@^9.15.10:
+  version "9.15.10"
+  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.15.10.tgz#7b18ed75c90348c045eef9ed08ca1319a2219ad2"
+  integrity sha1-exjtdckDSMBF7vntCMoTGaIhmtI=
 
 hosted-git-info@^2.1.4:
   version "2.6.0"
@@ -1982,10 +1982,10 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-husky@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-3.0.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-3.0.3.tgz#6f3fb99f60ef72cdf34e5d78445c2f798c441b1d"
-  integrity sha1-bz+5n2Dvcs3zTl14RFwveYxEGx0=
+husky@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-3.0.5.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-3.0.5.tgz#d7db27c346645a8dc52df02aa534a377ad7925e0"
+  integrity sha1-19snw0ZkWo3FLfAqpTSjd615JeA=
   dependencies:
     chalk "^2.4.2"
     cosmiconfig "^5.2.1"
@@ -2493,10 +2493,10 @@ jws@^3.2.2:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
-kareem@2.3.0:
-  version "2.3.0"
-  resolved "http://registry.npm.taobao.org/kareem/download/kareem-2.3.0.tgz#ef33c42e9024dce511eeaf440cd684f3af1fc769"
-  integrity sha1-7zPELpAk3OUR7q9EDNaE868fx2k=
+kareem@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.npm.taobao.org/kareem/download/kareem-2.3.1.tgz?cache=0&sync_timestamp=1566532069231&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fkareem%2Fdownload%2Fkareem-2.3.1.tgz#def12d9c941017fabfb00f873af95e9c99e1be87"
+  integrity sha1-3vEtnJQQF/q/sA+HOvlenJnhvoc=
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
@@ -2542,10 +2542,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npm.taobao.org/lines-and-columns/download/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@^9.2.1:
-  version "9.2.1"
-  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-9.2.1.tgz#57fc5947611604d5a32e478734a13f3e4687f646"
-  integrity sha1-V/xZR2EWBNWjLkeHNKE/PkaH9kY=
+lint-staged@^9.2.5:
+  version "9.2.5"
+  resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-9.2.5.tgz#5a3e1e0a539a403bd7f88542bc3d34ce52efdbb3"
+  integrity sha1-Wj4eClOaQDvX+IVCvD00zlLv27M=
   dependencies:
     chalk "^2.4.2"
     commander "^2.20.0"
@@ -2557,6 +2557,7 @@ lint-staged@^9.2.1:
     listr "^0.14.3"
     log-symbols "^3.0.0"
     micromatch "^4.0.2"
+    normalize-path "^3.0.0"
     please-upgrade-node "^3.1.1"
     string-argv "^0.3.0"
     stringify-object "^3.3.0"
@@ -2926,23 +2927,13 @@ moment@^2.24.0:
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
 
-mongodb-core@3.2.7:
-  version "3.2.7"
-  resolved "https://registry.npm.taobao.org/mongodb-core/download/mongodb-core-3.2.7.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmongodb-core%2Fdownload%2Fmongodb-core-3.2.7.tgz#a8ef1fe764a192c979252dacbc600dc88d77e28f"
-  integrity sha1-qO8f52Shksl5JS2svGANyI134o8=
+mongodb@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/mongodb/download/mongodb-3.3.2.tgz#ff086b5f552cf07e24ce098694210f3d42d668b2"
+  integrity sha1-/whrX1Us8H4kzgmGlCEPPULWaLI=
   dependencies:
     bson "^1.1.1"
     require_optional "^1.0.1"
-    safe-buffer "^5.1.2"
-  optionalDependencies:
-    saslprep "^1.0.0"
-
-mongodb@3.2.7:
-  version "3.2.7"
-  resolved "https://registry.npm.taobao.org/mongodb/download/mongodb-3.2.7.tgz#8ba149e4be708257cad0dea72aebb2bbb311a7ac"
-  integrity sha1-i6FJ5L5wglfK0N6nKuuyu7MRp6w=
-  dependencies:
-    mongodb-core "3.2.7"
     safe-buffer "^5.1.2"
 
 mongoose-autopopulate@^0.9.1:
@@ -2955,16 +2946,15 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "http://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.6.9:
-  version "5.6.9"
-  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.6.9.tgz?cache=0&sync_timestamp=1565222199330&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmongoose%2Fdownload%2Fmongoose-5.6.9.tgz#86bdf258c5348a5c4a6acaf944d7baa73e3d1707"
-  integrity sha1-hr3yWMU0ilxKasr5RNe6pz49Fwc=
+mongoose@^5.7.0:
+  version "5.7.0"
+  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.7.0.tgz?cache=0&sync_timestamp=1568049474446&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmongoose%2Fdownload%2Fmongoose-5.7.0.tgz#5a686d7a85342784a26d1afb875a2a8170a7a32f"
+  integrity sha1-WmhteoU0J4SibRr7h1oqgXCnoy8=
   dependencies:
     async "2.6.2"
     bson "~1.1.1"
-    kareem "2.3.0"
-    mongodb "3.2.7"
-    mongodb-core "3.2.7"
+    kareem "2.3.1"
+    mongodb "3.3.2"
     mongoose-legacy-pluralize "1.0.2"
     mpath "0.6.0"
     mquery "3.2.1"
@@ -3113,10 +3103,10 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
-nodemon@^1.19.1:
-  version "1.19.1"
-  resolved "https://registry.npm.taobao.org/nodemon/download/nodemon-1.19.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnodemon%2Fdownload%2Fnodemon-1.19.1.tgz#576f0aad0f863aabf8c48517f6192ff987cd5071"
-  integrity sha1-V28KrQ+GOqv4xIUX9hkv+YfNUHE=
+nodemon@^1.19.2:
+  version "1.19.2"
+  resolved "https://registry.npm.taobao.org/nodemon/download/nodemon-1.19.2.tgz#b0975147dc99b3761ceb595b3f9277084931dcc0"
+  integrity sha1-sJdRR9yZs3Yc61lbP5J3CEkx3MA=
   dependencies:
     chokidar "^2.1.5"
     debug "^3.1.0"
@@ -3913,11 +3903,6 @@ safe-regex@^1.1.0:
   version "2.1.2"
   resolved "http://registry.npm.taobao.org/safer-buffer/download/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=
-
-saslprep@^1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.taobao.org/saslprep/download/saslprep-1.0.0.tgz#2c4968a0bfbf249530cd597bc62870ccd4b41a24"
-  integrity sha1-LElooL+/JJUwzVl7xihwzNS0GiQ=
 
 sax@^1.2.4:
   version "1.2.4"
