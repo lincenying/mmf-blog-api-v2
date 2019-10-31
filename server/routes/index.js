@@ -129,6 +129,7 @@ router.get('/frontend/shihua/history/delete', cors, frontendShihua.delHistory)
 router.get('/frontend/weibo/get', cors, frontendWeiBo.get)
 router.get('/frontend/weibo/card', cors, frontendWeiBo.card)
 router.get('/frontend/weibo/video', cors, frontendWeiBo.video)
+router.get('/frontend/weibo/beauty-video', cors, frontendWeiBo.beautyVideo)
 router.get('/frontend/weibo/detail', cors, frontendWeiBo.detail)
 router.get('/frontend/weibo/check', cors, frontendWeiBo.checkUpdate)
 
