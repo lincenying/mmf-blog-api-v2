@@ -158,11 +158,14 @@ exports.video = async (req, res) => {
     }
 }
 
+// 231522type=64&q=#尤物#&t=0 => 231522type%3D64%26q%3D%23%E5%B0%A4%E7%89%A9%23%26t%3D0
+// 100103type=64&q=#美女#&t=0 => 100103type%3D64%26q%3D%23%E7%BE%8E%E5%A5%B3%23%26t%3D0
 exports.beautyVideo = async (req, res) => {
+    const key = encodeURIComponent(req.query.key)
     const page = req.query.page || 1
     const options = {
         method: 'GET',
-        uri: `https://m.weibo.cn/api/container/getIndex?containerid=100103type%3D64%26q%3D%23%E7%BE%8E%E5%A5%B3%23%26t%3D0&page_type=searchall&page=${page}`,
+        uri: `https://m.weibo.cn/api/container/getIndex?containerid=${key}&page_type=searchall&page=${page}`,
         headers: {
             Referer: 'referer: https://m.weibo.cn/',
             'User-Agent':
