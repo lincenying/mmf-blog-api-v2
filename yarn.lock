@@ -354,13 +354,14 @@ babel-eslint@^10.0.3:
     eslint-visitor-keys "^1.0.0"
     resolve "^1.12.0"
 
-baidu-aip-sdk@^2.4.4:
-  version "2.4.4"
-  resolved "https://registry.npm.taobao.org/baidu-aip-sdk/download/baidu-aip-sdk-2.4.4.tgz#e762815021a69f3282d1f95175f88c30580d1708"
-  integrity sha1-52KBUCGmnzKC0flRdfiMMFgNFwg=
+baidu-aip-sdk@^2.4.5:
+  version "2.4.5"
+  resolved "https://registry.npm.taobao.org/baidu-aip-sdk/download/baidu-aip-sdk-2.4.5.tgz#0c7286fe0319081391e5512774a945e9b39ce4d0"
+  integrity sha1-DHKG/gMZCBOR5VEndKlF6bOc5NA=
   dependencies:
     debug "^2.6.0"
     iconv-lite "^0.4.15"
+    keep-alive-agent "0.0.1"
     request "^2.79.0"
     underscore "^1.8.3"
   optionalDependencies:
@@ -1704,10 +1705,10 @@ he@1.1.1:
   resolved "http://registry.npm.taobao.org/he/download/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
   integrity sha1-k0EP0hsAlzUVH4howvJx80J+I/0=
 
-highlight.js@^9.17.0:
-  version "9.17.0"
-  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.17.0.tgz#d2f3f746611a4d33b1920b9b067d39423bee7a9d"
-  integrity sha1-0vP3RmEaTTOxkgubBn05Qjvuep0=
+highlight.js@^9.17.1:
+  version "9.17.1"
+  resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-9.17.1.tgz#14a4eded23fd314b05886758bb906e39dd627f9a"
+  integrity sha1-FKTt7SP9MUsFiGdYu5BuOd1if5o=
   dependencies:
     handlebars "^4.5.3"
 
@@ -2171,6 +2172,11 @@ kareem@2.3.1:
   resolved "https://registry.npm.taobao.org/kareem/download/kareem-2.3.1.tgz?cache=0&sync_timestamp=1566532069231&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fkareem%2Fdownload%2Fkareem-2.3.1.tgz#def12d9c941017fabfb00f873af95e9c99e1be87"
   integrity sha1-3vEtnJQQF/q/sA+HOvlenJnhvoc=
 
+keep-alive-agent@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.npm.taobao.org/keep-alive-agent/download/keep-alive-agent-0.0.1.tgz#44847ca394ce8d6b521ae85816bd64509942b385"
+  integrity sha1-RIR8o5TOjWtSGuhYFr1kUJlCs4U=
+
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "http://registry.npm.taobao.org/latest-version/download/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"
@@ -2379,10 +2385,10 @@ make-dir@^1.0.0:
   dependencies:
     pify "^3.0.0"
 
-marked@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.npm.taobao.org/marked/download/marked-0.7.0.tgz?cache=0&sync_timestamp=1562386392301&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarked%2Fdownload%2Fmarked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
-  integrity sha1-tkIB8FHScbHtwQoE0a6bdLuOXA4=
+marked@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.npm.taobao.org/marked/download/marked-0.8.0.tgz#ec5c0c9b93878dc52dd54be8d0e524097bd81a99"
+  integrity sha1-7FwMm5OHjcUt1Uvo0OUkCXvYGpk=
 
 md5@^2.2.1:
   version "2.2.1"
@@ -2532,10 +2538,10 @@ moment@^2.24.0:
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha1-DQVdU/UFKqZTyfbraLtdEr9cK1s=
 
-mongodb@3.3.5:
-  version "3.3.5"
-  resolved "https://registry.npm.taobao.org/mongodb/download/mongodb-3.3.5.tgz?cache=0&sync_timestamp=1575994393972&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmongodb%2Fdownload%2Fmongodb-3.3.5.tgz#38d531013afede92b0dd282e3b9f3c08c9bdff3b"
-  integrity sha1-ONUxATr+3pKw3SguO588CMm9/zs=
+mongodb@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.npm.taobao.org/mongodb/download/mongodb-3.4.1.tgz#0d15e57e0ea0fc85b7a4fb9291b374c2e71652dc"
+  integrity sha1-DRXlfg6g/IW3pPuSkbN0wucWUtw=
   dependencies:
     bson "^1.1.1"
     require_optional "^1.0.1"
@@ -2543,24 +2549,24 @@ mongodb@3.3.5:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongoose-autopopulate@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.npm.taobao.org/mongoose-autopopulate/download/mongoose-autopopulate-0.9.1.tgz#ee497b50a40e065fb54f4be81eef3004d33c17bb"
-  integrity sha1-7kl7UKQOBl+1T0voHu8wBNM8F7s=
+mongoose-autopopulate@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.npm.taobao.org/mongoose-autopopulate/download/mongoose-autopopulate-0.10.0.tgz#117ec617ad76ff2867afbb8e98c3684e4236e0ab"
+  integrity sha1-EX7GF612/yhnr7uOmMNoTkI24Ks=
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.8.0.tgz#ddbfd6849632ed5840ec3e5faeaab1945bb3b650"
-  integrity sha1-3b/WhJYy7VhA7D5frqqxlFuztlA=
+mongoose@^5.8.3:
+  version "5.8.3"
+  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.8.3.tgz#0b5fff9702e2d36caa20bd6d8a6dfcb30942bcc7"
+  integrity sha1-C1//lwLi02yqIL1tim38swlCvMc=
   dependencies:
     bson "~1.1.1"
     kareem "2.3.1"
-    mongodb "3.3.5"
+    mongodb "3.4.1"
     mongoose-legacy-pluralize "1.0.2"
     mpath "0.6.0"
     mquery "3.2.2"
