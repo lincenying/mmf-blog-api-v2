@@ -82,36 +82,25 @@ exports.shihua = async (req, res) => {
         }
     }
 
-    if (isLogin) {
-        Shihua.findOneAsync({ img_id, user_id: userid }).then(async result => {
-            if (result) {
-                res.json({
-                    code: 200,
-                    from: 'db',
-                    userid,
-                    result: JSON.parse(result.result)
-                })
-            } else {
-                let data = await getData()
-                if (!data.success) data = await getData()
-                if (!data.success) data = await getData()
-                if (data.success) {
-                    res.json({ code: 200, from: 'api', userid, ...data.data })
-                } else {
-                    res.json({ code: -200, userid, message: data.message || '读取数据失败' })
-                }
-            }
-        })
-    } else {
-        let data = await getData()
-        if (!data.success) data = await getData()
-        if (!data.success) data = await getData()
-        if (data.success) {
-            res.json({ code: 200, from: 'api', ...data.data })
+    Shihua.findOneAsync({ img_id }).then(async result => {
+        if (result) {
+            res.json({
+                code: 200,
+                from: 'db',
+                userid,
+                result: JSON.parse(result.result)
+            })
         } else {
-            res.json({ code: -200, message: data.message || '读取数据失败' })
+            let data = await getData()
+            if (!data.success) data = await getData()
+            if (!data.success) data = await getData()
+            if (data.success) {
+                res.json({ code: 200, from: 'api', userid, ...data.data })
+            } else {
+                res.json({ code: -200, userid, message: data.message || '读取数据失败' })
+            }
         }
-    }
+    })
 }
 
 /**

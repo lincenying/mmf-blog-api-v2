@@ -62,6 +62,10 @@ exports.item = async (req, res) => {
     if (!id) {
         res.json({ code: 300, ok: 2, msg: '相册ID为空' })
     } else {
+        let cookies = lruCache.get('cookies')
+        if (!cookies) {
+            cookies = await getCookies()
+        }
         const options = {
             method: 'GET',
             uri: 'https://handmaid.cn/album/' + id,
