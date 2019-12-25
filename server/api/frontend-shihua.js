@@ -56,6 +56,7 @@ exports.shihua = async (req, res) => {
                         break
                     }
                 }
+                img = 'https://api.mmxiaowu.com/uploads/' + img_id
                 if (img && name) {
                     await Shihua.createAsync({
                         user_id: userid,
@@ -67,7 +68,7 @@ exports.shihua = async (req, res) => {
                         is_delete: 0,
                         timestamp: moment().format('X')
                     })
-                    fs.unlinkSync('./uploads/' + img_id)
+                    // fs.unlinkSync('./uploads/' + img_id)
                 }
             }
             return {
