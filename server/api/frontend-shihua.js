@@ -2,6 +2,7 @@ const fs = require('fs')
 const multer = require('multer')
 const moment = require('moment')
 const AipImageClassifyClient = require('baidu-aip-sdk').imageClassify
+const domain = require('../config').domain
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -56,7 +57,7 @@ exports.shihua = async (req, res) => {
                         break
                     }
                 }
-                img = 'https://api.mmxiaowu.com/uploads/' + img_id
+                img = domain + 'uploads/' + img_id
                 if (img && name) {
                     await Shihua.createAsync({
                         user_id: userid,
@@ -168,6 +169,9 @@ exports.delHistory = (req, res) => {
 
     Shihua.deleteOne({ img_id, user_id: userid })
         .then(() => {
+            try {
+                fs.unlinkSync('./uploads/' + img_id)
+            } catch (error) {}
             res.json({ code: 200, message: '删除成功' })
         })
         .catch(err => {
