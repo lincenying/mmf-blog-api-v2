@@ -53,6 +53,7 @@ exports.lists = async (req, res) => {
             data: body
         })
     } catch (error) {
+        lruCache.set('cookies', '')
         res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
