@@ -3,6 +3,7 @@ const multer = require('multer')
 const moment = require('moment')
 const base64Img = require('base64-img')
 const AipImageClassifyClient = require('baidu-aip-sdk').imageClassify
+const domain = require('../config').domain
 const cdnDomain = require('../config').cdnDomain
 
 const storage = multer.diskStorage({
