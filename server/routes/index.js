@@ -19,6 +19,7 @@ const appShihua = require('../api/app-shihua')
 const appWeiBo = require('../api/app-weibo')
 const appMeizitu = require('../api/app-meizitu')
 const appQiniu = require('../api/app-qiniu')
+const appXiGua = require('../api/app-xigua')
 
 const isAdmin = require('./is-admin')
 const isUser = require('./is-user')
@@ -146,6 +147,9 @@ router.get('/app/meizitu/lists', cors, appMeizitu.lists)
 router.get('/app/meizitu/item', cors, appMeizitu.item)
 // ------ 七牛 token -----
 router.get('/app/qiniu/token', cors, appQiniu.token)
+// ------ 西瓜视频 -------
+router.get('/app/xigua/list', cors, appXiGua.getList)
+router.get('/app/xigua/item', cors, appXiGua.getItem)
 
 router.get('*', (req, res) => {
     res.json({
