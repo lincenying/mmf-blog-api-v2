@@ -6,3 +6,10 @@ const meizituCache = new lruCache({
 })
 
 exports.meizituCache = meizituCache
+
+const xiguaCache = new lruCache({
+    max: 1000,
+    maxAge: 1000 * 60 * 60 * 24 * 1
+})
+
+exports.xiguaCache = xiguaCache

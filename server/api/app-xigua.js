@@ -1,6 +1,7 @@
 const cheerio = require('cheerio')
 const rp = require('request-promise')
-const crc32 = require('crc-32')
+const crc32 = require('../utils/crc32')
+const lruCache = require('../utils/lru-cache').xiguaCache
 
 const getList = async num => {
     if (num > 3) return null
@@ -74,13 +75,22 @@ exports.getList = async (req, res) => {
 
 exports.getItem = async (req, res) => {
     const vid = req.query.id
-    const url = '/video/urls/v/1/toutiao/mp4/9583cca5fceb4c6b9ca749c214fd1f90?r=' + new Date().getTime()
-    const crc = crc32.str(url)
-    const fullUrl = 'http://i.snssdk.com' + url + '&s=' + crc
     if (!vid) {
         res.json({ ok: 2, msg: '参数错误' })
         return
     }
+    let main_url = lruCache.get('xigua_' + vid)
+    if (main_url) {
+        return res.json({
+            code: 200,
+            data: main_url,
+            msg: ''
+        })
+    }
+
+    const url = '/video/urls/v/1/toutiao/mp4/9583cca5fceb4c6b9ca749c214fd1f90?r=' + new Date().getTime()
+    const crc = crc32(url)
+    const fullUrl = 'http://i.snssdk.com' + url + '&s=' + crc
     const options = {
         method: 'GET',
         uri: fullUrl,
@@ -95,12 +105,14 @@ exports.getItem = async (req, res) => {
     }
     try {
         const json = await rp(options)
-        let main_url
         if (json.data.video_list && json.data.video_list.video_3) main_url = json.data.video_list.video_3.main_url
         else if (json.data.video_list && json.data.video_list.video_2) main_url = json.data.video_list.video_2.main_url
         else if (json.data.video_list && json.data.video_list.video_1) main_url = json.data.video_list.video_1.main_url
         if (main_url) {
             main_url = Buffer.from(main_url, 'base64').toString()
+        }
+        if (main_url) {
+            lruCache.set('xigua_' + vid, main_url)
         }
         res.json({
             code: 200,
