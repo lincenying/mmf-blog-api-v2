@@ -88,7 +88,7 @@ exports.getItem = async (req, res) => {
         })
     }
 
-    const url = '/video/urls/v/1/toutiao/mp4/9583cca5fceb4c6b9ca749c214fd1f90?r=' + new Date().getTime()
+    const url = '/video/urls/v/1/toutiao/mp4/' + vid + '?r=' + new Date().getTime()
     const crc = crc32(url)
     const fullUrl = 'http://i.snssdk.com' + url + '&s=' + crc
     const options = {
