@@ -5,6 +5,7 @@ const base64Img = require('base64-img')
 const AipImageClassifyClient = require('baidu-aip-sdk').imageClassify
 const domain = require('../config').domain
 const cdnDomain = require('../config').cdnDomain
+const shihuaConfig = require('../config').shihua
 
 const storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -16,7 +17,6 @@ const storage = multer.diskStorage({
     }
 })
 const upload = multer({ storage }).single('file')
-const config = require('../config/shihua')
 const checkJWT = require('../utils/check-jwt').checkJWT
 
 const mongoose = require('../mongoose')
@@ -56,7 +56,7 @@ exports.shihua = async (req, res) => {
     const username = req.cookies.username || req.headers.username
     const isLogin = await checkJWT(token, userid, username, 'user')
     const getData = async () => {
-        const client = new AipImageClassifyClient(config.APP_ID, config.API_KEY, config.SECRET_KEY)
+        const client = new AipImageClassifyClient(shihuaConfig.APP_ID, shihuaConfig.API_KEY, shihuaConfig.SECRET_KEY)
         try {
             const image = await getBase64(img_id, cdn)
             const options = {}
