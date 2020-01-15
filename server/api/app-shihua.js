@@ -39,7 +39,7 @@ exports.upload = async (req, res) => {
 const getBase64 = (img_id, cdn) => {
     if (cdn === 'qiniu') {
         return new Promise(resolve => {
-            const url = cdnDomain + 'app/' + img_id
+            const url = cdnDomain + 'app/' + img_id + '/800x800'
             base64Img.requestBase64(url, function(err, res, body) {
                 if (body) {
                     body = body.split(',')[1]
