@@ -2154,10 +2154,10 @@ humanize-ms@^1.2.0, humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.0.tgz#654a72ecd7d59565de5360365a7d78a7bbb05286"
-  integrity sha1-ZUpy7NfVlWXeU2A2Wn14p7uwUoY=
+husky@^4.0.7:
+  version "4.0.7"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.7.tgz?cache=0&sync_timestamp=1578808573963&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.0.7.tgz#cee4301d1db1d731be9c2aa2ac72b46439d30c91"
+  integrity sha1-zuQwHR2x1zG+nCqirHK0ZDnTDJE=
   dependencies:
     chalk "^3.0.0"
     ci-info "^2.0.0"
@@ -2964,10 +2964,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.8.4:
-  version "5.8.4"
-  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.8.4.tgz#bd35697b2f800bb919c142b1443630fbab382a35"
-  integrity sha1-vTVpey+AC7kZwUKxRDYw+6s4KjU=
+mongoose@^5.8.7:
+  version "5.8.7"
+  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.8.7.tgz#d175f8ac4c8ed7bf57b71aa4980aaa3525b923b2"
+  integrity sha1-0XX4rEyO179XtxqkmAqqNSW5I7I=
   dependencies:
     bson "~1.1.1"
     kareem "2.3.1"

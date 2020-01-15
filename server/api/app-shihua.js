@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 const fs = require('fs')
 const multer = require('multer')
 const moment = require('moment')
@@ -40,8 +41,12 @@ const getBase64 = (img_id, cdn) => {
         return new Promise(resolve => {
             const url = cdnDomain + 'app/' + img_id
             base64Img.requestBase64(url, function(err, res, body) {
-                if (body) body = body.split(',')[1]
-                resolve(body)
+                if (body) {
+                    body = body.split(',')[1]
+                    resolve(body)
+                } else {
+                    resolve('')
+                }
             })
         })
     }
@@ -58,52 +63,63 @@ exports.shihua = async (req, res) => {
     const getData = async () => {
         const client = new AipImageClassifyClient(shihuaConfig.APP_ID, shihuaConfig.API_KEY, shihuaConfig.SECRET_KEY)
         try {
+            console.log('七牛图片开始时间:' + new Date().getTime())
             const image = await getBase64(img_id, cdn)
-            const options = {}
-            options['baike_num'] = '5'
-            // 带参数调用植物识别
-            const shihuaResult = await client.plantDetect(image, options)
-            if (shihuaResult.result) {
-                if (isLogin) {
-                    const length = shihuaResult.result.length
-                    let img, name
-                    for (let i = 0; i < length; i++) {
-                        const item = shihuaResult.result[i]
-                        // eslint-disable-next-line max-depth
-                        if (item.baike_info && item.baike_info.image_url) {
-                            name = item.name
-                            img = item.baike_info.image_url
-                            break
+            console.log('七牛图片结束时间:' + new Date().getTime())
+            if (image) {
+                const options = {}
+                options['baike_num'] = '5'
+                // 带参数调用植物识别
+                console.log('识图开始时间:' + new Date().getTime())
+                const shihuaResult = await client.plantDetect(image, options)
+                console.log('识图结束时间:' + new Date().getTime())
+                if (shihuaResult.result) {
+                    if (isLogin) {
+                        const length = shihuaResult.result.length
+                        let img, name
+                        for (let i = 0; i < length; i++) {
+                            const item = shihuaResult.result[i]
+                            // eslint-disable-next-line max-depth
+                            if (item.baike_info && item.baike_info.image_url) {
+                                name = item.name
+                                img = item.baike_info.image_url
+                                break
+                            }
+                        }
+                        if (cdn === 'qiniu') {
+                            img = cdnDomain + 'app/' + img_id
+                        } else {
+                            img = domain + 'uploads/' + img_id
+                        }
+                        if (img && name) {
+                            await Shihua.createAsync({
+                                user_id: userid,
+                                img_id,
+                                name,
+                                img,
+                                result: JSON.stringify(shihuaResult.result),
+                                creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                                is_delete: 0,
+                                timestamp: moment().format('X')
+                            })
+                            // fs.unlinkSync('./uploads/' + img_id)
                         }
                     }
-                    if (cdn === 'qiniu') {
-                        img = cdnDomain + 'app/' + img_id
-                    } else {
-                        img = domain + 'uploads/' + img_id
-                    }
-                    if (img && name) {
-                        await Shihua.createAsync({
-                            user_id: userid,
-                            img_id,
-                            name,
-                            img,
-                            result: JSON.stringify(shihuaResult.result),
-                            creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-                            is_delete: 0,
-                            timestamp: moment().format('X')
-                        })
-                        // fs.unlinkSync('./uploads/' + img_id)
+                    return {
+                        success: true,
+                        data: shihuaResult
                     }
                 }
                 return {
-                    success: true,
-                    data: shihuaResult
+                    success: false,
+                    err: 'shitu',
+                    message: shihuaResult.error_msg
                 }
             }
             return {
                 success: false,
-                err: 'shitu',
-                message: shihuaResult.error_msg
+                err: 'down-img',
+                message: '图片读取失败'
             }
         } catch (error) {
             return {
