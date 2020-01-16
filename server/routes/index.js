@@ -131,6 +131,8 @@ router.get('/frontend/reset/like', isUser, frontendLike.resetLike)
 // ================= APP =================
 // ------- 检测版本更新 ------
 router.get('/app/check', cors, appPublic.checkUpdate)
+router.get('/frontend/weibo/check', cors, appPublic.checkUpdate) // 老版本的检测更新
+
 // ------ 识花 ------
 router.post('/app/shihua/upload', cors, appShihua.upload)
 router.get('/app/shihua/get', cors, appShihua.shihua)
