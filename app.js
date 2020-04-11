@@ -13,6 +13,7 @@ require('./server/models/category')
 require('./server/models/comment')
 require('./server/models/user')
 require('./server/models/shihua')
+require('./server/models/douyin')
 
 // 引入 api 路由
 const routes = require('./server/routes/index')

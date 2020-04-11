@@ -19,7 +19,7 @@ const appShihua = require('../api/app-shihua')
 const appWeiBo = require('../api/app-weibo')
 const appMeizitu = require('../api/app-meizitu')
 const appQiniu = require('../api/app-qiniu')
-const appXiGua = require('../api/app-xigua')
+const appDouYin = require('../api/app-douyin')
 
 const isAdmin = require('./is-admin')
 const isUser = require('./is-user')
@@ -131,6 +131,8 @@ router.get('/frontend/reset/like', isUser, frontendLike.resetLike)
 // ================= APP =================
 // ------- 检测版本更新 ------
 router.get('/app/check', cors, appPublic.checkUpdate)
+router.get('/frontend/weibo/check', cors, appPublic.checkUpdate) // 老版本的检测更新
+
 // ------ 识花 ------
 router.post('/app/shihua/upload', cors, appShihua.upload)
 router.get('/app/shihua/get', cors, appShihua.shihua)
@@ -147,9 +149,10 @@ router.get('/app/meizitu/lists', cors, appMeizitu.lists)
 router.get('/app/meizitu/item', cors, appMeizitu.item)
 // ------ 七牛 token -----
 router.get('/app/qiniu/token', cors, appQiniu.token)
-// ------ 西瓜视频 -------
-router.get('/app/xigua/list', cors, appXiGua.getList)
-router.get('/app/xigua/item', cors, appXiGua.getItem)
+// ------ 抖音视频 -------
+router.post('/app/douyin/insert', cors, appDouYin.insert)
+router.get('/app/douyin/list', cors, appDouYin.getList)
+router.get('/app/douyin/item', cors, appDouYin.getItem)
 
 router.get('*', (req, res) => {
     res.json({
