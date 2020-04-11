@@ -50,7 +50,12 @@ exports.lists = async (req, res) => {
         const body = await rp(options)
         res.json({
             code: 200,
-            data: body
+            data: body.map(item => {
+                return {
+                    ...item,
+                    originUrl: item.url
+                }
+            })
         })
     } catch (error) {
         lruCache.set('cookies', '')
@@ -83,9 +88,15 @@ exports.item = async (req, res) => {
             const preg = /JSON.parse\(`(.*?)`\)/
             const match = body.match(preg)
             if (match && match[1]) {
+                const tmpArr = JSON.parse(match[1]) || []
                 res.json({
                     code: 200,
-                    data: JSON.parse(match[1])
+                    data: tmpArr.map(item => {
+                        return {
+                            ...item,
+                            originUrl: item.url
+                        }
+                    })
                 })
             } else {
                 res.json({ code: 300, ok: 2, msg: '读取图片失败' })
