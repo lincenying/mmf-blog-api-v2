@@ -35,7 +35,7 @@ exports.lists = async (req, res) => {
         cookies = await getCookies()
     }
     const options = {
-        method: 'GET',
+        method: 'POST',
         uri: 'https://handmaid.cn/loadPic?searchKey=' + key,
         headers: {
             Referer: 'https://handmaid.cn/',
