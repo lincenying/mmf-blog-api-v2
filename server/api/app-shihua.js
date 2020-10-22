@@ -24,7 +24,7 @@ const mongoose = require('../mongoose')
 const Shihua = mongoose.model('Shihua')
 
 exports.upload = async (req, res) => {
-    upload(req, res, function(err) {
+    upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
             res.send({ code: '-200', msg: err.toString() })
         } else if (err) {
@@ -40,7 +40,7 @@ const getBase64 = (img_id, cdn) => {
     if (cdn === 'qiniu') {
         return new Promise(resolve => {
             const url = cdnDomain + 'app/' + img_id + '/800x800'
-            base64Img.requestBase64(url, function(err, res, body) {
+            base64Img.requestBase64(url, function (err, res, body) {
                 if (body) {
                     body = body.split(',')[1]
                     resolve(body)
@@ -172,14 +172,7 @@ exports.getHistory = (req, res) => {
     const skip = (page - 1) * limit
     const sort = '-creat_date'
 
-    Promise.all([
-        Shihua.find(data)
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .exec(),
-        Shihua.countDocumentsAsync(data)
-    ])
+    Promise.all([Shihua.find(data).sort(sort).skip(skip).limit(limit).exec(), Shihua.countDocumentsAsync(data)])
         .then(([data, total]) => {
             const totalPage = Math.ceil(total / limit)
             const json = {

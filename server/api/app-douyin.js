@@ -42,14 +42,7 @@ exports.getList = (req, res) => {
 
     const filds = 'user_id aweme_id desc vid image video creat_date is_delete timestamp'
 
-    Promise.all([
-        DouYin.find(data, filds)
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .exec(),
-        DouYin.countDocumentsAsync(data)
-    ])
+    Promise.all([DouYin.find(data, filds).sort(sort).skip(skip).limit(limit).exec(), DouYin.countDocumentsAsync(data)])
         .then(([data, total]) => {
             const totalPage = Math.ceil(total / limit)
             const json = {
