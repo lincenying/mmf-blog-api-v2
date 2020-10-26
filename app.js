@@ -17,6 +17,8 @@ require('./server/models/douyin')
 
 // 引入 api 路由
 const routes = require('./server/routes/index')
+// 引入 mock 路由
+const mockjs = require('./server/mockjs/index')
 
 const app = express()
 
@@ -48,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/static', serve('./static', true))
 app.use('/api', routes)
+app.use('/mockjs', mockjs)
 
 app.get('*', (req, res) => {
     res.json({
