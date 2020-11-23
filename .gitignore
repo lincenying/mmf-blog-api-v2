@@ -8,3 +8,5 @@ server/config/mpapp.js
 server/config/shihua.js
 server/config/qiniu.js
 uploads/
+
+*-port.txt
