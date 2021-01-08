@@ -140,6 +140,7 @@ router.get('/app/shihua/history/list', cors, isUser, appShihua.getHistory)
 router.get('/app/shihua/history/delete', cors, isUser, appShihua.delHistory)
 // ------ 微博 ------
 router.get('/app/weibo/get', cors, appWeiBo.get)
+router.get('/app/weibo/user', cors, appWeiBo.user)
 router.get('/app/weibo/card', cors, appWeiBo.card)
 router.get('/app/weibo/video', cors, appWeiBo.video)
 router.get('/app/weibo/beauty-video', cors, appWeiBo.beautyVideo)

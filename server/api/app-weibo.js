@@ -52,6 +52,73 @@ exports.get = async (req, res) => {
     }
 }
 
+exports.user = async (req, res) => {
+    const containerid = req.query.containerid
+    const since_id = req.query.since_id
+    if (!containerid) {
+        res.json({ ok: 2, msg: '参数错误' })
+        return
+    }
+    const options = {
+        method: 'GET',
+        uri: `https://m.weibo.cn/api/container/getIndex?containerid=${containerid}&since_id=${since_id}`,
+        headers: {
+            Referer: 'referer: https://m.weibo.cn/',
+            'User-Agent':
+                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+            cookie:
+                'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
+            'upgrade-insecure-requests': 1
+        },
+        json: true
+    }
+    try {
+        const body = await rp(options)
+        const list = []
+        body.data.cards.forEach(item => {
+            if (item.mblog) {
+                const mblog = item.mblog.retweeted_status || item.mblog
+                let video = ''
+                let video_img = ''
+                if (mblog.page_info && mblog.page_info.urls) {
+                    video = mblog.page_info.urls
+                    video_img = mblog.page_info.page_pic.url
+                } else if (mblog.page_info && mblog.page_info.media_info) {
+                    video =
+                        mblog.page_info.media_info.mp4_720p_mp4 ||
+                        mblog.page_info.media_info.mp4_hd_url ||
+                        mblog.page_info.media_info.mp4_sd_url ||
+                        mblog.page_info.media_info.stream_url
+                    video_img = mblog.page_info.page_pic.url
+                }
+                const pics = (mblog.pics && mblog.pics.map(item => ({ url: item.url, large: item.large.url }))) || null
+                if (pics || video) {
+                    list.push({
+                        id: mblog.mid,
+                        itemid: mblog.mid,
+                        pics,
+                        text: mblog.text.replace(/"\/\//g, '"https://'),
+                        video,
+                        video_img
+                    })
+                }
+            }
+        })
+        res.json({
+            ...body,
+            code: 200,
+            total: body.data.cardlistInfo.total,
+            since_id: body.data.cardlistInfo.since_id,
+            data: {
+                ...body.data.cardlistInfo,
+                content: list
+            }
+        })
+    } catch (error) {
+        res.json({ code: 300, ok: 2, msg: error.toString() })
+    }
+}
+
 exports.card = async (req, res) => {
     const card_id = req.query.card_id
     const block_id = req.query.block_id
@@ -75,30 +142,35 @@ exports.card = async (req, res) => {
     }
     try {
         const body = await rp(options)
+        const list = []
+        body.data.content.forEach(item => {
+            let video = ''
+            let video_img = ''
+            if (item.data.page_info && item.data.page_info.urls) {
+                video = item.data.page_info.urls
+                video_img = item.data.page_info.page_pic.url
+            } else if (item.data.page_info && item.data.page_info.media_info) {
+                video = item.data.page_info.media_info
+                video_img = item.data.page_info.page_pic.url
+            }
+            const pics = (item.data.pics && item.data.pics.map(item => ({ url: item.url, large: item.large.url }))) || null
+            if (video || pics) {
+                list.push({
+                    id: item.mid,
+                    pics,
+                    text: item.data.text.replace(/"\/\//g, '"https://'),
+                    video,
+                    video_img
+                })
+            }
+        })
         res.json({
             ...body,
             code: 200,
             total: body.data.total,
             data: {
                 ...body.data,
-                content: body.data.content.map(item => {
-                    let video = ''
-                    let video_img = ''
-                    if (item.data.page_info && item.data.page_info.urls) {
-                        video = item.data.page_info.urls
-                        video_img = item.data.page_info.page_pic.url
-                    } else if (item.data.page_info && item.data.page_info.media_info) {
-                        video = item.data.page_info.media_info
-                        video_img = item.data.page_info.page_pic.url
-                    }
-                    return {
-                        id: item.mid,
-                        pics: item.data.pics,
-                        text: item.data.text.replace(/"\/\//g, '"https://'),
-                        video,
-                        video_img
-                    }
-                })
+                content: list
             }
         })
     } catch (error) {
@@ -251,9 +323,7 @@ exports.detail = async (req, res) => {
             data: {
                 itemid: id,
                 text: data.text.replace(/"\/\//g, '"https://'),
-                pics: data.pics.map(item => {
-                    return item.large.url
-                })
+                pics: data.pics.map(item => item.large.url)
             }
         }
         res.json($return)
