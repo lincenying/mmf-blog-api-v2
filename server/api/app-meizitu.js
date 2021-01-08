@@ -36,7 +36,7 @@ exports.lists = async (req, res) => {
     }
     const options = {
         method: 'POST',
-        uri: 'https://handmaid.cn/loadPic?searchKey=' + key,
+        uri: 'https://handmaid.cn/loadPic?channel=photo&searchKey=' + key,
         headers: {
             Referer: 'https://handmaid.cn/',
             'User-Agent':
