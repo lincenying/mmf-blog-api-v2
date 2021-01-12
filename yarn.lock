@@ -475,7 +475,7 @@ bluebird@3.5.1:
   resolved "https://registry.npm.taobao.org/bluebird/download/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
   integrity sha1-2VUfnemPH82h5oPRfukaBgLuLrk=
 
-bluebird@^3.5.0, bluebird@^3.7.2:
+bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://registry.npm.taobao.org/bluebird/download/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha1-nyKcFb4nJFT/qXOs4NvueaGww28=
@@ -2874,10 +2874,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.11.10:
-  version "5.11.10"
-  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.11.10.tgz#9a1c88ee91637160847fdc6822ec015400b17fae"
-  integrity sha1-mhyI7pFjcWCEf9xoIuwBVACxf64=
+mongoose@^5.11.11:
+  version "5.11.11"
+  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.11.11.tgz#f0f1b3691385aa8cf0e4acdec20f1851bb6f9660"
+  integrity sha1-8PGzaROFqozw5Kzewg8YUbtvlmA=
   dependencies:
     "@types/mongodb" "^3.5.27"
     bson "^1.1.4"
@@ -3654,23 +3654,6 @@ registry-url@^5.0.0:
   dependencies:
     rc "^1.2.8"
 
-request-promise-core@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.npm.taobao.org/request-promise-core/download/request-promise-core-1.1.4.tgz?cache=0&sync_timestamp=1595378718097&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frequest-promise-core%2Fdownload%2Frequest-promise-core-1.1.4.tgz#3eedd4223208d419867b78ce815167d10593a22f"
-  integrity sha1-Pu3UIjII1BmGe3jOgVFn0QWToi8=
-  dependencies:
-    lodash "^4.17.19"
-
-request-promise@^4.2.6:
-  version "4.2.6"
-  resolved "https://registry.npm.taobao.org/request-promise/download/request-promise-4.2.6.tgz#7e7e5b9578630e6f598e3813c0f8eb342a27f0a2"
-  integrity sha1-fn5blXhjDm9ZjjgTwPjrNCon8KI=
-  dependencies:
-    bluebird "^3.5.0"
-    request-promise-core "1.1.4"
-    stealthy-require "^1.1.1"
-    tough-cookie "^2.3.3"
-
 request@^2.79.0:
   version "2.88.2"
   resolved "https://registry.npm.taobao.org/request/download/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
@@ -4067,11 +4050,6 @@ sshpk@^1.7.0:
   resolved "https://registry.npm.taobao.org/statuses/download/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
-stealthy-require@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.npm.taobao.org/stealthy-require/download/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
-  integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
-
 streamsearch@0.1.2:
   version "0.1.2"
   resolved "https://registry.npm.taobao.org/streamsearch/download/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
@@ -4290,7 +4268,7 @@ touch@^3.1.0:
   dependencies:
     nopt "~1.0.10"
 
-tough-cookie@^2.3.3, tough-cookie@~2.5.0:
+tough-cookie@~2.5.0:
   version "2.5.0"
   resolved "https://registry.npm.taobao.org/tough-cookie/download/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
   integrity sha1-zZ+yoKodWhK0c72fuW+j3P9lreI=

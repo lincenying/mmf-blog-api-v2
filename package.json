@@ -23,11 +23,10 @@
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.10",
+    "mongoose": "^5.11.11",
     "mongoose-autopopulate": "^0.12.3",
     "multer": "^1.4.2",
-    "qiniu": "^7.3.2",
-    "request-promise": "^4.2.6"
+    "qiniu": "^7.3.2"
   },
   "devDependencies": {
     "bluebird": "^3.7.2",

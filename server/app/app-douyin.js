@@ -1,4 +1,4 @@
-const rp = require('request-promise')
+const axios = require('axios')
 const crc32 = require('../utils/crc32')
 const lruCache = require('../utils/lru-cache').douyinCache
 
@@ -81,19 +81,19 @@ exports.getItem = async (req, res) => {
     const crc = crc32(url)
     const fullUrl = 'http://i.snssdk.com' + url + '&s=' + crc
     const options = {
-        method: 'GET',
-        uri: fullUrl,
+        method: 'get',
+        url: fullUrl,
         headers: {
-            Referer: 'referer: https://www.ixigua.com/',
+            Referer: 'https://www.ixigua.com/',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
             cookie:
                 'wafid=b91cc9ea-f8c9-4665-aefd-5eb32504c548; wafid.sig=6RJyXryyR309k1jBSiRHNOIUbWg; xiguavideopcwebid=6779498568983889411; xiguavideopcwebid.sig=thxI4ay_N8VBsX1clmDdpMXPDf8; SLARDAR_WEB_ID=bc0b73ca-1788-4689-b919-05355f8a0021',
             'upgrade-insecure-requests': 1
-        },
-        json: true
+        }
     }
     try {
-        const json = await rp(options)
+        const xhr = await axios(options)
+        const json = xhr.data
         if (json.data.video_list && json.data.video_list.video_3) main_url = json.data.video_list.video_3.main_url
         else if (json.data.video_list && json.data.video_list.video_2) main_url = json.data.video_list.video_2.main_url
         else if (json.data.video_list && json.data.video_list.video_1) main_url = json.data.video_list.video_1.main_url

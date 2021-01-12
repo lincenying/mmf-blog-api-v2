@@ -1,22 +1,26 @@
-const rp = require('request-promise')
+const axios = require('axios')
+
+const baseOptions = {
+    method: 'get',
+    headers: {
+        Referer: 'https://m.weibo.cn/',
+        'User-Agent':
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+        cookie:
+            'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
+        'upgrade-insecure-requests': 1
+    }
+}
 
 exports.get = async (req, res) => {
     const page = req.query.page || 0
     const options = {
-        method: 'GET',
-        uri: 'https://m.weibo.cn/api/container/getIndex?containerid=102803_ctg1_4388_-_ctg1_4388&openApp=0&since_id=' + page,
-        headers: {
-            Referer: 'referer: https://m.weibo.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie:
-                'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+        ...baseOptions,
+        url: 'https://m.weibo.cn/api/container/getIndex?containerid=102803_ctg1_4388_-_ctg1_4388&openApp=0&since_id=' + page
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         res.json({
             ...body,
             code: 200,
@@ -60,20 +64,12 @@ exports.user = async (req, res) => {
         return
     }
     const options = {
-        method: 'GET',
-        uri: `https://m.weibo.cn/api/container/getIndex?containerid=${containerid}&since_id=${since_id}`,
-        headers: {
-            Referer: 'referer: https://m.weibo.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie:
-                'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+        ...baseOptions,
+        url: `https://m.weibo.cn/api/container/getIndex?containerid=${containerid}&since_id=${since_id}`
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         const list = []
         body.data.cards.forEach(item => {
             if (item.mblog) {
@@ -128,20 +124,12 @@ exports.card = async (req, res) => {
         return
     }
     const options = {
-        method: 'GET',
-        uri: `https://m.weibo.cn/api/novelty/feed/getblock?card_id=${card_id}&block_id=${block_id}&page=${page}`,
-        headers: {
-            Referer: 'referer: https://m.weibo.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie:
-                'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+        ...baseOptions,
+        url: `https://m.weibo.cn/api/novelty/feed/getblock?card_id=${card_id}&block_id=${block_id}&page=${page}`
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         const list = []
         body.data.content.forEach(item => {
             let video = ''
@@ -184,20 +172,12 @@ exports.card = async (req, res) => {
 exports.video = async (req, res) => {
     const since_id = req.query.since_id || ''
     const options = {
-        method: 'GET',
-        uri: `https://m.weibo.cn/api/container/getIndex?containerid=100808f334edf14a66a4e3aa1a31dade762d19_-_feed&extparam=%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&luicode=10000011&lfid=100103type%3D1%26q%3D%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&since_id=${since_id}`,
-        headers: {
-            Referer: 'referer: https://m.weibo.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie:
-                'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+        ...baseOptions,
+        url: `https://m.weibo.cn/api/container/getIndex?containerid=100808f334edf14a66a4e3aa1a31dade762d19_-_feed&extparam=%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&luicode=10000011&lfid=100103type%3D1%26q%3D%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&since_id=${since_id}`
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         const $list = []
         body.data.cards.forEach(item => {
             if (item.card_group && Array.isArray(item.card_group)) {
@@ -241,20 +221,12 @@ exports.beautyVideo = async (req, res) => {
     const key = encodeURIComponent(req.query.key)
     const page = req.query.page || 1
     const options = {
-        method: 'GET',
-        uri: `https://m.weibo.cn/api/container/getIndex?containerid=${key}&page_type=searchall&page=${page}`,
-        headers: {
-            Referer: 'referer: https://m.weibo.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie:
-                'WEIBOCN_FROM=1110003030; _T_WM=11214676918; ALF=1574933534; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFT_XGWwkzbVC-hibvsTOby5JpX5K-hUgL.Fo-7e0qfSKBpehB2dJLoIpjLxKqL1--L1KMLxK-LBozL1K2LxK-LB.BLBo2t; SCF=AjB-wdHJYcdZZUPaCHjN5nGT-S44NH0cad5iqpIkmxkfWkns31OkWpELtvEmPnUginjGYsy42c6K96dSkeeIQIc.; SUB=_2A25wvHd2DeRhGeNO6FQU9SrNyziIHXVQXxk-rDV6PUJbktAKLU-hkW1NTxVebVnXJIjFL8bscTisnqOc0MexHvur; SUHB=0A0Z-9CMJ-LIBO; SSOLoginState=1572341543; MLOGIN=1; XSRF-TOKEN=0616f9; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D100103type%253D64%2526q%253D%2523%25E7%25BE%258E%25E5%25A5%25B3%2523%2526t%253D0%26fid%3D100103type%253D64%2526q%253D%2523%25E7%25BE%258E%25E5%25A5%25B3%2523%2526t%253D0%26uicode%3D10000011',
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+        ...baseOptions,
+        url: `https://m.weibo.cn/api/container/getIndex?containerid=${key}&page_type=searchall&page=${page}`
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         const $list = []
         const cardsLength = (body.data.cards && body.data.cards.length) || 0
         if (cardsLength > 0) {
@@ -302,18 +274,11 @@ exports.detail = async (req, res) => {
     }
     try {
         const options = {
-            method: 'GET',
-            uri: 'https://m.weibo.cn/detail/' + id,
-            headers: {
-                Referer: 'referer: https://m.weibo.cn/',
-                'User-Agent':
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-                cookie:
-                    'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
-                'upgrade-insecure-requests': 1
-            }
+            ...baseOptions,
+            url: 'https://m.weibo.cn/detail/' + id
         }
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         const jsData = body.split('$render_data = [{')[1].split('}][0]')[0]
         const json = JSON.parse('[{' + jsData + '}]')
         const data = json[0].status

@@ -1,19 +1,19 @@
-const rp = require('request-promise')
+const axios = require('axios')
 const lruCache = require('../utils/lru-cache').meizituCache
 
-const getCookies = async () => {
-    const options = {
-        method: 'GET',
-        uri: 'https://handmaid.cn/',
-        headers: {
-            Referer: 'https://handmaid.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            'upgrade-insecure-requests': 1
-        },
-        resolveWithFullResponse: true
+const baseOptions = {
+    method: 'GET',
+    url: 'https://handmaid.cn/',
+    headers: {
+        Referer: 'https://handmaid.cn/',
+        'User-Agent':
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+        'upgrade-insecure-requests': 1
     }
-    const xhr = await rp(options)
+}
+
+const getCookies = async () => {
+    const xhr = await axios(baseOptions)
     const $return = []
     if (xhr.headers && xhr.headers['set-cookie'] && Array.isArray(xhr.headers['set-cookie'])) {
         xhr.headers['set-cookie'].forEach(item => {
@@ -35,23 +35,21 @@ exports.lists = async (req, res) => {
         cookies = await getCookies()
     }
     const options = {
+        ...baseOptions,
         method: 'POST',
-        uri: 'https://handmaid.cn/loadPic',
+        url: 'https://handmaid.cn/loadPic',
         body: {
             channel: 'photo',
             searchKey: key
         },
         headers: {
-            Referer: 'https://handmaid.cn/',
-            'User-Agent':
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-            cookie: cookies,
-            'upgrade-insecure-requests': 1
-        },
-        json: true
+            ...baseOptions.headers,
+            cookie: cookies
+        }
     }
     try {
-        const body = await rp(options)
+        const xhr = await axios(options)
+        const body = xhr.data
         res.json({
             code: 200,
             data: body.map(item => {
@@ -77,18 +75,16 @@ exports.item = async (req, res) => {
             cookies = await getCookies()
         }
         const options = {
-            method: 'GET',
-            uri: 'https://handmaid.cn/album/' + id,
+            ...baseOptions,
+            url: 'https://handmaid.cn/album/' + id,
             headers: {
-                Referer: 'https://handmaid.cn/',
-                'User-Agent':
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-                cookie: cookies,
-                'upgrade-insecure-requests': 1
+                ...baseOptions.headers,
+                cookie: cookies
             }
         }
         try {
-            const body = await rp(options)
+            const xhr = await axios(options)
+            const body = xhr.data
             const preg = /JSON.parse\(`(.*?)`\)/
             const match = body.match(preg)
             if (match && match[1]) {

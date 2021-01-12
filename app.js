@@ -17,6 +17,7 @@ require('./server/models/douyin')
 
 // 引入 api 路由
 const routes = require('./server/routes/index')
+const appRoutes = require('./server/routes/app')
 // 引入 mock 路由
 const mockjs = require('./server/mockjs/index')
 
@@ -43,12 +44,15 @@ app.use(
         }
     })
 )
+// parse application/json
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'dist')))
 
 app.use('/static', serve('./static', true))
+app.use('/api/app', appRoutes)
 app.use('/api', routes)
 app.use('/mockjs', mockjs)
 
