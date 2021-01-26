@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
     const page = req.query.page || 0
     const options = {
         ...baseOptions,
-        url: 'https://m.weibo.cn/api/container/getIndex?containerid=102803&openApp=0'
+        url: 'https://m.weibo.cn/api/container/getIndex?containerid=102803_ctg1_4388_-_ctg1_4388&openApp=0'
     }
     if (page) options.url += '&since_id=' + page
     try {
