@@ -12,12 +12,14 @@ const baseOptions = {
     }
 }
 
+// 热门微博
 exports.get = async (req, res) => {
     const page = req.query.page || 0
     const options = {
         ...baseOptions,
-        url: 'https://m.weibo.cn/api/container/getIndex?containerid=102803_ctg1_4388_-_ctg1_4388&openApp=0&since_id=' + page
+        url: 'https://m.weibo.cn/api/container/getIndex?containerid=102803&openApp=0'
     }
+    if (page) options.url += '&since_id=' + page
     try {
         const xhr = await axios(options)
         const body = xhr.data
@@ -25,37 +27,40 @@ exports.get = async (req, res) => {
             ...body,
             code: 200,
             total: body.data.cardlistInfo.total,
-            data: body.data.cards.map(item => {
-                let video = ''
-                let video_img = ''
-                let pics = ''
-                let text = ''
-                if (item.mblog) {
-                    if (item.mblog.page_info && item.mblog.page_info.media_info) {
-                        video =
-                            item.mblog.page_info.media_info.mp4_720p_mp4 ||
-                            item.mblog.page_info.media_info.mp4_hd_url ||
-                            item.mblog.page_info.media_info.mp4_sd_url ||
-                            item.mblog.page_info.media_info.stream_url
-                        video_img = item.mblog.page_info.page_pic.url
+            data: body.data.cards
+                .map(item => {
+                    let video = ''
+                    let video_img = ''
+                    let pics = ''
+                    let text = ''
+                    if (item.mblog) {
+                        if (item.mblog.page_info && item.mblog.page_info.media_info) {
+                            video =
+                                item.mblog.page_info.media_info.mp4_720p_mp4 ||
+                                item.mblog.page_info.media_info.mp4_hd_url ||
+                                item.mblog.page_info.media_info.mp4_sd_url ||
+                                item.mblog.page_info.media_info.stream_url
+                            video_img = item.mblog.page_info.page_pic.url
+                        }
+                        pics = item.mblog.pics
+                        text = item.mblog.text.replace(/"\/\//g, '"https://')
                     }
-                    pics = item.mblog.pics
-                    text = item.mblog.text.replace(/"\/\//g, '"https://')
-                }
-                return {
-                    itemid: item.itemid,
-                    pics,
-                    text,
-                    video,
-                    video_img
-                }
-            })
+                    return {
+                        itemid: item.itemid,
+                        pics,
+                        text,
+                        video,
+                        video_img
+                    }
+                })
+                .filter(item => item.itemid !== '')
         })
     } catch (error) {
         res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }
 
+// 微博用户
 exports.user = async (req, res) => {
     const containerid = req.query.containerid
     const since_id = req.query.since_id
@@ -115,6 +120,7 @@ exports.user = async (req, res) => {
     }
 }
 
+// 微博卡片
 exports.card = async (req, res) => {
     const card_id = req.query.card_id
     const block_id = req.query.block_id
@@ -166,8 +172,8 @@ exports.card = async (req, res) => {
     }
 }
 
-// https://m.weibo.cn/api/container/getIndex?containerid=100808f334edf14a66a4e3aa1a31dade762d19_-_main&extparam=%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&luicode=10000011&lfid=100103type%3D1%26q%3D%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91
-// https://m.weibo.cn/api/container/getIndex?containerid=100808f334edf14a66a4e3aa1a31dade762d19_-_feed&extparam=%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&luicode=10000011&lfid=100103type%3D1%26q%3D%E6%90%9E%E7%AC%91%E8%A7%86%E9%A2%91&since_id=4357347671259573
+// https://m.weibo.cn/p/100808f334edf14a66a4e3aa1a31dade762d19/super_index
+// 超话视频
 
 exports.video = async (req, res) => {
     const since_id = req.query.since_id || ''
@@ -217,6 +223,7 @@ exports.video = async (req, res) => {
 
 // 231522type=64&q=#尤物#&t=0 => 231522type%3D64%26q%3D%23%E5%B0%A4%E7%89%A9%23%26t%3D0
 // 100103type=64&q=#美女#&t=0 => 100103type%3D64%26q%3D%23%E7%BE%8E%E5%A5%B3%23%26t%3D0
+// 微博搜索视频
 exports.beautyVideo = async (req, res) => {
     const key = encodeURIComponent(req.query.key)
     const page = req.query.page || 1
@@ -266,6 +273,7 @@ exports.beautyVideo = async (req, res) => {
     }
 }
 
+// 微博详情
 exports.detail = async (req, res) => {
     const id = req.query.id
     if (!id) {

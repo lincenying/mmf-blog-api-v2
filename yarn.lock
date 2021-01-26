@@ -2082,10 +2082,10 @@ humanize-ms@^1.2.0, humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.3.7:
-  version "4.3.7"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.3.7.tgz?cache=0&sync_timestamp=1609980881236&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.3.7.tgz#ca47bbe6213c1aa8b16bbd504530d9600de91e88"
-  integrity sha1-yke75iE8Gqixa71QRTDZYA3pHog=
+husky@^4.3.8:
+  version "4.3.8"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.3.8.tgz?cache=0&sync_timestamp=1610756357237&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhusky%2Fdownload%2Fhusky-4.3.8.tgz#31144060be963fd6850e5cc8f019a1dfe194296d"
+  integrity sha1-MRRAYL6WP9aFDlzI8Bmh3+GUKW0=
   dependencies:
     chalk "^4.0.0"
     ci-info "^2.0.0"
@@ -2874,10 +2874,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.11.11:
-  version "5.11.11"
-  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.11.11.tgz#f0f1b3691385aa8cf0e4acdec20f1851bb6f9660"
-  integrity sha1-8PGzaROFqozw5Kzewg8YUbtvlmA=
+mongoose@^5.11.13:
+  version "5.11.13"
+  resolved "https://registry.npm.taobao.org/mongoose/download/mongoose-5.11.13.tgz#1a8af3c83152d5e0427509966926ea7f5ead4d66"
+  integrity sha1-GorzyDFS1eBCdQmWaSbqf16tTWY=
   dependencies:
     "@types/mongodb" "^3.5.27"
     bson "^1.1.4"
@@ -3139,10 +3139,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/ora/download/ora-5.2.0.tgz?cache=0&sync_timestamp=1609228456238&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fora%2Fdownload%2Fora-5.2.0.tgz#de10bfd2d15514384af45f3fa9d9b1aaf344fda1"
-  integrity sha1-3hC/0tFVFDhK9F8/qdmxqvNE/aE=
+ora@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npm.taobao.org/ora/download/ora-5.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fora%2Fdownload%2Fora-5.3.0.tgz#fb832899d3a1372fe71c8b2c534bbfe74961bb6f"
+  integrity sha1-+4MomdOhNy/nHIssU0u/50lhu28=
   dependencies:
     bl "^4.0.3"
     chalk "^4.1.0"
