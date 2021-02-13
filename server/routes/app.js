@@ -25,6 +25,7 @@ router.get('/shihua/get', cors, appShihua.shihua)
 router.get('/shihua/history/list', cors, isUser, appShihua.getHistory)
 router.get('/shihua/history/delete', cors, isUser, appShihua.delHistory)
 // ------ 微博 ------
+router.get('/weibo/list', cors, appWeiBo.list)
 router.get('/weibo/get', cors, appWeiBo.get)
 router.get('/weibo/user', cors, appWeiBo.user)
 router.get('/weibo/card', cors, appWeiBo.card)

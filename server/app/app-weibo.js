@@ -12,6 +12,54 @@ const baseOptions = {
     }
 }
 
+// 9宫格列表
+exports.list = async (req, res) => {
+    // 1076035607553200 一流美女_ https://m.weibo.cn/u/5607553200
+    // 1076036854123113 女神instagram https://m.weibo.cn/u/6854123113
+    // 1076035605527095 领先女神范 https://m.weibo.cn/u/5605527095
+    // 1076036008403359 套图集 https://m.weibo.cn/u/6008403359
+    // 1076035647574056 宅男集中处 https://m.weibo.cn/u/5647574056
+    // 1076035616641142 翘萌妹 https://m.weibo.cn/u/5616641142
+    // 1005056008403359 套图集 https://m.weibo.cn/u/6008403359
+    // 1076033258888674 老娘胸大 https://m.weibo.cn/u/3258888674
+    // 1076036572060239 污学妹的日常 https://m.weibo.cn/u/6572060239
+    // 1076035900853810 性感滴美女 https://m.weibo.cn/u/5900853810
+    // 1076035561742017 尤物相馆 https://m.weibo.cn/u/5561742017
+    // 1076036224138199 拍妹儿 https://m.weibo.cn/u/6224138199
+    // 1076037308741975 街拍跟屁虫 https://m.weibo.cn/u/7308741975
+    // 1076037340370622 Charlie菠萝 https://m.weibo.cn/u/7340370622
+    // 1076036439828507 花季美少女 https://m.weibo.cn/u/6439828507 视频
+    // 1076035236096816 宅男电影工厂 https://m.weibo.cn/u/5236096816 视频
+    // 1076035235871265 视频师妹 https://m.weibo.cn/u/5235871265 视频
+    // 1076035592899982 内涵视频 https://m.weibo.cn/u/5592899982 视频
+    // 1076031896923211 美女II https://m.weibo.cn/u/1896923211 视频
+    // 1076036879266735 热舞女神视频 https://m.weibo.cn/u/6879266735 视频
+    const list = [
+        // 性感滴美女
+        { url: 'https://img.daliangju.com/upload/20190406/icon-1.png', text: '性感滴美女', cardId: ['', '', '1076035900853810'] },
+        // 尤物相馆
+        { url: 'https://img.daliangju.com/upload/20190406/icon-2.png', text: '尤物相馆', cardId: ['', '', '1076035561742017'] },
+        // 拍妹儿
+        { url: 'https://img.daliangju.com/upload/20190406/icon-3.png', text: '拍妹儿', cardId: ['', '', '1076036224138199'] },
+        // 街拍跟屁虫
+        { url: 'https://img.daliangju.com/upload/20191121/icon-4.png', text: '街拍跟屁虫', cardId: ['', '', '1076037308741975'] },
+        // 美图阁
+        { url: 'https://img.daliangju.com/upload/20190406/icon-5.png', text: '美图阁', cardId: ['', '', '1076035868458392'] },
+        // bikini女神
+        { url: 'https://img.daliangju.com/upload/20190406/icon-6.png', text: 'bikini女神', cardId: ['', '', '1076035588555086'] },
+        // 美女模特秀
+        { url: 'https://img.daliangju.com/upload/20190406/icon-7.png', text: '美女模特秀', cardId: ['7578484496998401', '1672537', ''] },
+        // Bikini写真 https://m.weibo.cn/u/5605506361
+        { url: 'https://img.daliangju.com/upload/20190406/icon-8.png', text: 'Bikini写真', cardId: ['', '', '1076035605506361'] },
+        // 视频师妹
+        { url: 'https://img.daliangju.com/upload/20191121/icon-9.png', text: '视频师妹', cardId: ['', '', '1076035235871265'] }
+    ]
+    res.json({
+        code: 200,
+        data: list
+    })
+}
+
 // 热门微博
 exports.get = async (req, res) => {
     const page = req.query.page || 0
