@@ -3,9 +3,9 @@ const lruCache = require('../utils/lru-cache').meizituCache
 
 const baseOptions = {
     method: 'GET',
-    url: 'https://handmaid.cn/',
+    url: 'https://fun.moe/',
     headers: {
-        Referer: 'https://handmaid.cn/',
+        Referer: 'https://fun.moe/',
         'User-Agent':
             'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
         'upgrade-insecure-requests': 1
@@ -37,7 +37,7 @@ exports.lists = async (req, res) => {
     const options = {
         ...baseOptions,
         method: 'POST',
-        url: 'https://handmaid.cn/loadPic',
+        url: 'https://fun.moe/loadPic',
         body: {
             channel: 'photo',
             searchKey: key
@@ -76,7 +76,7 @@ exports.item = async (req, res) => {
         }
         const options = {
             ...baseOptions,
-            url: 'https://handmaid.cn/album/' + id,
+            url: 'https://fun.moe/album/' + id,
             headers: {
                 ...baseOptions.headers,
                 cookie: cookies
