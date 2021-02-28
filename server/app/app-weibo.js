@@ -23,7 +23,7 @@ exports.list = async (req, res) => {
     // 1005056008403359 套图集 https://m.weibo.cn/u/6008403359
     // 1076033258888674 老娘胸大 https://m.weibo.cn/u/3258888674
     // 1076036572060239 污学妹的日常 https://m.weibo.cn/u/6572060239
-    // 1076035900853810 性感滴美女 https://m.weibo.cn/u/5900853810
+    // 1076035900853810 性感滴美女 https://m.weibo.cn/u/5900853810 失效
     // 1076035561742017 尤物相馆 https://m.weibo.cn/u/5561742017
     // 1076036224138199 拍妹儿 https://m.weibo.cn/u/6224138199
     // 1076037308741975 街拍跟屁虫 https://m.weibo.cn/u/7308741975
@@ -36,7 +36,7 @@ exports.list = async (req, res) => {
     // 1076036879266735 热舞女神视频 https://m.weibo.cn/u/6879266735 视频
     const list = [
         // 性感滴美女
-        { url: 'https://img.daliangju.com/upload/20190406/icon-1.png', text: '性感滴美女', cardId: ['', '', '1076035900853810'] },
+        { url: 'https://img.daliangju.com/upload/20190406/icon-1.png', text: '一流美女', cardId: ['', '', '1076035607553200'] },
         // 尤物相馆
         { url: 'https://img.daliangju.com/upload/20190406/icon-2.png', text: '尤物相馆', cardId: ['', '', '1076035561742017'] },
         // 拍妹儿
