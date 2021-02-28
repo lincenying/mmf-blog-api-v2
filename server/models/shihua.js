@@ -1,6 +1,5 @@
 const mongoose = require('../mongoose')
 const Schema = mongoose.Schema
-const Promise = require('bluebird')
 
 const ShihuaSchema = new Schema({
     user_id: String,
@@ -14,7 +13,5 @@ const ShihuaSchema = new Schema({
 })
 
 const Shihua = mongoose.model('Shihua', ShihuaSchema)
-Promise.promisifyAll(Shihua)
-Promise.promisifyAll(Shihua.prototype)
 
 module.exports = Shihua

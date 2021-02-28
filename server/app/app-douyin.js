@@ -6,7 +6,7 @@ const moment = require('moment')
 const mongoose = require('../mongoose')
 const DouYin = mongoose.model('DouYin')
 
-exports.insert = (req, res) => {
+exports.insert = async (req, res) => {
     const { user_id, aweme_id, desc, vid, image, video } = req.body
     const data = {
         user_id,
@@ -19,22 +19,21 @@ exports.insert = (req, res) => {
         is_delete: 0,
         timestamp: moment().format('X')
     }
-    DouYin.createAsync(data)
-        .then(result => {
-            return res.json({ code: 200, message: '发布成功', data: result })
-        })
-        .catch(err => {
-            res.json({ code: -200, message: err.toString() })
-        })
+    try {
+        const result = await DouYin.create(data)
+        res.json({ code: 200, message: '发布成功', data: result })
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
-exports.getList = (req, res) => {
+exports.getList = async (req, res) => {
     let { limit, page } = req.query
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
     if (!page) page = 1
     if (!limit) limit = 10
-    const data = {
+    const payload = {
             is_delete: 0
         },
         skip = (page - 1) * limit
@@ -42,23 +41,25 @@ exports.getList = (req, res) => {
 
     const filds = 'user_id aweme_id desc vid image video creat_date is_delete timestamp'
 
-    Promise.all([DouYin.find(data, filds).sort(sort).skip(skip).limit(limit).exec(), DouYin.countDocumentsAsync(data)])
-        .then(([data, total]) => {
-            const totalPage = Math.ceil(total / limit)
-            const json = {
-                code: 200,
-                data: {
-                    list: data,
-                    total,
-                    hasNext: totalPage > page ? 1 : 0,
-                    hasPrev: page > 1
-                }
+    try {
+        const [data, total] = await Promise.all([
+            DouYin.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
+            DouYin.countDocuments(payload)
+        ])
+        const totalPage = Math.ceil(total / limit)
+        const json = {
+            code: 200,
+            data: {
+                list: data,
+                total,
+                hasNext: totalPage > page ? 1 : 0,
+                hasPrev: page > 1
             }
-            res.json(json)
-        })
-        .catch(err => {
-            res.json({ code: -200, message: err.toString() })
-        })
+        }
+        res.json(json)
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 exports.getItem = async (req, res) => {
