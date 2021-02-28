@@ -7,9 +7,11 @@ const mongoose = require('../mongoose')
 const DouYin = mongoose.model('DouYin')
 
 exports.insert = async (req, res) => {
-    const { user_id, aweme_id, desc, vid, image, video } = req.body
+    const { user_id, user_name, user_avatar, aweme_id, desc, vid, image, video } = req.body
     const data = {
         user_id,
+        user_name,
+        user_avatar,
         aweme_id,
         desc,
         vid,
@@ -39,7 +41,7 @@ exports.getList = async (req, res) => {
         skip = (page - 1) * limit
     const sort = '-aweme_id'
 
-    const filds = 'user_id aweme_id desc vid image video creat_date is_delete timestamp'
+    const filds = 'user_id user_name user_avatar aweme_id desc vid image video creat_date is_delete timestamp'
 
     try {
         const [data, total] = await Promise.all([
