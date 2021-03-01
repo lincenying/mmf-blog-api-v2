@@ -38,6 +38,7 @@ router.get('/meizitu/item', cors, appMeizitu.item)
 // ------ 七牛 token -----
 router.get('/qiniu/token', cors, appQiniu.token)
 // ------ 抖音视频 -------
+router.post('/douyin/user/insert', cors, appDouYin.insertUser)
 router.post('/douyin/insert', cors, appDouYin.insert)
 router.get('/douyin/list', cors, appDouYin.getList)
 router.get('/douyin/item', cors, appDouYin.getItem)

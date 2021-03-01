@@ -5,13 +5,37 @@ const lruCache = require('../utils/lru-cache').douyinCache
 const moment = require('moment')
 const mongoose = require('../mongoose')
 const DouYin = mongoose.model('DouYin')
+const DouYinUser = mongoose.model('DouYinUser')
 
-exports.insert = async (req, res) => {
-    const { user_id, user_name, user_avatar, aweme_id, desc, vid, image, video } = req.body
+exports.insertUser = async (req, res) => {
+    const { user_id, user_name, user_avatar, sec_uid, share_url } = req.body
     const data = {
         user_id,
         user_name,
         user_avatar,
+        sec_uid,
+        share_url,
+        creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+        is_delete: 0,
+        timestamp: moment().format('X')
+    }
+    try {
+        const checkRepeat = await DouYinUser.findOne({ user_id })
+        if (checkRepeat) {
+            res.json({ code: 300, message: '该用户已经存在!' })
+        } else {
+            const result = await DouYinUser.create(data)
+            res.json({ code: 200, message: '添加成功', data: result })
+        }
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
+}
+
+exports.insert = async (req, res) => {
+    const { user_id, aweme_id, desc, vid, image, video } = req.body
+    const data = {
+        author: user_id,
         aweme_id,
         desc,
         vid,
@@ -46,7 +70,7 @@ exports.getList = async (req, res) => {
         skip = (page - 1) * limit
     const sort = '-aweme_id'
 
-    const filds = 'user_id user_name user_avatar aweme_id desc vid image video creat_date is_delete timestamp'
+    const filds = 'user user_id aweme_id desc vid image video creat_date is_delete timestamp'
 
     try {
         const [data, total] = await Promise.all([
