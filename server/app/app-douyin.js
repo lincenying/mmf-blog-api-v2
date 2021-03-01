@@ -22,8 +22,13 @@ exports.insert = async (req, res) => {
         timestamp: moment().format('X')
     }
     try {
-        const result = await DouYin.create(data)
-        res.json({ code: 200, message: '发布成功', data: result })
+        const checkRepeat = await DouYin.findOne({ aweme_id })
+        if (checkRepeat) {
+            res.json({ code: 300, message: '该视频已经存在!' })
+        } else {
+            const result = await DouYin.create(data)
+            res.json({ code: 200, message: '发布成功', data: result })
+        }
     } catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
