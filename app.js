@@ -4,7 +4,6 @@ const path = require('path')
 const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
 
 // 引入 mongoose 相关模型
 require('./server/models/admin')
@@ -45,9 +44,9 @@ app.use(
     })
 )
 // parse application/json
-app.use(bodyParser.json())
+app.use(express.json())
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'dist')))
 
