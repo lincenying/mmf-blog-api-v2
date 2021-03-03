@@ -60,17 +60,23 @@ exports.insert = async (req, res) => {
 
 exports.getList = async (req, res) => {
     let { limit, page } = req.query
+    const user_id = req.query.user_id
+
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
     if (!page) page = 1
     if (!limit) limit = 10
     const payload = {
-            is_delete: 0
-        },
-        skip = (page - 1) * limit
+        is_delete: 0
+    }
+    const skip = (page - 1) * limit
     const sort = '-aweme_id'
 
     const filds = 'user user_id aweme_id desc vid image video creat_date is_delete timestamp'
+
+    if (user_id) {
+        payload.user_id = user_id
+    }
 
     try {
         const [data, total] = await Promise.all([
