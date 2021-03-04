@@ -9,6 +9,7 @@ const Article = mongoose.model('Article')
  * @return {[type]}     [description]
  */
 exports.getList = async (req, res) => {
+    const user_id = req.cookies.userid || req.headers.userid
     const { by, id, key } = req.query
     let { limit, page } = req.query
     page = parseInt(page, 10)
@@ -38,7 +39,6 @@ exports.getList = async (req, res) => {
         let data = result[0]
         const total = result[1]
         const totalPage = Math.ceil(total / limit)
-        const user_id = req.cookies.userid || req.headers.userid
         const json = {
             code: 200,
             data: {

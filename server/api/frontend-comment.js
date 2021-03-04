@@ -12,10 +12,10 @@ const Article = mongoose.model('Article')
  * @return {[type]}     [description]
  */
 exports.insert = async (req, res) => {
+    const userid = req.cookies.userid || req.headers.userid
     const { id, content } = req.body
     const creat_date = moment().format('YYYY-MM-DD HH:mm:ss')
     const timestamp = moment().format('X')
-    const userid = req.cookies.userid || req.headers.userid
     if (!id) {
         res.json({ code: -200, message: '参数错误' })
         return

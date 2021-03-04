@@ -7,8 +7,8 @@
  * @return {[type]}         [description]
  */
 exports.list = async function (req, res, sort = '-_id') {
-    sort = sort || '-_id'
     let { limit, page } = req.query
+    sort = sort || '-_id'
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
     if (!page) page = 1

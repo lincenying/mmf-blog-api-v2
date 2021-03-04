@@ -143,14 +143,14 @@ exports.recover = async (req, res) => {
  * @return {[type]}     [description]
  */
 exports.modify = async (req, res) => {
-    const { id, category, category_old, content } = req.body
+    const { id, category, category_old, content, title, category_name } = req.body
     const md = marked(content)
     const html = md.html
     const toc = md.toc
     const data = {
-        title: req.body.title,
-        category: req.body.category,
-        category_name: req.body.category_name,
+        title,
+        category,
+        category_name,
         content,
         html,
         toc,

@@ -26,12 +26,12 @@ const Shihua = mongoose.model('Shihua')
 exports.upload = async (req, res) => {
     upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
-            res.send({ code: '-200', msg: err.toString() })
+            res.json({ code: '-200', msg: err.toString() })
         } else if (err) {
-            res.send({ code: '-200', msg: err.toString() })
+            res.json({ code: '-200', msg: err.toString() })
         } else {
             const file = req.file
-            res.send({ code: '200', url: file.path })
+            res.json({ code: '200', url: file.path })
         }
     })
 }

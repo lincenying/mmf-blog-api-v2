@@ -27,13 +27,13 @@ exports.getList = (req, res) => {
  * @return {[type]}       [description]
  */
 exports.login = async (req, res) => {
-    let json = {}
     let { username } = req.body
     const { password } = req.body
     if (username === '' || password === '') {
         res.json({ code: -200, message: '请输入用户名和密码' })
     }
     try {
+        let json = {}
         const result = await User.findOne({
             username,
             password: md5(md5Pre + password),
@@ -98,13 +98,14 @@ exports.jscode2session = async (req, res) => {
  * @return {[type]}       [description]
  */
 exports.wxLogin = async (req, res) => {
-    let json = {}
-    let id, token, username
     const { nickName, wxSignature, avatar } = req.body
+
+    let id, token, username
     if (!nickName || !wxSignature) {
         res.json({ code: -200, message: '参数有误, 微信登录失败' })
     } else {
         try {
+            let json = {}
             const result = await User.findOne({
                 username: nickName,
                 wx_signature: wxSignature,
@@ -210,9 +211,9 @@ exports.insert = async (req, res) => {
 }
 
 exports.getItem = async (req, res) => {
-    let json
     const userid = req.query.id || req.cookies.userid || req.headers.userid
     try {
+        let json
         const result = await User.findOne({
             _id: userid,
             is_delete: 0
