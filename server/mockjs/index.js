@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Mock = require('mockjs')
-const cors = require('../routes/cors')
+const cors = require('../middlewares/cors')
 
 router.get('/list', cors, (req, res) => {
     const data = Mock.mock({

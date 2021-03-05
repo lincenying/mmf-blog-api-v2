@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-const cors = require('./cors')
-
 const appPublic = require('../app/app-public')
 const appShihua = require('../app/app-shihua')
 const appWeiBo = require('../app/app-weibo')
@@ -10,7 +8,8 @@ const appMeizitu = require('../app/app-meizitu')
 const appQiniu = require('../app/app-qiniu')
 const appDouYin = require('../app/app-douyin')
 
-const isUser = require('./is-user')
+const cors = require('../middlewares/cors')
+const isUser = require('../middlewares/is-user')
 
 router.options('*', cors)
 
