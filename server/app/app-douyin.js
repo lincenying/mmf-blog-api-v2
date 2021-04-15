@@ -131,15 +131,17 @@ exports.getItem = async (req, res) => {
     }
     try {
         const xhr = await axios(options)
-        const json = xhr.data
-        if (json.data.video_list && json.data.video_list.video_3) main_url = json.data.video_list.video_3.main_url
-        else if (json.data.video_list && json.data.video_list.video_2) main_url = json.data.video_list.video_2.main_url
-        else if (json.data.video_list && json.data.video_list.video_1) main_url = json.data.video_list.video_1.main_url
-        if (main_url) {
-            main_url = Buffer.from(main_url, 'base64').toString()
-        }
-        if (main_url) {
-            lruCache.set('douyin_' + vid, main_url)
+        const video_list = xhr.data && xhr.data.data && xhr.data.data.video_list
+        if (video_list) {
+            main_url =
+                (video_list.video_3 && video_list.video_3.main_url) ||
+                (video_list.video_2 && video_list.video_2.main_url) ||
+                (video_list.video_1 && video_list.video_1.main_url) ||
+                ''
+            if (main_url) {
+                main_url = Buffer.from(main_url, 'base64').toString()
+                lruCache.set('douyin_' + vid, main_url)
+            }
         }
         res.json({
             code: 200,
