@@ -255,18 +255,14 @@ exports.modify = (req, res) => {
  * @return {[type]}        [description]
  */
 exports.account = async (req, res) => {
-    const { id, email } = req.body
+    const { email } = req.body
     const user_id = req.cookies.userid || req.headers.userid
-    if (user_id === id) {
-        try {
-            await User.updateOne({ _id: id }, { $set: { email } })
-            res.cookie('useremail', email, { maxAge: 2592000000 })
-            res.json({ code: 200, message: '更新成功', data: 'success' })
-        } catch (err) {
-            res.json({ code: -200, message: err.toString() })
-        }
-    } else {
-        res.json({ code: -200, message: '当前没有权限' })
+    try {
+        await User.updateOne({ _id: user_id }, { $set: { email } })
+        res.cookie('useremail', email, { maxAge: 2592000000 })
+        res.json({ code: 200, message: '更新成功', data: 'success' })
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
     }
 }
 
