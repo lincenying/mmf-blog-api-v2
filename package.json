@@ -5,6 +5,7 @@
   "author": "lincenying &lt;lincenying@qq.com&gt;",
   "license": "MIT",
   "scripts": {
+    "postinstall": "husky install && husky set .husky/pre-commit 'npx lint-staged'",
     "serve": "./node_modules/.bin/nodemon bin/www",
     "lint": "eslint --ext .js server/ --fix"
   },
@@ -12,19 +13,19 @@
     "axios": "^0.21.1",
     "baidu-aip-sdk": "^2.4.6",
     "base64-img": "^1.0.4",
-    "cheerio": "^1.0.0-rc.5",
+    "cheerio": "^1.0.0-rc.6",
     "crc-32": "^1.2.0",
-    "highlight.js": "^10.6.0",
+    "highlight.js": "^10.7.2",
     "jsonwebtoken": "^8.5.1",
     "lru-cache": "^6.0.0",
-    "markdown-it": "^12.0.4",
+    "markdown-it": "^12.0.6",
     "markdown-it-toc-and-anchor": "^4.2.0",
-    "marked": "^2.0.1",
+    "marked": "^2.0.3",
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
     "moment": "^2.29.1",
-    "mongoose": "^5.11.18",
-    "mongoose-autopopulate": "^0.12.3",
+    "mongoose": "^5.12.5",
+    "mongoose-autopopulate": "^0.13.0",
     "multer": "^1.4.2",
     "qiniu": "^7.3.2"
   },
@@ -39,11 +40,11 @@
     "eslint-config-lcy-js": "^3.1.1",
     "express": "^4.17.1",
     "function-bind": "^1.1.1",
-    "husky": "4.3.8",
+    "husky": "6.0.0",
     "lint-staged": "^10.5.4",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
-    "ora": "^5.3.0",
+    "ora": "^5.4.0",
     "serve-favicon": "^2.5.0"
   },
   "engines": {
@@ -60,10 +61,5 @@
     "*.js": [
       "eslint --fix"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
