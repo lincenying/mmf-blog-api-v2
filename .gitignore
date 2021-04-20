@@ -1,4 +1,5 @@
 .DS_Store
+.husky
 node_modules/
 npm-debug.log
 .vscode/
@@ -8,3 +9,5 @@ server/config/mpapp.js
 server/config/shihua.js
 server/config/qiniu.js
 uploads/
+
+*-port.txt

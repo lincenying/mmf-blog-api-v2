@@ -24,14 +24,14 @@ const mongoose = require('../mongoose')
 const Shihua = mongoose.model('Shihua')
 
 exports.upload = async (req, res) => {
-    upload(req, res, function(err) {
+    upload(req, res, function (err) {
         if (err instanceof multer.MulterError) {
-            res.send({ code: '-200', msg: err.toString() })
+            res.json({ code: '-200', msg: err.toString() })
         } else if (err) {
-            res.send({ code: '-200', msg: err.toString() })
+            res.json({ code: '-200', msg: err.toString() })
         } else {
             const file = req.file
-            res.send({ code: '200', url: file.path })
+            res.json({ code: '200', url: file.path })
         }
     })
 }
@@ -40,7 +40,7 @@ const getBase64 = (img_id, cdn) => {
     if (cdn === 'qiniu') {
         return new Promise(resolve => {
             const url = cdnDomain + 'app/' + img_id + '/800x800'
-            base64Img.requestBase64(url, function(err, res, body) {
+            base64Img.requestBase64(url, function (err, res, body) {
                 if (body) {
                     body = body.split(',')[1]
                     resolve(body)
@@ -92,7 +92,7 @@ exports.shihua = async (req, res) => {
                             img = domain + 'uploads/' + img_id
                         }
                         if (img && name) {
-                            await Shihua.createAsync({
+                            await Shihua.create({
                                 user_id: userid,
                                 img_id,
                                 name,
@@ -130,7 +130,8 @@ exports.shihua = async (req, res) => {
         }
     }
 
-    Shihua.findOneAsync({ img_id }).then(async result => {
+    try {
+        const result = await Shihua.findOne({ img_id })
         if (result) {
             res.json({
                 code: 200,
@@ -148,7 +149,9 @@ exports.shihua = async (req, res) => {
                 res.json({ code: -200, userid, message: data.message || '读取数据失败' })
             }
         }
-    })
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
@@ -158,48 +161,41 @@ exports.shihua = async (req, res) => {
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-exports.getHistory = (req, res) => {
+exports.getHistory = async (req, res) => {
     const userid = req.cookies.userid || req.headers.userid
     let { limit, page } = req.query
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
     if (!page) page = 1
     if (!limit) limit = 10
-    const data = {
+    const payload = {
         is_delete: 0,
         user_id: userid
     }
     const skip = (page - 1) * limit
     const sort = '-creat_date'
 
-    Promise.all([
-        Shihua.find(data)
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .exec(),
-        Shihua.countDocumentsAsync(data)
-    ])
-        .then(([data, total]) => {
-            const totalPage = Math.ceil(total / limit)
-            const json = {
-                code: 200,
-                data: {
-                    total,
-                    hasNext: totalPage > page ? 1 : 0,
-                    hasPrev: page > 1
-                }
+    try {
+        // eslint-disable-next-line prefer-const
+        let [data, total] = await Promise.all([Shihua.find(payload).sort(sort).skip(skip).limit(limit).exec(), Shihua.countDocuments(payload)])
+        const totalPage = Math.ceil(total / limit)
+        const json = {
+            code: 200,
+            data: {
+                total,
+                hasNext: totalPage > page ? 1 : 0,
+                hasPrev: page > 1
             }
-            data = data.map(item => {
-                item.result = ''
-                return item
-            })
-            json.data.list = data
-            res.json(json)
+        }
+        data = data.map(item => {
+            item.result = ''
+            return item
         })
-        .catch(err => {
-            res.json({ code: -200, message: err.toString() })
-        })
+        json.data.list = data
+        res.json(json)
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
@@ -209,18 +205,15 @@ exports.getHistory = (req, res) => {
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-exports.delHistory = (req, res) => {
+exports.delHistory = async (req, res) => {
     const userid = req.cookies.userid || req.headers.userid
     const { img_id } = req.query
 
-    Shihua.deleteOne({ img_id, user_id: userid })
-        .then(() => {
-            try {
-                fs.unlinkSync('./uploads/' + img_id)
-            } catch (error) {}
-            res.json({ code: 200, message: '删除成功' })
-        })
-        .catch(err => {
-            res.json({ code: -200, message: err.toString() })
-        })
+    try {
+        await Shihua.deleteOne({ img_id, user_id: userid })
+        fs.unlinkSync('./uploads/' + img_id)
+        res.json({ code: 200, message: '删除成功' })
+    } catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }

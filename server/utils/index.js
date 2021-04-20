@@ -10,7 +10,7 @@ const fsExistsSync = path => {
 }
 exports.fsExistsSync = fsExistsSync
 
-exports.strlen = str => {
+exports.strLen = str => {
     let charCode = -1
     let realLength = 0
     const len = str.length
