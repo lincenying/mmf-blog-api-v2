@@ -2869,10 +2869,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.npm.taobao.org/mongoose-legacy-pluralize/download/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha1-O6n5H6UHtRhtOZ+0CFS/8Y+1Y+Q=
 
-mongoose@^5.12.5:
-  version "5.12.5"
-  resolved "https://registry.nlark.com/mongoose/download/mongoose-5.12.5.tgz?cache=0&sync_timestamp=1618851219377&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fmongoose%2Fdownload%2Fmongoose-5.12.5.tgz#70d11d3e68a3aeeb6960262633e1ba80cb620385"
-  integrity sha1-cNEdPmijrutpYCYmM+G6gMtiA4U=
+mongoose@^5.12.7:
+  version "5.12.7"
+  resolved "https://registry.nlark.com/mongoose/download/mongoose-5.12.7.tgz#9cbf42246c53b7ab79342c04ef72938d4047b071"
+  integrity sha1-nL9CJGxTt6t5NCwE73KTjUBHsHE=
   dependencies:
     "@types/mongodb" "^3.5.27"
     bson "^1.1.4"
@@ -2884,7 +2884,7 @@ mongoose@^5.12.5:
     ms "2.1.2"
     regexp-clone "1.0.0"
     safe-buffer "5.2.1"
-    sift "7.0.1"
+    sift "13.5.2"
     sliced "1.0.1"
 
 morgan@^1.10.0:
@@ -3871,10 +3871,10 @@ should@^13.2.0:
     should-type-adaptors "^1.0.1"
     should-util "^1.0.0"
 
-sift@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.npm.taobao.org/sift/download/sift-7.0.1.tgz#47d62c50b159d316f1372f8b53f9c10cd21a4b08"
-  integrity sha1-R9YsULFZ0xbxNy+LU/nBDNIaSwg=
+sift@13.5.2:
+  version "13.5.2"
+  resolved "https://registry.nlark.com/sift/download/sift-13.5.2.tgz?cache=0&sync_timestamp=1619166024480&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fsift%2Fdownload%2Fsift-13.5.2.tgz#24a715e13c617b086166cd04917d204a591c9da6"
+  integrity sha1-JKcV4TxhewhhZs0EkX0gSlkcnaY=
 
 signal-exit@^3.0.2:
   version "3.0.3"
