@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
         })
         if (result) {
             username = encodeURI(username)
-            const id = result._id
+            const id = result._id.toString()
             const email = result.email
             const remember_me = 2592000000
             const token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
@@ -112,7 +112,7 @@ exports.wxLogin = async (req, res) => {
                 is_delete: 0
             })
             if (result) {
-                id = result._id
+                id = result._id.toString()
                 username = encodeURI(nickName)
                 token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
                 json = {
@@ -137,7 +137,7 @@ exports.wxLogin = async (req, res) => {
                     wx_avatar: avatar,
                     wx_signature: wxSignature
                 })
-                id = _result._id
+                id = _result._id.toString()
                 username = encodeURI(nickName)
                 token = jwt.sign({ id, username }, secret, { expiresIn: 60 * 60 * 24 * 30 })
                 res.json({
