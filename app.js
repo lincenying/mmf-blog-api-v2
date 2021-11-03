@@ -15,7 +15,7 @@ require('./server/models/shihua')
 require('./server/models/douyin-user')
 require('./server/models/douyin')
 
-// 引入 api 路由
+// 引入 api  路由
 const routes = require('./server/routes/index')
 const frontendRoutes = require('./server/routes/frontend')
 const backendRoutes = require('./server/routes/backend')
