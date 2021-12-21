@@ -57,3 +57,10 @@ exports.bucket = ''`
         fs.writeFileSync('./server/config/qiniu.js', secret)
     }
 }
+
+exports.creatTuJiDao = () => {
+    if (!fsExistsSync('./server/config/tujidao.js')) {
+        const secret = `exports.cookies = ''`
+        fs.writeFileSync('./server/config/tujidao.js', secret)
+    }
+}

@@ -4,7 +4,7 @@ const router = express.Router()
 const appPublic = require('../app/app-public')
 const appShihua = require('../app/app-shihua')
 const appWeiBo = require('../app/app-weibo')
-const appMeizitu = require('../app/app-meizitu')
+const appTujidao = require('../app/app-tujidao')
 const appQiniu = require('../app/app-qiniu')
 const appDouYin = require('../app/app-douyin')
 
@@ -31,9 +31,8 @@ router.get('/weibo/card', cors, appWeiBo.card)
 router.get('/weibo/video', cors, appWeiBo.video)
 router.get('/weibo/beauty-video', cors, appWeiBo.beautyVideo)
 router.get('/weibo/detail', cors, appWeiBo.detail)
-// ------ 妹子图 ------
-router.get('/meizitu/lists', cors, appMeizitu.lists)
-router.get('/meizitu/item', cors, appMeizitu.item)
+// ------ 图集岛 ------
+router.get('/tujidao/lists', cors, appTujidao.lists)
 // ------ 七牛 token -----
 router.get('/qiniu/token', cors, appQiniu.token)
 // ------ 抖音视频 -------

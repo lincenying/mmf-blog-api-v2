@@ -6,8 +6,7 @@ const baseOptions = {
         Referer: 'https://m.weibo.cn/',
         'User-Agent':
             'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
-        cookie:
-            'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
+        cookie: 'SCF=Aip1F5fqYgfG7nzFqjK3Umxcyp0ztYFLhFYqAAQMvjFPG0UhUj0fJHdp0A7j7wfLwTXfaHg_dOII1ioFQajhYGE.; SUHB=0qjkPHiLu6EcDR; WEIBOCN_FROM=1110003030; SSOLoginState=1546322762; MLOGIN=0; _T_WM=7a00598bc69860f7c6aa9c5beabe7f23; M_WEIBOCN_PARAMS=luicode%3D10000011%26lfid%3D102803_ctg1_4388_-_ctg1_4388%26fid%3D102803_ctg1_4388_-_ctg1_4388%26uicode%3D10000011',
         'upgrade-insecure-requests': 1
     }
 }
@@ -26,7 +25,7 @@ exports.list = async (req, res) => {
     // 1076035900853810 性感滴美女 https://m.weibo.cn/u/5900853810 失效
     // 1076035561742017 尤物相馆 https://m.weibo.cn/u/5561742017
     // 1076036224138199 拍妹儿 https://m.weibo.cn/u/6224138199
-    // 1076037308741975 街拍跟屁虫 https://m.weibo.cn/u/7308741975
+    // 1076037308741975 街拍跟屁虫 https://m.weibo.cn/u/7308741975 失效
     // 1076037340370622 Charlie菠萝 https://m.weibo.cn/u/7340370622
     // 1076036439828507 花季美少女 https://m.weibo.cn/u/6439828507 视频
     // 1076035236096816 宅男电影工厂 https://m.weibo.cn/u/5236096816 视频
@@ -36,23 +35,27 @@ exports.list = async (req, res) => {
     // 1076036879266735 热舞女神视频 https://m.weibo.cn/u/6879266735 视频
     const list = [
         // 性感滴美女
-        { url: 'https://img.daliangju.com/upload/20190406/icon-1.png', text: '一流美女', cardId: ['', '', '1076035607553200'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m67vz8j305k05k3yp.jpg', text: '一流美女', cardId: ['', '', '1076035607553200'] },
         // 尤物相馆
-        { url: 'https://img.daliangju.com/upload/20190406/icon-2.png', text: '尤物相馆', cardId: ['', '', '1076035561742017'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m67sbvj305k05kwes.jpg', text: '尤物相馆', cardId: ['', '', '1076035561742017'] },
         // 拍妹儿
-        { url: 'https://img.daliangju.com/upload/20190406/icon-3.png', text: '拍妹儿', cardId: ['', '', '1076036224138199'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m67yfmj305k05kjrl.jpg', text: '拍妹儿', cardId: ['', '', '1076036224138199'] },
         // 街拍跟屁虫
-        { url: 'https://img.daliangju.com/upload/20191121/icon-4.png', text: '街拍跟屁虫', cardId: ['', '', '1076037308741975'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m68hvwj305k05k0sv.jpg', text: '美女II', cardId: ['', '', '1076031896923211'] },
         // 美图阁
-        { url: 'https://img.daliangju.com/upload/20190406/icon-5.png', text: '美图阁', cardId: ['', '', '1076035868458392'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m67z2sj305k05kmxe.jpg', text: '美图阁', cardId: ['', '', '1076035868458392'] },
         // bikini女神
-        { url: 'https://img.daliangju.com/upload/20190406/icon-6.png', text: 'bikini女神', cardId: ['', '', '1076035588555086'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m68zqgj305k05kwet.jpg', text: 'bikini女神', cardId: ['', '', '1076035588555086'] },
         // 美女模特秀
-        { url: 'https://img.daliangju.com/upload/20190406/icon-7.png', text: '美女模特秀', cardId: ['7578484496998401', '1672537', ''] },
+        {
+            url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m6bypfj305k05kwew.jpg',
+            text: '美女模特秀',
+            cardId: ['7578484496998401', '1672537', '']
+        },
         // Bikini写真 https://m.weibo.cn/u/5605506361
-        { url: 'https://img.daliangju.com/upload/20190406/icon-8.png', text: 'Bikini写真', cardId: ['', '', '1076035605506361'] },
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m6ein7j305k05kdg6.jpg', text: 'Bikini写真', cardId: ['', '', '1076035605506361'] },
         // 视频师妹
-        { url: 'https://img.daliangju.com/upload/20191121/icon-9.png', text: '视频师妹', cardId: ['', '', '1076035235871265'] }
+        { url: 'https://tva1.sinaimg.cn/large/005uQRNCly1gxl8m6cquzj305k05k0tn.jpg', text: '视频师妹', cardId: ['', '', '1076035235871265'] }
     ]
     res.json({
         code: 200,
@@ -76,6 +79,7 @@ exports.get = async (req, res) => {
             code: 200,
             total: body.data.cardlistInfo.total,
             data: body.data.cards
+                .filter(item => item.card_type === 9)
                 .map(item => {
                     let video = ''
                     let video_img = ''
