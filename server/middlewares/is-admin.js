@@ -1,7 +1,9 @@
 const checkJWT = require('../utils/check-jwt').checkJWT
 
 module.exports = async (req, res, next) => {
-    const { b_user, b_userid, b_username } = req.cookies
+    const b_user = req.cookies.b_user || req.headers.buser
+    const b_userid = req.cookies.b_userid || req.headers.buserid
+    const b_username = req.cookies.b_username || req.headers.busername
     if (b_user) {
         const check = await checkJWT(b_user, b_userid, b_username, 'admin')
         if (check) {
