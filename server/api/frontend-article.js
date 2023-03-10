@@ -2,7 +2,13 @@ const mongoose = require('../mongoose')
 const Article = mongoose.model('Article')
 
 function replaceHtmlTag(html) {
-    return html.replace(/<script(.*?)>/gi, '<scrīpt$1>').replace(/<\/script>/g, '</scrīpt>')
+    return (
+        html
+            // .replace(/<script(.*?)>/gi, '<scrīpt$1>')
+            // .replace(/<\/script>/g, '</scrīpt>')
+            .replace(/\$'/g, "% '")
+            .replace(/\$`/g, '% `')
+    )
 }
 
 /**
