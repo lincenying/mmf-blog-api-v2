@@ -6,8 +6,8 @@ function replaceHtmlTag(html) {
         html
             // .replace(/<script(.*?)>/gi, '<scrīpt$1>')
             // .replace(/<\/script>/g, '</scrīpt>')
-            .replace(/\$'/g, "% '")
-            .replace(/\$`/g, '% `')
+            .replace(/\$'/g, "$ '")
+            .replace(/\$`/g, '$ `')
     )
 }
 
