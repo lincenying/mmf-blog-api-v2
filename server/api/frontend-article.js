@@ -1,6 +1,10 @@
 const mongoose = require('../mongoose')
 const Article = mongoose.model('Article')
 
+function replaceHtmlTag(html) {
+    return html.replace(/<script(.*?)>/gi, '<scrīpt$1>').replace(/<\/script>/g, '</scrīpt>')
+}
+
 /**
  * 前台浏览时, 获取文章列表
  * @method
@@ -50,7 +54,7 @@ exports.getList = async (req, res) => {
         if (user_id) {
             data = data.map(item => {
                 item._doc.like_status = item.likes && item.likes.indexOf(user_id) > -1
-                item.content = item.content.substring(0, 500) + '...'
+                item.content = replaceHtmlTag(item.content).substring(0, 500) + '...'
                 item.likes = []
                 return item
             })
@@ -59,7 +63,7 @@ exports.getList = async (req, res) => {
         } else {
             data = data.map(item => {
                 item._doc.like_status = false
-                item.content = item.content.substring(0, 500) + '...'
+                item.content = replaceHtmlTag(item.content).substring(0, 500) + '...'
                 item.likes = []
                 return item
             })
@@ -98,6 +102,7 @@ exports.getItem = async (req, res) => {
             if (user_id) result._doc.like_status = result.likes && result.likes.indexOf(user_id) > -1
             else result._doc.like_status = false
             result.likes = []
+            result.content = replaceHtmlTag(result.content)
             json = {
                 code: 200,
                 data: result
