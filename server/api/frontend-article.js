@@ -103,6 +103,7 @@ exports.getItem = async (req, res) => {
             else result._doc.like_status = false
             result.likes = []
             result.content = replaceHtmlTag(result.content)
+            result.html = replaceHtmlTag(result.html)
             json = {
                 code: 200,
                 data: result
