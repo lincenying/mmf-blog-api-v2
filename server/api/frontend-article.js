@@ -1,11 +1,12 @@
 const mongoose = require('../mongoose')
+
 const Article = mongoose.model('Article')
 
 function replaceHtmlTag(html) {
     return html
         .replace(/<script(.*?)>/gi, '＜script$1＞')
         .replace(/<\/script>/g, '＜/script＞')
-        .replace(/\$'/g, "$ '")
+        .replace(/\$'/g, '$ \'')
         .replace(/\$`/g, '$ `')
 }
 
@@ -22,23 +23,24 @@ exports.getList = async (req, res) => {
     let { limit, page } = req.query
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
-    if (!page) page = 1
-    if (!limit) limit = 10
+    if (!page)
+        page = 1
+    if (!limit)
+        limit = 10
     const payload = {
-            is_delete: 0
-        },
-        skip = (page - 1) * limit
-    if (id) {
-        payload.category = id
+        is_delete: 0,
     }
+    const skip = (page - 1) * limit
+    if (id)
+        payload.category = id
+
     if (key) {
         const reg = new RegExp(key, 'i')
         payload.title = { $regex: reg }
     }
     let sort = '-update_date'
-    if (by) {
-        sort = '-' + by
-    }
+    if (by)
+        sort = `-${by}`
 
     const filds = 'title content category category_name visit like likes comment_count creat_date update_date is_delete timestamp'
 
@@ -52,29 +54,31 @@ exports.getList = async (req, res) => {
             data: {
                 total,
                 hasNext: totalPage > page ? 1 : 0,
-                hasPrev: page > 1
-            }
+                hasPrev: page > 1,
+            },
         }
         if (user_id) {
-            data = data.map(item => {
-                item._doc.like_status = item.likes && item.likes.indexOf(user_id) > -1
-                item.content = replaceHtmlTag(item.content).substring(0, 500) + '...'
-                item.likes = []
-                return item
-            })
-            json.data.list = data
-            res.json(json)
-        } else {
-            data = data.map(item => {
-                item._doc.like_status = false
-                item.content = replaceHtmlTag(item.content).substring(0, 500) + '...'
+            data = data.map((item) => {
+                item._doc.like_status = item.likes && item.likes.includes(user_id)
+                item.content = `${replaceHtmlTag(item.content).substring(0, 500)}...`
                 item.likes = []
                 return item
             })
             json.data.list = data
             res.json(json)
         }
-    } catch (err) {
+        else {
+            data = data.map((item) => {
+                item._doc.like_status = false
+                item.content = `${replaceHtmlTag(item.content).substring(0, 500)}...`
+                item.likes = []
+                return item
+            })
+            json.data.list = data
+            res.json(json)
+        }
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -90,9 +94,9 @@ exports.getList = async (req, res) => {
 exports.getItem = async (req, res) => {
     const _id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
-    if (!_id) {
+    if (!_id)
         res.json({ code: -200, message: '参数错误' })
-    }
+
     try {
         const xhr = await Promise.all([Article.findOne({ _id, is_delete: 0 }), Article.updateOne({ _id }, { $inc: { visit: 1 } })])
         const result = xhr[0]
@@ -100,24 +104,27 @@ exports.getItem = async (req, res) => {
         if (!result) {
             json = {
                 code: -200,
-                message: '没有找到该文章'
+                message: '没有找到该文章',
             }
-        } else {
-            if (user_id) result._doc.like_status = result.likes && result.likes.indexOf(user_id) > -1
+        }
+        else {
+            if (user_id)
+                result._doc.like_status = result.likes && result.likes.includes(user_id)
             else result._doc.like_status = false
             result.likes = []
             result.content = replaceHtmlTag(result.content)
             result.html = replaceHtmlTag(result.html)
             json = {
                 code: 200,
-                data: result
+                data: result,
             }
         }
         res.json(json)
-    } catch (err) {
+    }
+    catch (err) {
         res.json({
             code: -200,
-            message: err.toString()
+            message: err.toString(),
         })
     }
 }
@@ -131,10 +138,11 @@ exports.getTrending = async (req, res) => {
         res.json({
             code: 200,
             data: {
-                list: result
-            }
+                list: result,
+            },
         })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }

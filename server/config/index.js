@@ -1,9 +1,11 @@
 const utils = require('../utils')
+
 utils.creatSecret()
 utils.creatMpApp()
 utils.creatShiHua()
 utils.creatQiNiu()
 utils.creatTuJiDao()
+
 const secret = require('./secret.js')
 const mpApp = require('./mpapp.js')
 const shihua = require('./shihua.js')

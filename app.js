@@ -1,6 +1,6 @@
+const path = require('node:path')
 const express = require('express')
 const compression = require('compression')
-const path = require('path')
 const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -27,24 +27,26 @@ const app = express()
 
 const resolve = file => path.resolve(__dirname, file)
 const isProd = process.env.NODE_ENV === 'production'
-const serve = (path, cache) =>
-    express.static(resolve(path), {
-        maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
+function serve(path, cache) {
+    return express.static(resolve(path), {
+        maxAge: (cache && isProd) ? 1000 * 60 * 60 * 24 * 30 : 0,
     })
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'dist'))
 app.engine('.html', require('ejs').__express)
+
 app.set('view engine', 'ejs')
 
 app.use(compression())
-app.use(favicon(path.join(__dirname, 'dist') + '/favicon.ico'))
+app.use(favicon(`${path.join(__dirname, 'dist')}/favicon.ico`))
 app.use(
     logger('dev', {
         skip(req) {
-            return req.url.indexOf('.map') !== -1
-        }
-    })
+            return req.url.includes('.map')
+        },
+    }),
 )
 // parse application/json
 app.use(express.json())
@@ -63,7 +65,7 @@ app.use('/mockjs', mockjs)
 app.get('*', (req, res) => {
     res.json({
         code: -200,
-        message: '没有找到该页面'
+        message: '没有找到该页面',
     })
 })
 

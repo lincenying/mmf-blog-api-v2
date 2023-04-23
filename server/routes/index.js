@@ -1,4 +1,5 @@
 const express = require('express')
+
 const router = express.Router()
 const backendUser = require('../api/backend-user')
 
@@ -13,7 +14,7 @@ router.post('/', (req, res) => {
 router.get('*', (req, res) => {
     res.json({
         code: -200,
-        message: '没有找到该页面'
+        message: '没有找到该页面',
     })
 })
 

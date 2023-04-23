@@ -1,22 +1,24 @@
-const fs = require('fs')
+const fs = require('node:fs')
 
-const fsExistsSync = path => {
+function fsExistsSync(path) {
     try {
         fs.accessSync(path, fs.F_OK)
-    } catch (e) {
+    }
+    catch (e) {
         return false
     }
     return true
 }
 exports.fsExistsSync = fsExistsSync
 
-exports.strLen = str => {
+exports.strLen = (str) => {
     let charCode = -1
     let realLength = 0
     const len = str.length
     for (let i = 0; i < len; i++) {
         charCode = str.charCodeAt(i)
-        if (charCode >= 0 && charCode <= 128) realLength += 1
+        if (charCode >= 0 && charCode <= 128)
+            realLength += 1
         else realLength += 2
     }
     return realLength
@@ -60,7 +62,7 @@ exports.bucket = ''`
 
 exports.creatTuJiDao = () => {
     if (!fsExistsSync('./server/config/tujidao.js')) {
-        const secret = `exports.cookies = ''`
+        const secret = 'exports.cookies = \'\''
         fs.writeFileSync('./server/config/tujidao.js', secret)
     }
 }

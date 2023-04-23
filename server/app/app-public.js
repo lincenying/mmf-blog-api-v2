@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('node:fs')
 
 exports.checkUpdate = (req, res) => {
     const jsonTxt = fs.readFileSync('./server/config/app.json', 'utf-8')

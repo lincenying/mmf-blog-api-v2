@@ -1,4 +1,5 @@
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const ArticleSchema = new Schema({
@@ -15,7 +16,7 @@ const ArticleSchema = new Schema({
     update_date: String,
     is_delete: Number,
     timestamp: Number,
-    likes: [String]
+    likes: [String],
 })
 
 const Article = mongoose.model('Article', ArticleSchema)

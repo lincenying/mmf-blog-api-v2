@@ -1,6 +1,7 @@
 const moment = require('moment')
 
 const mongoose = require('../mongoose')
+
 const Comment = mongoose.model('Comment')
 const Article = mongoose.model('Article')
 
@@ -19,7 +20,8 @@ exports.insert = async (req, res) => {
     if (!id) {
         res.json({ code: -200, message: '参数错误' })
         return
-    } else if (!content) {
+    }
+    else if (!content) {
         res.json({ code: -200, message: '请输入评论内容' })
         return
     }
@@ -29,22 +31,23 @@ exports.insert = async (req, res) => {
         content,
         creat_date,
         is_delete: 0,
-        timestamp
+        timestamp,
     }
     try {
         const result = await Comment.create(data)
         await Article.updateOne(
             {
-                _id: id
+                _id: id,
             },
             {
                 $inc: {
-                    comment_count: 1
-                }
-            }
+                    comment_count: 1,
+                },
+            },
         )
         res.json({ code: 200, data: result, message: '发布成功' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -61,18 +64,21 @@ exports.getList = async (req, res) => {
     let { limit, page } = req.query
     if (!id) {
         res.json({ code: -200, message: '参数错误' })
-    } else {
+    }
+    else {
         page = parseInt(page, 10)
         limit = parseInt(limit, 10)
-        if (!page) page = 1
-        if (!limit) limit = 10
+        if (!page)
+            page = 1
+        if (!limit)
+            limit = 10
         const data = {
-                article_id: id
-            },
-            skip = (page - 1) * limit
-        if (!all) {
-            data.is_delete = 0
+            article_id: id,
         }
+        const skip = (page - 1) * limit
+        if (!all)
+            data.is_delete = 0
+
         try {
             const [list, total] = await Promise.all([Comment.find(data).sort('-_id').skip(skip).limit(limit).exec(), Comment.countDocuments(data)])
             const totalPage = Math.ceil(total / limit)
@@ -81,11 +87,12 @@ exports.getList = async (req, res) => {
                 data: {
                     list,
                     total,
-                    hasNext: totalPage > page ? 1 : 0
-                }
+                    hasNext: totalPage > page ? 1 : 0,
+                },
             }
             res.json(json)
-        } catch (err) {
+        }
+        catch (err) {
             res.json({ code: -200, message: err.toString() })
         }
     }
@@ -103,10 +110,11 @@ exports.deletes = async (req, res) => {
     try {
         await Promise.all([Comment.updateOne({ _id }, { is_delete: 1 }), Article.updateOne({ _id }, { $inc: { comment_count: -1 } })])
         res.json({ code: 200, message: '删除成功', data: 'success' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({
             code: -200,
-            message: err.toString()
+            message: err.toString(),
         })
     }
 }
@@ -123,7 +131,8 @@ exports.recover = async (req, res) => {
     try {
         await Promise.all([Comment.updateOne({ _id }, { is_delete: 0 }), Article.updateOne({ _id }, { $inc: { comment_count: 1 } })])
         res.json({ code: 200, message: '恢复成功', data: 'success' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }

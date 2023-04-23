@@ -1,15 +1,17 @@
+const fs = require('node:fs')
 const md5 = require('md5')
-const fs = require('fs')
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 
 const mongoose = require('../mongoose')
-const Admin = mongoose.model('Admin')
 const fsExistsSync = require('../utils').fsExistsSync
 const config = require('../config')
+const general = require('./general')
+
+const Admin = mongoose.model('Admin')
 const md5Pre = config.md5Pre
 const secret = config.secretServer
-const general = require('./general')
+
 const { list, item, modify, deletes, recover } = general
 
 /**
@@ -43,14 +45,14 @@ exports.getItem = (req, res) => {
  */
 exports.login = async (req, res) => {
     const { password, username } = req.body
-    if (username === '' || password === '') {
+    if (username === '' || password === '')
         return res.json({ code: -200, message: '请输入用户名和密码' })
-    }
+
     try {
         const result = await Admin.findOne({
             username,
             password: md5(md5Pre + password),
-            is_delete: 0
+            is_delete: 0,
         })
         if (result) {
             const _username = encodeURI(username)
@@ -63,7 +65,8 @@ exports.login = async (req, res) => {
             return res.json({ code: 200, message: '登录成功', data: token })
         }
         return res.json({ code: -200, message: '用户名或者密码错误' })
-    } catch (error) {
+    }
+    catch (error) {
         res.json({ code: -200, message: error.toString() })
     }
 }
@@ -78,17 +81,17 @@ exports.login = async (req, res) => {
  */
 exports.insert = async (req, res, next) => {
     const { email, password, username } = req.body
-    if (fsExistsSync('./admin.lock')) {
+    if (fsExistsSync('./admin.lock'))
         return res.render('admin-add.html', { message: '请先把 admin.lock 删除' })
-    }
-    if (!username || !password || !email) {
+
+    if (!username || !password || !email)
         return res.render('admin-add.html', { message: '请将表单填写完整' })
-    }
+
     try {
         const result = await Admin.findOne({ username })
-        if (result) {
+        if (result)
             return '该用户已经存在'
-        }
+
         return Admin.create({
             username,
             password: md5(md5Pre + password),
@@ -96,12 +99,13 @@ exports.insert = async (req, res, next) => {
             creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
             update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
             is_delete: 0,
-            timestamp: moment().format('X')
+            timestamp: moment().format('X'),
         }).then(() => {
             fs.writeFileSync('./admin.lock', username)
-            return '添加用户成功: ' + username + ', 密码: ' + password
+            return `添加用户成功: ${username}, 密码: ${password}`
         })
-    } catch (error) {
+    }
+    catch (error) {
         next(error)
     }
 }
@@ -115,12 +119,13 @@ exports.insert = async (req, res, next) => {
  */
 exports.modify = (req, res) => {
     const { id, email, password, username } = req.body
-    var data = {
+    const data = {
         email,
         username,
-        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
-    if (password) data.password = md5(md5Pre + password)
+    if (password)
+        data.password = md5(md5Pre + password)
     modify.call(Admin, res, id, data)
 }
 

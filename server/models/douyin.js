@@ -1,6 +1,7 @@
 const mongooseAutopopulate = require('mongoose-autopopulate')
 
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const DouYinSchema = new Schema(
@@ -13,12 +14,12 @@ const DouYinSchema = new Schema(
         video: String,
         creat_date: String,
         is_delete: Number,
-        timestamp: Number
+        timestamp: Number,
     },
     {
         toJSON: { virtuals: true },
-        toObject: { virtuals: true }
-    }
+        toObject: { virtuals: true },
+    },
 )
 
 DouYinSchema.virtual('user', {
@@ -26,7 +27,7 @@ DouYinSchema.virtual('user', {
     localField: 'user_id',
     foreignField: 'user_id',
     justOne: true,
-    autopopulate: { path: 'user', select: '_id user_id user_name user_avatar' }
+    autopopulate: { path: 'user', select: '_id user_id user_name user_avatar' },
 })
 
 DouYinSchema.plugin(mongooseAutopopulate)

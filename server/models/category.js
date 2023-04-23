@@ -1,4 +1,5 @@
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const CategorySchema = new Schema({
@@ -8,7 +9,7 @@ const CategorySchema = new Schema({
     creat_date: String,
     update_date: String,
     is_delete: Number,
-    timestamp: Number
+    timestamp: Number,
 })
 
 const Category = mongoose.model('Category', CategorySchema)

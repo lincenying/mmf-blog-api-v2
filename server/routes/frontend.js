@@ -1,6 +1,8 @@
 const express = require('express')
+
 const router = express.Router()
 const multipart = require('connect-multiparty')
+
 const multipartMiddleware = multipart()
 
 const frontendArticle = require('../api/frontend-article')
@@ -61,7 +63,7 @@ router.get('/reset/like', isUser, frontendLike.resetLike)
 router.get('*', (req, res) => {
     res.json({
         code: -200,
-        message: '没有找到该页面'
+        message: '没有找到该页面',
     })
 })
 

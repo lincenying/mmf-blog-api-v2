@@ -11,8 +11,10 @@ exports.list = async function (req, res, sort = '-_id') {
     sort = sort || '-_id'
     page = parseInt(page, 10)
     limit = parseInt(limit, 10)
-    if (!page) page = 1
-    if (!limit) limit = 10
+    if (!page)
+        page = 1
+    if (!limit)
+        limit = 10
     const skip = (page - 1) * limit
     try {
         const result = await Promise.all([this.find().sort(sort).skip(skip).limit(limit).exec(), this.countDocuments()])
@@ -24,11 +26,12 @@ exports.list = async function (req, res, sort = '-_id') {
                 list: result[0],
                 total,
                 hasNext: totalPage > page ? 1 : 0,
-                hasPrev: page > 1 ? 1 : 0
-            }
+                hasPrev: page > 1 ? 1 : 0,
+            },
         }
         res.json(json)
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -42,13 +45,14 @@ exports.list = async function (req, res, sort = '-_id') {
  */
 exports.item = async function (req, res) {
     const _id = req.query.id
-    if (!_id) {
+    if (!_id)
         res.json({ code: -200, message: '参数错误' })
-    }
+
     try {
         const result = await this.findOne({ _id })
         res.json({ code: 200, data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -65,7 +69,8 @@ exports.deletes = async function (req, res) {
     try {
         await this.updateOne({ _id }, { is_delete: 1 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -82,7 +87,8 @@ exports.modify = async function (res, _id, data) {
     try {
         const result = await this.findOneAndUpdate({ _id }, data, { new: true })
         res.json({ code: 200, message: '更新成功', data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -99,7 +105,8 @@ exports.recover = async function (req, res) {
     try {
         await this.updateOne({ _id }, { is_delete: 0 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }

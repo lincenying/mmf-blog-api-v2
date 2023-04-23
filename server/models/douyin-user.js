@@ -1,4 +1,5 @@
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const DouYinUserSchema = new Schema({
@@ -9,7 +10,7 @@ const DouYinUserSchema = new Schema({
     share_url: String,
     creat_date: String,
     is_delete: Number,
-    timestamp: Number
+    timestamp: Number,
 })
 
 const DouYinUser = mongoose.model('DouYinUser', DouYinUserSchema)

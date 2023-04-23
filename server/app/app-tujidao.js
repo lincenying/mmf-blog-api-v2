@@ -6,10 +6,10 @@ const baseOptions = {
     method: 'GET',
     url: 'https://www.tujidao.com/',
     headers: {
-        Referer: 'https://www.tujidao.com/',
+        'Referer': 'https://www.tujidao.com/',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36',
-        'upgrade-insecure-requests': 1
-    }
+        'upgrade-insecure-requests': 1,
+    },
 }
 
 exports.lists = async (req, res) => {
@@ -18,11 +18,11 @@ exports.lists = async (req, res) => {
     const options = {
         ...baseOptions,
         method: 'GET',
-        url: 'https://www.tujidao.com/cat/?id=10&page=' + page,
+        url: `https://www.tujidao.com/cat/?id=10&page=${page}`,
         headers: {
             ...baseOptions.headers,
-            cookie: cookies
-        }
+            cookie: cookies,
+        },
     }
     try {
         const xhr = await axios(options)
@@ -41,9 +41,10 @@ exports.lists = async (req, res) => {
             })
         res.json({
             code: 200,
-            data: list
+            data: list,
         })
-    } catch (error) {
+    }
+    catch (error) {
         res.json({ code: 300, ok: 2, msg: error.toString() })
     }
 }

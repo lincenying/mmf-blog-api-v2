@@ -1,4 +1,5 @@
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const ShihuaSchema = new Schema({
@@ -9,7 +10,7 @@ const ShihuaSchema = new Schema({
     result: String,
     creat_date: String,
     is_delete: Number,
-    timestamp: Number
+    timestamp: Number,
 })
 
 const Shihua = mongoose.model('Shihua', ShihuaSchema)

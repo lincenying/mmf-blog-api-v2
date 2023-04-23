@@ -4,6 +4,7 @@ const markdownItTocAndAnchor = require('markdown-it-toc-and-anchor').default
 const hljs = require('highlight.js')
 
 const mongoose = require('../mongoose')
+
 const Article = mongoose.model('Article')
 const Category = mongoose.model('Category')
 const general = require('./general')
@@ -11,10 +12,10 @@ const general = require('./general')
 const list = general.list
 const item = general.item
 
-const marked = md => {
+function marked(md) {
     const $return = {
         html: '',
-        toc: ''
+        toc: '',
     }
     const html = markdownIt({
         breaks: true,
@@ -25,15 +26,16 @@ const marked = md => {
             if (lang && hljs.getLanguage(lang)) {
                 try {
                     return hljs.highlight(lang, str).value
-                } catch (error) {}
+                }
+                catch (error) {}
             }
             return ''
-        }
+        },
     })
         .use(markdownItTocAndAnchor, {
             tocCallback(tocMarkdown, tocArray, tocHtml) {
                 $return.toc = tocHtml
-            }
+            },
         })
         .render(md)
     $return.html = html
@@ -88,13 +90,14 @@ exports.insert = async (req, res) => {
         creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
         update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
         is_delete: 0,
-        timestamp: moment().format('X')
+        timestamp: moment().format('X'),
     }
     try {
         const result = await Article.create(data)
         await Category.updateOne({ _id: arr_category[0] }, { $inc: { cate_num: 1 } })
         res.json({ code: 200, message: '发布成功', data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -112,7 +115,8 @@ exports.deletes = async (req, res) => {
         const result = await Article.updateOne({ _id }, { is_delete: 1 })
         await Category.updateOne({ _id }, { $inc: { cate_num: -1 } })
         res.json({ code: 200, message: '更新成功', data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -130,7 +134,8 @@ exports.recover = async (req, res) => {
         const result = await Article.updateOne({ _id }, { is_delete: 0 })
         await Category.updateOne({ _id }, { $inc: { cate_num: 1 } })
         res.json({ code: 200, message: '更新成功', data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -154,18 +159,19 @@ exports.modify = async (req, res) => {
         content,
         html,
         toc,
-        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
     try {
         const result = await Article.findOneAndUpdate({ _id: id }, data, { new: true })
         if (category !== category_old) {
             await Promise.all([
                 Category.updateOne({ _id: category }, { $inc: { cate_num: 1 } }),
-                Category.updateOne({ _id: category_old }, { $inc: { cate_num: -1 } })
+                Category.updateOne({ _id: category_old }, { $inc: { cate_num: -1 } }),
             ])
         }
         res.json({ code: 200, message: '更新成功', data: result })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }

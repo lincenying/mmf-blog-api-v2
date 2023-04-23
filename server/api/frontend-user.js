@@ -4,15 +4,17 @@ const jwt = require('jsonwebtoken')
 const axios = require('axios')
 
 const mongoose = require('../mongoose')
+const config = require('../config')
+const strLen = require('../utils').strLen
+const general = require('./general')
+
 const User = mongoose.model('User')
 
-const config = require('../config')
 const md5Pre = config.md5Pre
 const secret = config.secretClient
 const mpappApiId = config.apiId
 const mpappSecret = config.secret
-const strLen = require('../utils').strLen
-const general = require('./general')
+
 const { list, modify, deletes, recover } = general
 
 exports.getList = (req, res) => {
@@ -29,15 +31,15 @@ exports.getList = (req, res) => {
 exports.login = async (req, res) => {
     let { username } = req.body
     const { password } = req.body
-    if (username === '' || password === '') {
+    if (username === '' || password === '')
         res.json({ code: -200, message: '请输入用户名和密码' })
-    }
+
     try {
         let json = {}
         const result = await User.findOne({
             username,
             password: md5(md5Pre + password),
-            is_delete: 0
+            is_delete: 0,
         })
         if (result) {
             username = encodeURI(username)
@@ -56,17 +58,19 @@ exports.login = async (req, res) => {
                     user: token,
                     userid: id,
                     username,
-                    email
-                }
+                    email,
+                },
             }
-        } else {
+        }
+        else {
             json = {
                 code: -200,
-                message: '用户名或者密码错误'
+                message: '用户名或者密码错误',
             }
         }
         res.json(json)
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -85,8 +89,8 @@ exports.jscode2session = async (req, res) => {
             appid: mpappApiId,
             secret: mpappSecret,
             js_code,
-            grant_type: 'authorization_code'
-        }
+            grant_type: 'authorization_code',
+        },
     })
     res.json({ code: 200, message: '登录成功', data: xhr.data })
 }
@@ -103,13 +107,14 @@ exports.wxLogin = async (req, res) => {
     let id, token, username
     if (!nickName || !wxSignature) {
         res.json({ code: -200, message: '参数有误, 微信登录失败' })
-    } else {
+    }
+    else {
         try {
             let json = {}
             const result = await User.findOne({
                 username: nickName,
                 wx_signature: wxSignature,
-                is_delete: 0
+                is_delete: 0,
             })
             if (result) {
                 id = result._id.toString()
@@ -121,11 +126,12 @@ exports.wxLogin = async (req, res) => {
                     data: {
                         user: token,
                         userid: id,
-                        username
-                    }
+                        username,
+                    },
                 }
                 res.json(json)
-            } else {
+            }
+            else {
                 const _result = await User.create({
                     username: nickName,
                     password: '',
@@ -135,7 +141,7 @@ exports.wxLogin = async (req, res) => {
                     is_delete: 0,
                     timestamp: moment().format('X'),
                     wx_avatar: avatar,
-                    wx_signature: wxSignature
+                    wx_signature: wxSignature,
                 })
                 id = _result._id.toString()
                 username = encodeURI(nickName)
@@ -146,11 +152,12 @@ exports.wxLogin = async (req, res) => {
                     data: {
                         user: token,
                         userid: id,
-                        username
-                    }
+                        username,
+                    },
                 })
             }
-        } catch (err) {
+        }
+        catch (err) {
             res.json({ code: -200, message: err.toString() })
         }
     }
@@ -183,16 +190,20 @@ exports.insert = async (req, res) => {
     const { email, password, username } = req.body
     if (!username || !password || !email) {
         res.json({ code: -200, message: '请将表单填写完整' })
-    } else if (strLen(username) < 4) {
+    }
+    else if (strLen(username) < 4) {
         res.json({ code: -200, message: '用户长度至少 2 个中文或 4 个英文' })
-    } else if (strLen(password) < 8) {
+    }
+    else if (strLen(password) < 8) {
         res.json({ code: -200, message: '密码长度至少 8 位' })
-    } else {
+    }
+    else {
         try {
             const result = await User.findOne({ username })
             if (result) {
                 res.json({ code: -200, message: '该用户名已经存在!' })
-            } else {
+            }
+            else {
                 await User.create({
                     username,
                     password: md5(md5Pre + password),
@@ -200,11 +211,12 @@ exports.insert = async (req, res) => {
                     creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                     update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                     is_delete: 0,
-                    timestamp: moment().format('X')
+                    timestamp: moment().format('X'),
                 })
                 res.json({ code: 200, message: '注册成功!', data: 'success' })
             }
-        } catch (err) {
+        }
+        catch (err) {
             res.json({ code: -200, message: err.toString() })
         }
     }
@@ -216,15 +228,16 @@ exports.getItem = async (req, res) => {
         let json
         const result = await User.findOne({
             _id: userid,
-            is_delete: 0
+            is_delete: 0,
         })
-        if (result) {
+        if (result)
             json = { code: 200, data: result }
-        } else {
+        else
             json = { code: -200, message: '请先登录, 或者数据错误' }
-        }
+
         res.json(json)
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -241,9 +254,10 @@ exports.modify = (req, res) => {
     const data = {
         email,
         username,
-        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
-    if (password) data.password = md5(md5Pre + password)
+    if (password)
+        data.password = md5(md5Pre + password)
     modify.call(User, res, id, data)
 }
 
@@ -261,7 +275,8 @@ exports.account = async (req, res) => {
         await User.updateOne({ _id: user_id }, { $set: { email } })
         res.cookie('useremail', email, { maxAge: 2592000000 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -280,15 +295,17 @@ exports.password = async (req, res) => {
         const result = await User.findOne({
             _id: user_id,
             password: md5(md5Pre + old_password),
-            is_delete: 0
+            is_delete: 0,
         })
         if (result) {
             await User.updateOne({ _id: user_id }, { $set: { password: md5(md5Pre + password) } })
             res.json({ code: 200, message: '更新成功', data: 'success' })
-        } else {
+        }
+        else {
             res.json({ code: -200, message: '原始密码错误' })
         }
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }

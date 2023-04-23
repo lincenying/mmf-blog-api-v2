@@ -8,7 +8,8 @@ module.exports = async (req, res, next) => {
         const check = await checkJWT(token, userid, username, 'user')
         if (check) {
             next()
-        } else {
+        }
+        else {
             res.cookie('user', '', { maxAge: 0 })
             res.cookie('userid', '', { maxAge: 0 })
             res.cookie('username', '', { maxAge: 0 })
@@ -16,14 +17,15 @@ module.exports = async (req, res, next) => {
             return res.json({
                 code: -400,
                 message: '登录验证失败',
-                data: ''
+                data: '',
             })
         }
-    } else {
+    }
+    else {
         return res.json({
             code: -400,
             message: '请先登录',
-            data: ''
+            data: '',
         })
     }
 }

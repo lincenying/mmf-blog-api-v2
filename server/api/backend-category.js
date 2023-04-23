@@ -1,5 +1,6 @@
 const moment = require('moment')
 const mongoose = require('../mongoose')
+
 const Category = mongoose.model('Category')
 const general = require('./general')
 
@@ -18,11 +19,12 @@ exports.getList = async (req, res) => {
         const json = {
             code: 200,
             data: {
-                list: result
-            }
+                list: result,
+            },
         }
         res.json(json)
-    } catch (err) {
+    }
+    catch (err) {
         res.json({ code: -200, message: err.toString() })
     }
 }
@@ -35,7 +37,8 @@ exports.insert = async (req, res) => {
     const { cate_name, cate_order } = req.body
     if (!cate_name || !cate_order) {
         res.json({ code: -200, message: '请填写分类名称和排序' })
-    } else {
+    }
+    else {
         try {
             const result = await Category.create({
                 cate_name,
@@ -44,10 +47,11 @@ exports.insert = async (req, res) => {
                 creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                 update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
                 is_delete: 0,
-                timestamp: moment().format('X')
+                timestamp: moment().format('X'),
             })
             res.json({ code: 200, message: '添加成功', data: result })
-        } catch (err) {
+        }
+        catch (err) {
             res.json({ code: -200, message: err.toString() })
         }
     }
@@ -66,6 +70,6 @@ exports.modify = (req, res) => {
     modify.call(Category, res, id, {
         cate_name,
         cate_order,
-        update_date: moment().format('YYYY-MM-DD HH:mm:ss')
+        update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
     })
 }

@@ -1,4 +1,5 @@
 const express = require('express')
+
 const router = express.Router()
 
 const appPublic = require('../app/app-public')
@@ -44,7 +45,7 @@ router.get('/douyin/item', cors, appDouYin.getItem)
 router.get('*', (req, res) => {
     res.json({
         code: -200,
-        message: '没有找到该页面'
+        message: '没有找到该页面',
     })
 })
 

@@ -1,6 +1,7 @@
 const mongooseAutopopulate = require('mongoose-autopopulate')
 
 const mongoose = require('../mongoose')
+
 const Schema = mongoose.Schema
 
 const CommentSchema = new Schema({
@@ -9,7 +10,7 @@ const CommentSchema = new Schema({
     content: String,
     creat_date: String,
     is_delete: Number,
-    timestamp: Number
+    timestamp: Number,
 })
 
 CommentSchema.plugin(mongooseAutopopulate)

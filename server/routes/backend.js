@@ -1,6 +1,8 @@
 const express = require('express')
+
 const router = express.Router()
 const multipart = require('connect-multiparty')
+
 const multipartMiddleware = multipart()
 
 const backendArticle = require('../api/backend-article')
@@ -70,7 +72,7 @@ router.get('/user/recover', isAdmin, frontendUser.recover)
 router.get('*', (req, res) => {
     res.json({
         code: -200,
-        message: '没有找到该页面'
+        message: '没有找到该页面',
     })
 })
 
