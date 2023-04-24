@@ -4,14 +4,13 @@
  * Module dependencies.
  */
 
+const http = require('node:http')
 const app = require('../app')
-const http = require('http')
 
 /**
  * Get port from environment and store in Express.
  */
 
-/* eslint-disable no-use-before-define */
 const port = normalizePort(process.env.PORT || '4000')
 app.set('port', port)
 
@@ -54,20 +53,19 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-    if (error.syscall !== 'listen') {
+    if (error.syscall !== 'listen')
         throw error
-    }
 
-    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
+    const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges')
+            console.error(`${bind} requires elevated privileges`)
             process.exit(1)
             break
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use')
+            console.error(`${bind} is already in use`)
             process.exit(1)
             break
         default:
@@ -81,5 +79,5 @@ function onError(error) {
 
 function onListening() {
     const addr = server.address()
-    console.log('Listening on: http://localhost:' + addr.port)
+    console.log(`Listening on: http://localhost:${addr.port}`)
 }

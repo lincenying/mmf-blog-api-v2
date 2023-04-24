@@ -34,13 +34,17 @@ function serve(path, cache) {
 }
 
 // view engine setup
-app.set('views', path.join(__dirname, 'dist'))
-app.engine('.html', require('ejs').__express)
-
-app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))// twig
+app.set('twig options', {
+    allow_async: true,
+    strict_variables: false,
+})
+// app.set('views', path.join(__dirname, 'views'))
+// app.engine('.html', require('ejs').__express)
+// app.set('view engine', 'ejs')
 
 app.use(compression())
-app.use(favicon(`${path.join(__dirname, 'dist')}/favicon.ico`))
+app.use(favicon(`${path.join(__dirname, 'public')}/favicon.ico`))
 app.use(
     logger('dev', {
         skip(req) {
@@ -53,7 +57,7 @@ app.use(express.json())
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/static', serve('./static', true))
 app.use('/api/app', appRoutes)
