@@ -1,2 +1,2 @@
 build/*.js
-server/config/secret.js
+src/config/secret.js

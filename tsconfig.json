@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "types": [],
     "paths": {
-      "@/*": ["server/*"]
+      "@/*": ["src/*"]
     },
     "outDir": "build"
   },

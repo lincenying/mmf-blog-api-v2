@@ -25,44 +25,44 @@ exports.strLen = (str) => {
 }
 
 exports.creatSecret = () => {
-    if (!fsExistsSync('./server/config/secret.js')) {
+    if (!fsExistsSync('./src/config/secret.js')) {
         const secretServer1 = Math.random() * 1000000
         const secretClient1 = Math.random() * 1000000
         const secret1 = `exports.secretServer = '${secretServer1}'
 exports.secretClient = '${secretClient1}'`
-        fs.writeFileSync('./server/config/secret.js', secret1)
+        fs.writeFileSync('./src/config/secret.js', secret1)
     }
 }
 
 exports.creatMpApp = () => {
-    if (!fsExistsSync('./server/config/mpapp.js')) {
+    if (!fsExistsSync('./src/config/mpapp.js')) {
         const secret = `exports.apiId = ''
 exports.secret = ''`
-        fs.writeFileSync('./server/config/mpapp.js', secret)
+        fs.writeFileSync('./src/config/mpapp.js', secret)
     }
 }
 
 exports.creatShiHua = () => {
-    if (!fsExistsSync('./server/config/shihua.js')) {
+    if (!fsExistsSync('./src/config/shihua.js')) {
         const secret = `exports.APP_ID = ''
 exports.API_KEY = ''
 exports.SECRET_KEY = ''`
-        fs.writeFileSync('./server/config/shihua.js', secret)
+        fs.writeFileSync('./src/config/shihua.js', secret)
     }
 }
 
 exports.creatQiNiu = () => {
-    if (!fsExistsSync('./server/config/qiniu.js')) {
+    if (!fsExistsSync('./src/config/qiniu.js')) {
         const secret = `exports.accessKey = ''
 exports.secretKey = ''
 exports.bucket = ''`
-        fs.writeFileSync('./server/config/qiniu.js', secret)
+        fs.writeFileSync('./src/config/qiniu.js', secret)
     }
 }
 
 exports.creatTuJiDao = () => {
-    if (!fsExistsSync('./server/config/tujidao.js')) {
+    if (!fsExistsSync('./src/config/tujidao.js')) {
         const secret = 'exports.cookies = \'\''
-        fs.writeFileSync('./server/config/tujidao.js', secret)
+        fs.writeFileSync('./src/config/tujidao.js', secret)
     }
 }

@@ -3,11 +3,11 @@ node_modules/
 npm-debug.log
 .vscode/
 admin.lock
-server/config/secret.js
-server/config/mpapp.js
-server/config/shihua.js
-server/config/qiniu.js
-server/config/tujidao.js
+src/config/secret.js
+src/config/mpapp.js
+src/config/shihua.js
+src/config/qiniu.js
+src/config/tujidao.js
 uploads/
 
 *-port.txt

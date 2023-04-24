@@ -1,13 +1,13 @@
 # mmf-blog-api-v2
 
-在 server/config 文件夹下 创建 mpapp.js 文件
+在 src/config 文件夹下 创建 mpapp.js 文件
 里面写入: (小程序登录用的)
 ```javascript
 exports.apiId = ''
 exports.secret = ''
 ```
 
-在 server/config 文件夹下 创建 shihua.js 文件
+在 src/config 文件夹下 创建 shihua.js 文件
 里面写入: (百度识花用的)
 接口申请地址: http://ai.baidu.com/tech/imagerecognition
 ```javascript
