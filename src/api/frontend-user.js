@@ -3,11 +3,9 @@ const moment = require('moment')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 
-const mongoose = require('../mongoose')
 const config = require('../config')
 const strLen = require('../utils').strLen
-
-const User = mongoose.model('User')
+const UserM = require('../models/user')
 
 const md5Pre = config.md5Pre
 const secret = config.secretClient
@@ -26,8 +24,8 @@ exports.getList = async (req, res) => {
     const skip = (page - 1) * limit
     try {
         const result = await Promise.all([
-            User.find().sort(sort).skip(skip).limit(limit).exec(),
-            User.countDocuments(),
+            UserM.find().sort(sort).skip(skip).limit(limit).exec(),
+            UserM.countDocuments(),
         ])
         const total = result[1]
         const totalPage = Math.ceil(total / limit)
@@ -60,7 +58,7 @@ exports.login = async (req, res) => {
 
     try {
         let json = {}
-        const result = await User.findOne({
+        const result = await UserM.findOne({
             username,
             password: md5(md5Pre + password),
             is_delete: 0,
@@ -131,7 +129,7 @@ exports.wxLogin = async (req, res) => {
     else {
         try {
             let json = {}
-            const result = await User.findOne({
+            const result = await UserM.findOne({
                 username: nickName,
                 wx_signature: wxSignature,
                 is_delete: 0,
@@ -152,7 +150,7 @@ exports.wxLogin = async (req, res) => {
                 res.json(json)
             }
             else {
-                const _result = await User.create({
+                const _result = await UserM.create({
                     username: nickName,
                     password: '',
                     email: '',
@@ -214,12 +212,12 @@ exports.insert = async (req, res) => {
     }
     else {
         try {
-            const result = await User.findOne({ username })
+            const result = await UserM.findOne({ username })
             if (result) {
                 res.json({ code: -200, message: '该用户名已经存在!' })
             }
             else {
-                await User.create({
+                await UserM.create({
                     username,
                     password: md5(md5Pre + password),
                     email,
@@ -246,7 +244,7 @@ exports.getItem = async (req, res) => {
     const userid = req.query.id || req.cookies.userid || req.headers.userid
     try {
         let json
-        const result = await User.findOne({
+        const result = await UserM.findOne({
             _id: userid,
             is_delete: 0,
         })
@@ -295,7 +293,7 @@ exports.account = async (req, res) => {
     const { email } = req.body
     const user_id = req.cookies.userid || req.headers.userid
     try {
-        await User.updateOne({ _id: user_id }, { $set: { email } })
+        await UserM.updateOne({ _id: user_id }, { $set: { email } })
         res.cookie('useremail', email, { maxAge: 2592000000 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
     }
@@ -313,13 +311,13 @@ exports.password = async (req, res) => {
     const { old_password, password } = req.body
     const user_id = req.cookies.userid || req.headers.userid
     try {
-        const result = await User.findOne({
+        const result = await UserM.findOne({
             _id: user_id,
             password: md5(md5Pre + old_password),
             is_delete: 0,
         })
         if (result) {
-            await User.updateOne({ _id: user_id }, { $set: { password: md5(md5Pre + password) } })
+            await UserM.updateOne({ _id: user_id }, { $set: { password: md5(md5Pre + password) } })
             res.json({ code: 200, message: '更新成功', data: 'success' })
         }
         else {
@@ -339,7 +337,7 @@ exports.password = async (req, res) => {
 exports.deletes = async (req, res) => {
     const _id = req.query.id
     try {
-        await User.updateOne({ _id }, { is_delete: 1 })
+        await UserM.updateOne({ _id }, { is_delete: 1 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
     }
     catch (err) {
@@ -355,7 +353,7 @@ exports.deletes = async (req, res) => {
 exports.recover = async (req, res) => {
     const _id = req.query.id
     try {
-        await User.updateOne({ _id }, { is_delete: 0 })
+        await UserM.updateOne({ _id }, { is_delete: 0 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
     }
     catch (err) {

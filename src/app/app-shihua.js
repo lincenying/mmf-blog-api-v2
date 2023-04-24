@@ -6,6 +6,9 @@ const AipImageClassifyClient = require('baidu-aip-sdk').imageClassify
 const domain = require('../config').domain
 const cdnDomain = require('../config').cdnDomain
 const shihuaConfig = require('../config').shihua
+const checkJWT = require('../utils/check-jwt').checkJWT
+
+const Shihuam = require('../models/shihua')
 
 const storage = multer.diskStorage({
     destination(_req, _file, cb) {
@@ -17,11 +20,6 @@ const storage = multer.diskStorage({
     },
 })
 const upload = multer({ storage }).single('file')
-const checkJWT = require('../utils/check-jwt').checkJWT
-
-const mongoose = require('../mongoose')
-
-const Shihua = mongoose.model('Shihua')
 
 exports.upload = async (req, res) => {
     upload(req, res, (err) => {
@@ -95,7 +93,7 @@ exports.shihua = async (req, res) => {
                             img = `${domain}uploads/${img_id}`
 
                         if (img && name) {
-                            await Shihua.create({
+                            await Shihuam.create({
                                 user_id: userid,
                                 img_id,
                                 name,
@@ -135,7 +133,7 @@ exports.shihua = async (req, res) => {
     }
 
     try {
-        const result = await Shihua.findOne({ img_id })
+        const result = await Shihuam.findOne({ img_id })
         if (result) {
             res.json({
                 code: 200,
@@ -185,7 +183,7 @@ exports.getHistory = async (req, res) => {
     const sort = '-creat_date'
 
     try {
-        let [data, total] = await Promise.all([Shihua.find(payload).sort(sort).skip(skip).limit(limit).exec(), Shihua.countDocuments(payload)])
+        let [data, total] = await Promise.all([Shihuam.find(payload).sort(sort).skip(skip).limit(limit).exec(), Shihuam.countDocuments(payload)])
         const totalPage = Math.ceil(total / limit)
         const json = {
             code: 200,
@@ -219,7 +217,7 @@ exports.delHistory = async (req, res) => {
     const { img_id } = req.query
 
     try {
-        await Shihua.deleteOne({ img_id, user_id: userid })
+        await Shihuam.deleteOne({ img_id, user_id: userid })
         fs.unlinkSync(`./uploads/${img_id}`)
         res.json({ code: 200, message: '删除成功' })
     }

@@ -3,10 +3,9 @@ const moment = require('moment')
 
 const crc32 = require('../utils/crc32')
 const lruCache = require('../utils/lru-cache').douyinCache
-const mongoose = require('../mongoose')
 
-const DouYin = mongoose.model('DouYin')
-const DouYinUser = mongoose.model('DouYinUser')
+const DouYinM = require('../models/douyin')
+const DouYinUserM = require('../models/douyin-user')
 
 exports.insertUser = async (req, res) => {
     const { user_id, user_name, user_avatar, sec_uid, share_url } = req.body
@@ -21,12 +20,12 @@ exports.insertUser = async (req, res) => {
         timestamp: moment().format('X'),
     }
     try {
-        const checkRepeat = await DouYinUser.findOne({ user_id })
+        const checkRepeat = await DouYinUserM.findOne({ user_id })
         if (checkRepeat) {
             res.json({ code: 300, message: '该用户已经存在!' })
         }
         else {
-            const result = await DouYinUser.create(data)
+            const result = await DouYinUserM.create(data)
             res.json({ code: 200, message: '添加成功', data: result })
         }
     }
@@ -49,12 +48,12 @@ exports.insert = async (req, res) => {
         timestamp: moment().format('X'),
     }
     try {
-        const checkRepeat = await DouYin.findOne({ aweme_id })
+        const checkRepeat = await DouYinM.findOne({ aweme_id })
         if (checkRepeat) {
             res.json({ code: 300, message: '该视频已经存在!' })
         }
         else {
-            const result = await DouYin.create(data)
+            const result = await DouYinM.create(data)
             res.json({ code: 200, message: '发布成功', data: result })
         }
     }
@@ -86,8 +85,8 @@ exports.getList = async (req, res) => {
 
     try {
         const [data, total] = await Promise.all([
-            DouYin.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
-            DouYin.countDocuments(payload),
+            DouYinM.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
+            DouYinM.countDocuments(payload),
         ])
         const totalPage = Math.ceil(total / limit)
         const json = {

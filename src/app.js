@@ -5,16 +5,6 @@ const favicon = require('serve-favicon')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 
-// 引入 mongoose 相关模型
-require('./models/admin')
-require('./models/article')
-require('./models/category')
-require('./models/comment')
-require('./models/user')
-require('./models/shihua')
-require('./models/douyin-user')
-require('./models/douyin')
-
 // 引入 api  路由
 const mockjs = require('./mockjs/index')
 const routes = require('./routes/index')

@@ -1,6 +1,4 @@
-const mongoose = require('../mongoose')
-
-const Article = mongoose.model('Article')
+const ArticleM = require('../models/article')
 
 function replaceHtmlTag(html) {
     return html
@@ -40,8 +38,8 @@ exports.getList = async (req, res) => {
 
     try {
         const result = await Promise.all([
-            Article.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
-            Article.countDocuments(payload),
+            ArticleM.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
+            ArticleM.countDocuments(payload),
         ])
         let data = result[0]
         const total = result[1]
@@ -94,8 +92,8 @@ exports.getItem = async (req, res) => {
 
     try {
         const xhr = await Promise.all([
-            Article.findOne({ _id, is_delete: 0 }),
-            Article.updateOne({ _id }, { $inc: { visit: 1 } }),
+            ArticleM.findOne({ _id, is_delete: 0 }),
+            ArticleM.updateOne({ _id }, { $inc: { visit: 1 } }),
         ])
         const result = xhr[0]
         let json
@@ -138,7 +136,7 @@ exports.getTrending = async (req, res) => {
     const data = { is_delete: 0 }
     const filds = 'title visit like comment_count'
     try {
-        const result = await Article.find(data, filds).sort('-visit').limit(limit).exec()
+        const result = await ArticleM.find(data, filds).sort('-visit').limit(limit).exec()
         res.json({
             code: 200,
             data: {

@@ -3,11 +3,10 @@ const md5 = require('md5')
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 
-const mongoose = require('../mongoose')
 const fsExistsSync = require('../utils').fsExistsSync
 const config = require('../config')
+const AdminM = require('../models/admin')
 
-const Admin = mongoose.model('Admin')
 const md5Pre = config.md5Pre
 const secret = config.secretServer
 
@@ -24,8 +23,8 @@ exports.getList = async (req, res) => {
     const skip = (page - 1) * limit
     try {
         const result = await Promise.all([
-            Admin.find().sort(sort).skip(skip).limit(limit).exec(),
-            Admin.countDocuments(),
+            AdminM.find().sort(sort).skip(skip).limit(limit).exec(),
+            AdminM.countDocuments(),
         ])
         const total = result[1]
         const totalPage = Math.ceil(total / limit)
@@ -57,7 +56,7 @@ exports.getItem = async (req, res) => {
         res.json({ code: -200, message: '参数错误' })
 
     try {
-        const result = await Admin.findOne({ _id })
+        const result = await AdminM.findOne({ _id })
         res.json({ code: 200, data: result })
     }
     catch (err) {
@@ -77,7 +76,7 @@ exports.login = async (req, res) => {
         return res.json({ code: -200, message: '请输入用户名和密码' })
 
     try {
-        const result = await Admin.findOne({
+        const result = await AdminM.findOne({
             username,
             password: md5(md5Pre + password),
             is_delete: 0,
@@ -116,11 +115,11 @@ exports.insert = async (email, password, username) => {
     }
     else {
         try {
-            const result = await Admin.findOne({ username })
+            const result = await AdminM.findOne({ username })
             if (result)
                 message = `${username}: 已经存在`
 
-            await Admin.create({
+            await AdminM.create({
                 username,
                 password: md5(md5Pre + password),
                 email,
@@ -156,7 +155,7 @@ exports.modify = async (req, res) => {
         data.password = md5(md5Pre + password)
 
     try {
-        const result = await Admin.findOneAndUpdate({ _id: id }, data, { new: true })
+        const result = await AdminM.findOneAndUpdate({ _id: id }, data, { new: true })
         res.json({ code: 200, message: '更新成功', data: result })
     }
     catch (err) {
@@ -173,7 +172,7 @@ exports.modify = async (req, res) => {
 exports.deletes = async (req, res) => {
     const _id = req.query.id
     try {
-        await Admin.updateOne({ _id }, { is_delete: 1 })
+        await AdminM.updateOne({ _id }, { is_delete: 1 })
         res.json({ code: 200, message: '删除成功', data: 'success' })
     }
     catch (err) {
@@ -190,7 +189,7 @@ exports.deletes = async (req, res) => {
 exports.recover = async (req, res) => {
     const _id = req.query.id
     try {
-        await Admin.updateOne({ _id }, { is_delete: 0 })
+        await AdminM.updateOne({ _id }, { is_delete: 0 })
         res.json({ code: 200, message: '恢复成功', data: 'success' })
     }
     catch (err) {

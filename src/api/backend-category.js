@@ -1,7 +1,6 @@
 const moment = require('moment')
-const mongoose = require('../mongoose')
 
-const Category = mongoose.model('Category')
+const CategoryM = require('../models/category')
 
 /**
  * 管理时, 获取分类列表
@@ -11,7 +10,7 @@ const Category = mongoose.model('Category')
  */
 exports.getList = async (req, res) => {
     try {
-        const result = await Category.find().sort('-cate_order').exec()
+        const result = await CategoryM.find().sort('-cate_order').exec()
         const json = {
             code: 200,
             data: {
@@ -37,7 +36,7 @@ exports.getItem = async (req, res) => {
         res.json({ code: -200, message: '参数错误' })
 
     try {
-        const result = await Category.findOne({ _id })
+        const result = await CategoryM.findOne({ _id })
         res.json({ code: 200, data: result })
     }
     catch (err) {
@@ -59,7 +58,7 @@ exports.insert = async (req, res) => {
     }
     else {
         try {
-            const result = await Category.create({
+            const result = await CategoryM.create({
                 cate_name,
                 cate_order,
                 cate_num: 0,
@@ -85,7 +84,7 @@ exports.insert = async (req, res) => {
 exports.deletes = async (req, res) => {
     const _id = req.query.id
     try {
-        await Category.updateOne({ _id }, { is_delete: 1 })
+        await CategoryM.updateOne({ _id }, { is_delete: 1 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
     }
     catch (err) {
@@ -102,7 +101,7 @@ exports.deletes = async (req, res) => {
 exports.recover = async (req, res) => {
     const _id = req.query.id
     try {
-        await Category.updateOne({ _id }, { is_delete: 0 })
+        await CategoryM.updateOne({ _id }, { is_delete: 0 })
         res.json({ code: 200, message: '更新成功', data: 'success' })
     }
     catch (err) {
@@ -121,7 +120,7 @@ exports.modify = async (req, res) => {
     const cate_name = req.body.cate_name
     const cate_order = req.body.cate_order
     try {
-        const result = await Category.findOneAndUpdate(
+        const result = await CategoryM.findOneAndUpdate(
             { _id: id },
             {
                 cate_name,

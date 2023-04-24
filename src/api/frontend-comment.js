@@ -1,9 +1,7 @@
 const moment = require('moment')
 
-const mongoose = require('../mongoose')
-
-const Comment = mongoose.model('Comment')
-const Article = mongoose.model('Article')
+const CommentM = require('../models/comment')
+const ArticleM = require('../models/article')
 
 /**
  * 发布评论
@@ -33,8 +31,8 @@ exports.insert = async (req, res) => {
         timestamp,
     }
     try {
-        const result = await Comment.create(data)
-        await Article.updateOne(
+        const result = await CommentM.create(data)
+        await ArticleM.updateOne(
             { _id: id },
             {
                 $inc: {
@@ -77,8 +75,8 @@ exports.getList = async (req, res) => {
 
         try {
             const [list, total] = await Promise.all([
-                Comment.find(data).sort('-_id').skip(skip).limit(limit).exec(),
-                Comment.countDocuments(data),
+                CommentM.find(data).sort('-_id').skip(skip).limit(limit).exec(),
+                CommentM.countDocuments(data),
             ])
             const totalPage = Math.ceil(total / limit)
             const json = {
@@ -106,8 +104,8 @@ exports.deletes = async (req, res) => {
     const _id = req.query.id
     try {
         await Promise.all([
-            Comment.updateOne({ _id }, { is_delete: 1 }),
-            Article.updateOne({ _id }, { $inc: { comment_count: -1 } }),
+            CommentM.updateOne({ _id }, { is_delete: 1 }),
+            ArticleM.updateOne({ _id }, { $inc: { comment_count: -1 } }),
         ])
         res.json({ code: 200, message: '删除成功', data: 'success' })
     }
@@ -128,8 +126,8 @@ exports.recover = async (req, res) => {
     const _id = req.query.id
     try {
         await Promise.all([
-            Comment.updateOne({ _id }, { is_delete: 0 }),
-            Article.updateOne({ _id }, { $inc: { comment_count: 1 } }),
+            CommentM.updateOne({ _id }, { is_delete: 0 }),
+            ArticleM.updateOne({ _id }, { $inc: { comment_count: 1 } }),
         ])
         res.json({ code: 200, message: '恢复成功', data: 'success' })
     }

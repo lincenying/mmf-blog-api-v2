@@ -1,6 +1,4 @@
-const mongoose = require('../mongoose')
-
-const Article = mongoose.model('Article')
+const ArticleM = require('../models/article')
 
 /**
  * 文章点赞
@@ -11,9 +9,9 @@ exports.like = async (req, res) => {
     const article_id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
     try {
-        const result = await Article.findOne({ _id: article_id, is_delete: 0 })
+        const result = await ArticleM.findOne({ _id: article_id, is_delete: 0 })
         if (!result.likes || result.likes.findIndex(item => item === user_id) === -1)
-            await Article.updateOne({ _id: article_id }, { $inc: { like: 1 }, $push: { likes: user_id } })
+            await ArticleM.updateOne({ _id: article_id }, { $inc: { like: 1 }, $push: { likes: user_id } })
 
         res.json({ code: 200, message: '操作成功', data: 'success' })
     }
@@ -31,7 +29,7 @@ exports.unlike = async (req, res) => {
     const article_id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
     try {
-        await Article.updateOne({ _id: article_id }, { $inc: { like: -1 }, $pullAll: { likes: [user_id] } })
+        await ArticleM.updateOne({ _id: article_id }, { $inc: { like: -1 }, $pullAll: { likes: [user_id] } })
         res.json({ code: 200, message: '操作成功', data: 'success' })
     }
     catch (err) {
@@ -46,11 +44,11 @@ exports.unlike = async (req, res) => {
  */
 exports.resetLike = async (req, res) => {
     try {
-        const result = await Article.find().exec()
+        const result = await ArticleM.find().exec()
         const length = result.length
         for (let i = 0; i < length; i++) {
             const item = result[i]
-            await Article.findOneAndUpdate({ _id: item._id }, { like: item.likes.length }, { new: true })
+            await ArticleM.findOneAndUpdate({ _id: item._id }, { like: item.likes.length }, { new: true })
         }
         res.json({ code: 200, message: '操作成功', data: 'success' })
     }

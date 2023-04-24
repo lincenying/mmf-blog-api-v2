@@ -3,10 +3,8 @@ const markdownIt = require('markdown-it')
 const markdownItTocAndAnchor = require('markdown-it-toc-and-anchor').default
 const hljs = require('highlight.js')
 
-const mongoose = require('../mongoose')
-
-const Article = mongoose.model('Article')
-const Category = mongoose.model('Category')
+const ArticleM = require('../models/article')
+const CategoryM = require('../models/category')
 
 function marked(md) {
     const $return = {
@@ -51,8 +49,8 @@ exports.getList = async (req, res) => {
     const skip = (page - 1) * limit
     try {
         const result = await Promise.all([
-            Article.find().sort(sort).skip(skip).limit(limit).exec(),
-            Article.countDocuments(),
+            ArticleM.find().sort(sort).skip(skip).limit(limit).exec(),
+            ArticleM.countDocuments(),
         ])
         const total = result[1]
         const totalPage = Math.ceil(total / limit)
@@ -84,7 +82,7 @@ exports.getItem = async (req, res) => {
         res.json({ code: -200, message: '参数错误' })
 
     try {
-        const result = await Article.findOne({ _id })
+        const result = await ArticleM.findOne({ _id })
         res.json({ code: 200, data: result })
     }
     catch (err) {
@@ -120,8 +118,8 @@ exports.insert = async (req, res) => {
         timestamp: moment().format('X'),
     }
     try {
-        const result = await Article.create(data)
-        await Category.updateOne({ _id: arr_category[0] }, { $inc: { cate_num: 1 } })
+        const result = await ArticleM.create(data)
+        await CategoryM.updateOne({ _id: arr_category[0] }, { $inc: { cate_num: 1 } })
         res.json({ code: 200, message: '发布成功', data: result })
     }
     catch (err) {
@@ -138,8 +136,8 @@ exports.insert = async (req, res) => {
 exports.deletes = async (req, res) => {
     const _id = req.query.id
     try {
-        const result = await Article.updateOne({ _id }, { is_delete: 1 })
-        await Category.updateOne({ _id }, { $inc: { cate_num: -1 } })
+        const result = await ArticleM.updateOne({ _id }, { is_delete: 1 })
+        await CategoryM.updateOne({ _id }, { $inc: { cate_num: -1 } })
         res.json({ code: 200, message: '更新成功', data: result })
     }
     catch (err) {
@@ -156,8 +154,8 @@ exports.deletes = async (req, res) => {
 exports.recover = async (req, res) => {
     const _id = req.query.id
     try {
-        const result = await Article.updateOne({ _id }, { is_delete: 0 })
-        await Category.updateOne({ _id }, { $inc: { cate_num: 1 } })
+        const result = await ArticleM.updateOne({ _id }, { is_delete: 0 })
+        await CategoryM.updateOne({ _id }, { $inc: { cate_num: 1 } })
         res.json({ code: 200, message: '更新成功', data: result })
     }
     catch (err) {
@@ -186,11 +184,11 @@ exports.modify = async (req, res) => {
         update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
     }
     try {
-        const result = await Article.findOneAndUpdate({ _id: id }, data, { new: true })
+        const result = await ArticleM.findOneAndUpdate({ _id: id }, data, { new: true })
         if (category !== category_old) {
             await Promise.all([
-                Category.updateOne({ _id: category }, { $inc: { cate_num: 1 } }),
-                Category.updateOne({ _id: category_old }, { $inc: { cate_num: -1 } }),
+                CategoryM.updateOne({ _id: category }, { $inc: { cate_num: 1 } }),
+                CategoryM.updateOne({ _id: category_old }, { $inc: { cate_num: -1 } }),
             ])
         }
         res.json({ code: 200, message: '更新成功', data: result })
