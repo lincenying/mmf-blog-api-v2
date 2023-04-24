@@ -164,8 +164,8 @@ exports.shihua = async (req, res) => {
 /**
  * 获取识花历史列表
  * @method getHistory
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  * @return {[type]}     [description]
  */
 exports.getHistory = async (req, res) => {
@@ -210,8 +210,8 @@ exports.getHistory = async (req, res) => {
 /**
  * 删除识花历史列表
  * @method delHistory
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  * @return {[type]}     [description]
  */
 exports.delHistory = async (req, res) => {

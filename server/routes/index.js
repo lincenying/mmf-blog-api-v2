@@ -1,14 +1,16 @@
 const express = require('express')
+const backendUser = require('../api/backend-user')
 
 const router = express.Router()
-const backendUser = require('../api/backend-user')
 
 // 添加管理员
 router.get('/', (req, res) => {
-    res.render('admin-add.html', { title: '添加管理员', message: '' })
+    return res.render('index.twig', { title: '添加管理员', message: '' })
 })
-router.post('/', (req, res) => {
-    backendUser.insert(req, res)
+router.post('/', async (req, res) => {
+    const { email, password, username } = req.body
+    const message = await backendUser.insert(email, password, username)
+    return res.render('index.twig', { title: '添加管理员', message })
 })
 
 router.get('*', (req, res) => {

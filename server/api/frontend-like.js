@@ -2,6 +2,11 @@ const mongoose = require('../mongoose')
 
 const Article = mongoose.model('Article')
 
+/**
+ * 文章点赞
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
 exports.like = async (req, res) => {
     const article_id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
@@ -17,6 +22,11 @@ exports.like = async (req, res) => {
     }
 }
 
+/**
+ * 取消文章点赞
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
 exports.unlike = async (req, res) => {
     const article_id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
@@ -28,6 +38,12 @@ exports.unlike = async (req, res) => {
         res.json({ code: -200, message: err.toString() })
     }
 }
+
+/**
+ * 重置文章点赞数量
+ * @param {Request} req Request
+ * @param {Response} res Response
+ */
 exports.resetLike = async (req, res) => {
     try {
         const result = await Article.find().exec()

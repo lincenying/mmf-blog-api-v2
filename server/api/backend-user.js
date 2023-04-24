@@ -6,42 +6,70 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('../mongoose')
 const fsExistsSync = require('../utils').fsExistsSync
 const config = require('../config')
-const general = require('./general')
 
 const Admin = mongoose.model('Admin')
 const md5Pre = config.md5Pre
 const secret = config.secretServer
 
-const { list, item, modify, deletes, recover } = general
-
 /**
  * 获取管理员列表
  * @method getList
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.getList = (req, res) => {
-    list.call(Admin, req, res)
+exports.getList = async (req, res) => {
+    const sort = '-_id'
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
+    const skip = (page - 1) * limit
+    try {
+        const result = await Promise.all([
+            Admin.find().sort(sort).skip(skip).limit(limit).exec(),
+            Admin.countDocuments(),
+        ])
+        const total = result[1]
+        const totalPage = Math.ceil(total / limit)
+        const json = {
+            code: 200,
+            data: {
+                list: result[0],
+                total,
+                hasNext: totalPage > page ? 1 : 0,
+                hasPrev: page > 1 ? 1 : 0,
+            },
+        }
+        res.json(json)
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 获取单个管理员
  * @method getItem
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.getItem = (req, res) => {
-    item.call(Admin, req, res)
+exports.getItem = async (req, res) => {
+    const _id = req.query.id
+    if (!_id)
+        res.json({ code: -200, message: '参数错误' })
+
+    try {
+        const result = await Admin.findOne({ _id })
+        res.json({ code: 200, data: result })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 管理员登录
  * @method loginAdmin
- * @param  {[type]}   req [description]
- * @param  {[type]}   res [description]
- * @return {[type]}       [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.login = async (req, res) => {
     const { password, username } = req.body
@@ -73,51 +101,51 @@ exports.login = async (req, res) => {
 
 /**
  * 初始化时添加管理员
- * @method insertAdmin
- * @param  {[type]}    req  [description]
- * @param  {[type]}    res  [description]
- * @param  {Function}  next [description]
- * @return {json}         [description]
+ * @param {string} email 邮箱
+ * @param {string} password 密码
+ * @param {string} username 用户名
  */
-exports.insert = async (req, res, next) => {
-    const { email, password, username } = req.body
-    if (fsExistsSync('./admin.lock'))
-        return res.render('admin-add.html', { message: '请先把 admin.lock 删除' })
+exports.insert = async (email, password, username) => {
+    let message = ''
 
-    if (!username || !password || !email)
-        return res.render('admin-add.html', { message: '请将表单填写完整' })
+    if (fsExistsSync('./admin.lock')) {
+        message = '请先把 admin.lock 删除'
+    }
+    else if (!username || !password || !email) {
+        message = '请将表单填写完整'
+    }
+    else {
+        try {
+            const result = await Admin.findOne({ username })
+            if (result)
+                message = `${username}: 已经存在`
 
-    try {
-        const result = await Admin.findOne({ username })
-        if (result)
-            return '该用户已经存在'
-
-        return Admin.create({
-            username,
-            password: md5(md5Pre + password),
-            email,
-            creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-            update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
-            is_delete: 0,
-            timestamp: moment().format('X'),
-        }).then(() => {
+            await Admin.create({
+                username,
+                password: md5(md5Pre + password),
+                email,
+                creat_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                update_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+                is_delete: 0,
+                timestamp: moment().format('X'),
+            })
             fs.writeFileSync('./admin.lock', username)
-            return `添加用户成功: ${username}, 密码: ${password}`
-        })
+            message = `添加用户成功: ${username}, 密码: ${password}`
+        }
+        catch (error) {
+            message = error.toString()
+        }
     }
-    catch (error) {
-        next(error)
-    }
+    return message
 }
 
 /**
  * 管理员编辑
  * @method modifyAdmin
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.modify = (req, res) => {
+exports.modify = async (req, res) => {
     const { id, email, password, username } = req.body
     const data = {
         email,
@@ -126,27 +154,46 @@ exports.modify = (req, res) => {
     }
     if (password)
         data.password = md5(md5Pre + password)
-    modify.call(Admin, res, id, data)
+
+    try {
+        const result = await Admin.findOneAndUpdate({ _id: id }, data, { new: true })
+        res.json({ code: 200, message: '更新成功', data: result })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 管理员删除
  * @method deletes
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.deletes = (req, res) => {
-    deletes.call(Admin, req, res)
+exports.deletes = async (req, res) => {
+    const _id = req.query.id
+    try {
+        await Admin.updateOne({ _id }, { is_delete: 1 })
+        res.json({ code: 200, message: '删除成功', data: 'success' })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 管理员恢复
  * @method recover
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.recover = (req, res) => {
-    recover.call(Admin, req, res)
+exports.recover = async (req, res) => {
+    const _id = req.query.id
+    try {
+        await Admin.updateOne({ _id }, { is_delete: 0 })
+        res.json({ code: 200, message: '恢复成功', data: 'success' })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }

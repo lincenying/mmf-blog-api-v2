@@ -7,10 +7,6 @@ const mongoose = require('../mongoose')
 
 const Article = mongoose.model('Article')
 const Category = mongoose.model('Category')
-const general = require('./general')
-
-const list = general.list
-const item = general.item
 
 function marked(md) {
     const $return = {
@@ -45,31 +41,62 @@ function marked(md) {
 /**
  * 管理时, 获取文章列表
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.getList = (req, res) => {
-    list.call(Article, req, res, '-update_date')
+exports.getList = async (req, res) => {
+    const sort = '-_id'
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
+    const skip = (page - 1) * limit
+    try {
+        const result = await Promise.all([
+            Article.find().sort(sort).skip(skip).limit(limit).exec(),
+            Article.countDocuments(),
+        ])
+        const total = result[1]
+        const totalPage = Math.ceil(total / limit)
+        const json = {
+            code: 200,
+            data: {
+                list: result[0],
+                total,
+                hasNext: totalPage > page ? 1 : 0,
+                hasPrev: page > 1 ? 1 : 0,
+            },
+        }
+        res.json(json)
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 管理时, 获取单篇文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.getItem = (req, res) => {
-    item.call(Article, req, res)
+exports.getItem = async (req, res) => {
+    const _id = req.query.id
+    if (!_id)
+        res.json({ code: -200, message: '参数错误' })
+
+    try {
+        const result = await Article.findOne({ _id })
+        res.json({ code: 200, data: result })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 发布文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.insert = async (req, res) => {
     const { category, content, title } = req.body
@@ -105,9 +132,8 @@ exports.insert = async (req, res) => {
 /**
  * 管理时, 删除文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.deletes = async (req, res) => {
     const _id = req.query.id
@@ -124,9 +150,8 @@ exports.deletes = async (req, res) => {
 /**
  * 管理时, 恢复文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.recover = async (req, res) => {
     const _id = req.query.id
@@ -143,9 +168,8 @@ exports.recover = async (req, res) => {
 /**
  * 管理时, 编辑文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.modify = async (req, res) => {
     const { id, category, category_old, content, title, category_name } = req.body

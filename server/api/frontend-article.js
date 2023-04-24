@@ -13,20 +13,14 @@ function replaceHtmlTag(html) {
 /**
  * 前台浏览时, 获取文章列表
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.getList = async (req, res) => {
     const user_id = req.cookies.userid || req.headers.userid
     const { by, id, key } = req.query
-    let { limit, page } = req.query
-    page = parseInt(page, 10)
-    limit = parseInt(limit, 10)
-    if (!page)
-        page = 1
-    if (!limit)
-        limit = 10
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
     const payload = {
         is_delete: 0,
     }
@@ -45,7 +39,10 @@ exports.getList = async (req, res) => {
     const filds = 'title content category category_name visit like likes comment_count creat_date update_date is_delete timestamp'
 
     try {
-        const result = await Promise.all([Article.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(), Article.countDocuments(payload)])
+        const result = await Promise.all([
+            Article.find(payload, filds).sort(sort).skip(skip).limit(limit).exec(),
+            Article.countDocuments(payload),
+        ])
         let data = result[0]
         const total = result[1]
         const totalPage = Math.ceil(total / limit)
@@ -86,11 +83,9 @@ exports.getList = async (req, res) => {
 /**
  * 前台浏览时, 获取单篇文章
  * @method
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-
 exports.getItem = async (req, res) => {
     const _id = req.query.id
     const user_id = req.cookies.userid || req.headers.userid
@@ -98,7 +93,10 @@ exports.getItem = async (req, res) => {
         res.json({ code: -200, message: '参数错误' })
 
     try {
-        const xhr = await Promise.all([Article.findOne({ _id, is_delete: 0 }), Article.updateOne({ _id }, { $inc: { visit: 1 } })])
+        const xhr = await Promise.all([
+            Article.findOne({ _id, is_delete: 0 }),
+            Article.updateOne({ _id }, { $inc: { visit: 1 } }),
+        ])
         const result = xhr[0]
         let json
         if (!result) {
@@ -129,6 +127,12 @@ exports.getItem = async (req, res) => {
     }
 }
 
+/**
+ * 前台浏览时, 获取文章推荐列表
+ * @method
+ * @param  {Request} req Request
+ * @param  {Response} res Response
+ */
 exports.getTrending = async (req, res) => {
     const limit = 5
     const data = { is_delete: 0 }

@@ -6,7 +6,6 @@ const axios = require('axios')
 const mongoose = require('../mongoose')
 const config = require('../config')
 const strLen = require('../utils').strLen
-const general = require('./general')
 
 const User = mongoose.model('User')
 
@@ -15,18 +14,43 @@ const secret = config.secretClient
 const mpappApiId = config.apiId
 const mpappSecret = config.secret
 
-const { list, modify, deletes, recover } = general
-
-exports.getList = (req, res) => {
-    list.call(User, req, res)
+/**
+ * 用户列表
+ * @param  {Request} req Request
+ * @param  {Response} res Response
+ */
+exports.getList = async (req, res) => {
+    const sort = '-_id'
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 10
+    const skip = (page - 1) * limit
+    try {
+        const result = await Promise.all([
+            User.find().sort(sort).skip(skip).limit(limit).exec(),
+            User.countDocuments(),
+        ])
+        const total = result[1]
+        const totalPage = Math.ceil(total / limit)
+        const json = {
+            code: 200,
+            data: {
+                list: result[0],
+                total,
+                hasNext: totalPage > page ? 1 : 0,
+                hasPrev: page > 1 ? 1 : 0,
+            },
+        }
+        res.json(json)
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 用户登录
- * @method login
- * @param  {[type]}   req [description]
- * @param  {[type]}   res [description]
- * @return {[type]}       [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.login = async (req, res) => {
     let { username } = req.body
@@ -77,10 +101,8 @@ exports.login = async (req, res) => {
 
 /**
  * 微信登录
- * @method jscode2session
- * @param  {[type]}   req [description]
- * @param  {[type]}   res [description]
- * @return {[type]}       [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.jscode2session = async (req, res) => {
     const { js_code } = req.body
@@ -96,10 +118,8 @@ exports.jscode2session = async (req, res) => {
 }
 /**
  * 微信登录
- * @method login
- * @param  {[type]}   req [description]
- * @param  {[type]}   res [description]
- * @return {[type]}       [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.wxLogin = async (req, res) => {
     const { nickName, wxSignature, avatar } = req.body
@@ -165,10 +185,8 @@ exports.wxLogin = async (req, res) => {
 
 /**
  * 用户退出
- * @method logout
- * @param  {[type]}   req [description]
- * @param  {[type]}   res [description]
- * @return {[type]}       [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.logout = (req, res) => {
     res.cookie('user', '', { maxAge: -1 })
@@ -180,11 +198,8 @@ exports.logout = (req, res) => {
 
 /**
  * 用户注册
- * @method insert
- * @param  {[type]}    req  [description]
- * @param  {[type]}    res  [description]
- * @param  {Function}  next [description]
- * @return {json}         [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.insert = async (req, res) => {
     const { email, password, username } = req.body
@@ -222,6 +237,11 @@ exports.insert = async (req, res) => {
     }
 }
 
+/**
+ * 获取用户信息
+ * @param  {Request} req Request
+ * @param  {Response} res Response
+ */
 exports.getItem = async (req, res) => {
     const userid = req.query.id || req.cookies.userid || req.headers.userid
     try {
@@ -244,12 +264,10 @@ exports.getItem = async (req, res) => {
 
 /**
  * 用户编辑
- * @method modify
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.modify = (req, res) => {
+exports.modify = async (req, res) => {
     const { id, email, password, username } = req.body
     const data = {
         email,
@@ -258,15 +276,20 @@ exports.modify = (req, res) => {
     }
     if (password)
         data.password = md5(md5Pre + password)
-    modify.call(User, res, id, data)
+
+    try {
+        const result = await this.findOneAndUpdate({ _id: id }, data, { new: true })
+        res.json({ code: 200, message: '更新成功', data: result })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 账号编辑
- * @method account
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.account = async (req, res) => {
     const { email } = req.body
@@ -283,10 +306,8 @@ exports.account = async (req, res) => {
 
 /**
  * 密码编辑
- * @method password
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
 exports.password = async (req, res) => {
     const { old_password, password } = req.body
@@ -312,22 +333,32 @@ exports.password = async (req, res) => {
 
 /**
  * 用户删除
- * @method deletes
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.deletes = (req, res) => {
-    deletes.call(User, req, res)
+exports.deletes = async (req, res) => {
+    const _id = req.query.id
+    try {
+        await User.updateOne({ _id }, { is_delete: 1 })
+        res.json({ code: 200, message: '更新成功', data: 'success' })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
 
 /**
  * 用户恢复
- * @method recover
- * @param  {[type]}    req [description]
- * @param  {[type]}    res [description]
- * @return {[type]}        [description]
+ * @param  {Request} req Request
+ * @param  {Response} res Response
  */
-exports.recover = (req, res) => {
-    recover.call(User, req, res)
+exports.recover = async (req, res) => {
+    const _id = req.query.id
+    try {
+        await User.updateOne({ _id }, { is_delete: 0 })
+        res.json({ code: 200, message: '更新成功', data: 'success' })
+    }
+    catch (err) {
+        res.json({ code: -200, message: err.toString() })
+    }
 }
